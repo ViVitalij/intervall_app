@@ -1,7 +1,9 @@
 package interval.com.intervalapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int REQUEST_CODE = 1;
     private FloatingActionButton floatingButton;
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -49,8 +52,14 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_music) {
-            startActivity(new Intent(getApplicationContext(), ModeActivity.class));
-            Toast.makeText(getApplicationContext(), "gallery", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.setAction(android.content.Intent.ACTION_PICK);
+            intent.setData(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, REQUEST_CODE);
+
+
+//            startActivity(new Intent(getApplicationContext(), ModeActivity.class));
+            Toast.makeText(getApplicationContext(), "picker", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_profile) {
             startActivity(new Intent(getApplicationContext(), DragDropActivity.class));
@@ -65,6 +74,13 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Uri data1 = data.getData();
+        Toast.makeText(getApplicationContext(), data1+"", Toast.LENGTH_SHORT).show();
     }
 
     private void initToolbar() {
