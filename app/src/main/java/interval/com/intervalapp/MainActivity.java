@@ -1,7 +1,11 @@
 package interval.com.intervalapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
+
+import butterknife.ButterKnife;
+import interval.com.intervalapp.chronometer.Chronometer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -9,5 +13,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Chronometer mChronometer = (Chronometer) findViewById(R.id.chronometer);
+        mChronometer.start();
+        ButterKnife.bind(this);
+
+        mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            public void onChronometerTick(Chronometer chronometer) {
+                if (chronometer.getText().toString().equalsIgnoreCase("00:05:0")) {
+                    chronometer.stop();
+                    Toast.makeText(getBaseContext(), "Reached the end.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }
+
