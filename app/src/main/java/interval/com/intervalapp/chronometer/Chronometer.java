@@ -17,8 +17,7 @@ import interval.com.intervalapp.R;
  */
 
 public class Chronometer extends android.support.v7.widget.AppCompatTextView {
-        @BindView(R.id.start)
-        private Button start;
+
         private static final String TAG = "Chronometer";
 
         public interface OnChronometerTickListener {

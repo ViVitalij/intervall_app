@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IntervalApp.iml" filepath="$PROJECT_DIR$/IntervalApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/interval_app.iml" filepath="$PROJECT_DIR$/interval_app.iml" />
     </modules>
   </component>
 </project>
