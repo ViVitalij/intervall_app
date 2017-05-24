@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
+import interval.com.intervalapp.chronometer.Chronometer;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -12,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Chronometer mChronometer = (Chronometer) findViewById(R.id.chronometer);
         mChronometer.start();
-
+        ButterKnife.bind(this);
 
         mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             public void onChronometerTick(Chronometer chronometer) {
