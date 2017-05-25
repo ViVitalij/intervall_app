@@ -1,7 +1,9 @@
-package interval.com.intervalapp;
+package interval.com.intervalapp.sample;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import interval.com.intervalapp.R;
 
 public class MainActivity extends AppCompatActivity {
 

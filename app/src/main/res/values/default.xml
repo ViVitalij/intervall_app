@@ -27,5 +27,5 @@
 
     <integer name="mb_animation">500</integer>
 
-    <string name="mb_button">Button</string>
+    <string name="mb_button">Start</string>
 </resources>
