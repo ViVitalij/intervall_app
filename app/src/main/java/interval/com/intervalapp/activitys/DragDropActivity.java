@@ -1,4 +1,4 @@
-package interval.com.intervalapp;
+package interval.com.intervalapp.activitys;
 
 import android.content.ClipData;
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import interval.com.intervalapp.R;
 
 /**
  * Created by Radek on 20.05.2017.
@@ -22,14 +24,9 @@ public class DragDropActivity extends AppCompatActivity {
         setContentView(R.layout.drag_drop_activity);
         findViewById(R.id.myimage1).setOnTouchListener(new MyTouchListener());
         findViewById(R.id.myimage2).setOnTouchListener(new MyTouchListener());
-        findViewById(R.id.myimage3).setOnTouchListener(new MyTouchListener());
-        findViewById(R.id.myimage4).setOnTouchListener(new MyTouchListener());
-        findViewById(R.id.myimage5).setOnTouchListener(new MyTouchListener());
-        findViewById(R.id.myimage6).setOnTouchListener(new MyTouchListener());
         findViewById(R.id.topleft).setOnDragListener(new MyDragListener());
         findViewById(R.id.topright).setOnDragListener(new MyDragListener());
-        findViewById(R.id.bottomleft).setOnDragListener(new MyDragListener());
-        findViewById(R.id.bottomright).setOnDragListener(new MyDragListener());
+
 
     }
 

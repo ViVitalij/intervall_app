@@ -1,4 +1,4 @@
-package interval.com.intervalapp;
+package interval.com.intervalapp.activitys;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import interval.com.intervalapp.R;
 
 /**
  * Created by Radek on 19.05.2017.

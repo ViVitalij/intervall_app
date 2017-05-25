@@ -1,4 +1,4 @@
-package interval.com.intervalapp;
+package interval.com.intervalapp.activitys;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import interval.com.intervalapp.R;
 
 /**
  * Created by Radek on 19.05.2017.

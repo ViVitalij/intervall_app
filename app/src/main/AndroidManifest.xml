@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="interval.com.intervalapp">
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
+        android:name=".activitys.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activitys.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -20,13 +22,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ModeActivity"
+            android:name=".activitys.ModeActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".DrawerActivity"
+            android:name=".activitys.DrawerActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".DragDropActivity"
+            android:name=".activitys.DragDropActivity"
             android:theme="@style/AppTheme" />
     </application>
 

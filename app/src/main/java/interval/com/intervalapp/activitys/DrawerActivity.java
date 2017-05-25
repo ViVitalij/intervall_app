@@ -1,5 +1,6 @@
-package interval.com.intervalapp;
+package interval.com.intervalapp.activitys;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,23 +20,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.aditya.filebrowser.Constants;
-import com.aditya.filebrowser.FileChooser;
-
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
+
+import interval.com.intervalapp.R;
+import interval.com.intervalapp.databases.RealmSongsList;
+import interval.com.intervalapp.models.SongsModel;
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private static final int REQUEST_CODE = 1;
-    private static final int PICK_FILE_REQUEST = 1;
     private FloatingActionButton floatingButton;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private Context context;
+    private final static int REQUEST_PICK = 2;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,21 +67,12 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_music) {
-//            Intent i2 = new Intent(getApplicationContext(), FileChooser.class);
-//            i2.putExtra(Constants.SELECTION_MODE,Constants.SELECTION_MODES.MULTIPLE_SELECTION.ordinal());
-//            startActivityForResult(i2,PICK_FILE_REQUEST);
-////            Intent intent = new Intent();
-//            intent.setAction(android.content.Intent.ACTION_PICK);
-//            intent.setData(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-//            startActivityForResult(intent, REQUEST_CODE);
             Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
             chooseFile.setType("audio/*");
             chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            startActivityForResult(Intent.createChooser(chooseFile, "Choose a file") , 2);
+            startActivityForResult(Intent.createChooser(chooseFile, "Choose a file"), REQUEST_PICK);
 
 
-
-//            startActivity(new Intent(getApplicationContext(), ModeActivity.class));
             Toast.makeText(getApplicationContext(), "picker", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_profile) {
@@ -99,17 +92,33 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == PICK_FILE_REQUEST && data!=null) {
-//            if (resultCode == RESULT_OK) {
-//                ArrayList<Uri> selectedFiles  = data.getParcelableArrayListExtra(Constants.SELECTED_ITEMS);
-//            }
-//        }
-        if(requestCode == 1){
+//
+        if (requestCode == REQUEST_PICK) {
 
-            if(resultCode == RESULT_OK){
-
-                //the selected audio.
+            if (resultCode == RESULT_OK) {
+                List<SongsModel> model = new ArrayList<>();
+                RealmSongsList list = new RealmSongsList();
                 Uri uri = data.getData();
+                if (uri != null) {
+                    model.add(new SongsModel("sd", "df", uri.toString(), SongsModel.FAST));
+                    getMP3Id(uri.toString());
+
+
+                } else {
+                    int count = data.getClipData().getItemCount();
+
+                    for (int x = 0; x < count; x++) {
+                        ClipData.Item item = data.getClipData().getItemAt(x);
+                        model.add(new SongsModel("sd", "df", item.getUri().toString(), SongsModel.FAST));
+
+
+                    }
+
+                }
+                list.saveSongs(model);
+                Intent intent = new Intent(this, DragDropActivity.class);
+                startActivity(intent);
+
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -125,23 +134,33 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
-    public void getMP3Id() {
+
+    public void getMP3Id(String uri) {
         String path = null;
         try {
-            path = new File(new URI("/sdcard/music.mp3").getPath()).getCanonicalPath();
+            path = new File(new URI(uri).getPath()).getCanonicalPath();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        Cursor c = context.getContentResolver().query(
+        Cursor c = getContentResolver().query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                new String[] {
+                new String[]{
                         MediaStore.Audio.Media.ALBUM,
                         MediaStore.Audio.Media.ARTIST,
+                        MediaStore.Audio.Media.TRACK,
                         MediaStore.Audio.Media.TITLE,
+                        MediaStore.Audio.Media.DISPLAY_NAME,
+                        MediaStore.Audio.Media.DATA,
+                        MediaStore.Audio.Media.DURATION,
+                        MediaStore.Audio.Media.YEAR
                 },
-                null,null,null);
+                MediaStore.Audio.Media.DATA + " = ?",
+                new String[]{
+                        path
+                },
+                "");
 
         if (null == c) {
             // ERROR
@@ -150,8 +169,12 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         while (c.moveToNext()) {
             c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM));
             c.getString(c.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+            c.getString(c.getColumnIndex(MediaStore.Audio.Media.TRACK));
             c.getString(c.getColumnIndex(MediaStore.Audio.Media.TITLE));
-
+            c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+            c.getString(c.getColumnIndex(MediaStore.Audio.Media.DATA));
+            c.getString(c.getColumnIndex(MediaStore.Audio.Media.DURATION));
+            c.getString(c.getColumnIndex(MediaStore.Audio.Media.YEAR));
         }
     }
 }
