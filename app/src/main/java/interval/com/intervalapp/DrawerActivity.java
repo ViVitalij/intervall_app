@@ -1,6 +1,8 @@
 package interval.com.intervalapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,12 +19,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.aditya.filebrowser.Constants;
+import com.aditya.filebrowser.FileChooser;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int REQUEST_CODE = 1;
+    private static final int PICK_FILE_REQUEST = 1;
     private FloatingActionButton floatingButton;
     private NavigationView navigationView;
     private DrawerLayout drawer;
+    private Context context;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,10 +65,18 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_music) {
-            Intent intent = new Intent();
-            intent.setAction(android.content.Intent.ACTION_PICK);
-            intent.setData(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, REQUEST_CODE);
+//            Intent i2 = new Intent(getApplicationContext(), FileChooser.class);
+//            i2.putExtra(Constants.SELECTION_MODE,Constants.SELECTION_MODES.MULTIPLE_SELECTION.ordinal());
+//            startActivityForResult(i2,PICK_FILE_REQUEST);
+////            Intent intent = new Intent();
+//            intent.setAction(android.content.Intent.ACTION_PICK);
+//            intent.setData(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+//            startActivityForResult(intent, REQUEST_CODE);
+            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+            chooseFile.setType("audio/*");
+            chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            startActivityForResult(Intent.createChooser(chooseFile, "Choose a file") , 2);
+
 
 
 //            startActivity(new Intent(getApplicationContext(), ModeActivity.class));
@@ -78,9 +99,20 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == PICK_FILE_REQUEST && data!=null) {
+//            if (resultCode == RESULT_OK) {
+//                ArrayList<Uri> selectedFiles  = data.getParcelableArrayListExtra(Constants.SELECTED_ITEMS);
+//            }
+//        }
+        if(requestCode == 1){
+
+            if(resultCode == RESULT_OK){
+
+                //the selected audio.
+                Uri uri = data.getData();
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
-        Uri data1 = data.getData();
-        Toast.makeText(getApplicationContext(), data1+"", Toast.LENGTH_SHORT).show();
     }
 
     private void initToolbar() {
@@ -91,6 +123,35 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         if (actionBar != null) {
             // actionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+    public void getMP3Id() {
+        String path = null;
+        try {
+            path = new File(new URI("/sdcard/music.mp3").getPath()).getCanonicalPath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        Cursor c = context.getContentResolver().query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                new String[] {
+                        MediaStore.Audio.Media.ALBUM,
+                        MediaStore.Audio.Media.ARTIST,
+                        MediaStore.Audio.Media.TITLE,
+                },
+                null,null,null);
+
+        if (null == c) {
+            // ERROR
+        }
+
+        while (c.moveToNext()) {
+            c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM));
+            c.getString(c.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+            c.getString(c.getColumnIndex(MediaStore.Audio.Media.TITLE));
+
         }
     }
 }
