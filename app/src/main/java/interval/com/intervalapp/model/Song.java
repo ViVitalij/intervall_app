@@ -1,25 +1,14 @@
-package interval.com.intervalapp.models;
+package interval.com.intervalapp.model;
 
-import org.parceler.Parcel;
-
-import java.io.Serializable;
-
-import interval.com.intervalapp.databases.RealmSongsList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Created by RENT on 2017-05-25.
- */
-
-public class SongsModel extends RealmObject  {
+public class Song extends RealmObject  {
     public static final String FAST = "fast";
 
-
     public static final String SLOW = "slow";
-
 
     @Getter
     @Setter
@@ -34,14 +23,13 @@ public class SongsModel extends RealmObject  {
 
     private String type;
 
-    public SongsModel(String author, String tittle, String uri, String type) {
+    public Song(String author, String tittle, String uri, String type) {
         this.author = author;
         this.tittle = tittle;
         this.uri = uri;
         this.type = type;
     }
 
-    public SongsModel() {
+    public Song() {
     }
-
 }

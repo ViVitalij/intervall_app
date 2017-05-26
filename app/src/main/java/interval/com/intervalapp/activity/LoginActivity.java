@@ -1,4 +1,4 @@
-package interval.com.intervalapp.activitys;
+package interval.com.intervalapp.activity;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -27,11 +27,11 @@ import butterknife.ButterKnife;
 import interval.com.intervalapp.R;
 
 /**
- * Created by Radek on 19.05.2017.
+ * Created by m.losK on 19.05.2017.
  */
 
 public class LoginActivity extends AppCompatActivity {
-    private static String mypassword = "ala";
+
     @BindView(R.id.android)
     ImageView imageView;
     @BindView(R.id.login)
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity_layout);
+        setContentView(R.layout.login_activity);
         ButterKnife.bind(this);
         initView();
         setView();
@@ -118,8 +118,6 @@ public class LoginActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             }
         });
-
-
     }
 
     private void initToolbar() {

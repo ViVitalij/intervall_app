@@ -1,4 +1,4 @@
-package interval.com.intervalapp.activitys;
+package interval.com.intervalapp.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,12 +16,11 @@ import android.widget.TextView;
 import interval.com.intervalapp.R;
 
 /**
- * Created by Radek on 19.05.2017.
+ * Created by m.losK on 19.05.2017.
  */
 
 public class ModeActivity extends AppCompatActivity {
 
-    ImageView imageView;
     TextView textView;
     CoordinatorLayout coordinatorLayout;
 

@@ -1,4 +1,4 @@
-package interval.com.intervalapp.activitys;
+package interval.com.intervalapp.activity;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -22,15 +22,18 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import interval.com.intervalapp.R;
-import interval.com.intervalapp.databases.RealmSongsList;
-import interval.com.intervalapp.models.SongsModel;
+import interval.com.intervalapp.database.RealmSongsList;
+import interval.com.intervalapp.model.Song;
+
+/**
+ * Created by m.losK on 19.05.2017.
+ */
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private FloatingActionButton floatingButton;
@@ -42,7 +45,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawer);
+        setContentView(R.layout.drawer_activity);
         initToolbar();
 
         floatingButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -76,7 +79,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             Toast.makeText(getApplicationContext(), "picker", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(getApplicationContext(), DragDropActivity.class));
+            startActivity(new Intent(getApplicationContext(), SongDragAndDropActivity.class));
             Toast.makeText(getApplicationContext(), "drag and drop", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_history) {
@@ -96,11 +99,11 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         if (requestCode == REQUEST_PICK) {
 
             if (resultCode == RESULT_OK) {
-                List<SongsModel> model = new ArrayList<>();
+                List<Song> model = new ArrayList<>();
                 RealmSongsList list = new RealmSongsList();
                 Uri uri = data.getData();
                 if (uri != null) {
-                    model.add(new SongsModel("sd", "df", uri.toString(), SongsModel.FAST));
+                    model.add(new Song("sd", "df", uri.toString(), Song.FAST));
                     getMP3Id(uri.toString());
 
 
@@ -109,14 +112,14 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
                     for (int x = 0; x < count; x++) {
                         ClipData.Item item = data.getClipData().getItemAt(x);
-                        model.add(new SongsModel("sd", "df", item.getUri().toString(), SongsModel.FAST));
+                        model.add(new Song("sd", "df", item.getUri().toString(), Song.FAST));
 
 
                     }
 
                 }
                 list.saveSongs(model);
-                Intent intent = new Intent(this, DragDropActivity.class);
+                Intent intent = new Intent(this, SongDragAndDropActivity.class);
                 startActivity(intent);
 
             }

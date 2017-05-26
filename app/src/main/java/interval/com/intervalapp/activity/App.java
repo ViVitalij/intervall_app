@@ -1,13 +1,9 @@
-package interval.com.intervalapp.activitys;
+package interval.com.intervalapp.activity;
 
 import android.app.Application;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-
-/**
- * Created by RENT on 2017-05-25.
- */
 
 public class App extends Application {
     @Override
