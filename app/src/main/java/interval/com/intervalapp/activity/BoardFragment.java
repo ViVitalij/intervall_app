@@ -39,6 +39,7 @@ import com.woxthebox.draglistview.BoardView;
 import com.woxthebox.draglistview.DragItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import interval.com.intervalapp.R;
 import interval.com.intervalapp.adapter.ItemAdapter;
@@ -103,7 +104,9 @@ public class BoardFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Board");
 
-        addFastMusicColumnList();
+        //TODO be aware
+        String songTitle = "przekazany tytul";
+        addFastMusicColumnList(songTitle);
         addSlowMusicColumnList();
 
     }
@@ -145,16 +148,23 @@ public class BoardFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void addFastMusicColumnList() {
-        final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
+    private void addFastMusicColumnList(String songTitle) {
+        final List<Pair<Long, String>> songList = new ArrayList<>();
+
+        //TODO be aware
+        long songId = 22;
+        songList.add(new Pair<>(songId, songTitle));
+
         int addItems = 15;
         for (int i = 0; i < addItems; i++) {
             long id = sCreatedItems++;
-            mItemArray.add(new Pair<>(id, "Fast song " + id));
+
+            songList.add(new Pair<>(id, "Fast song " + id));
         }
 
+
         final int column = mColumns;
-        final ItemAdapter listAdapter = new ItemAdapter(mItemArray, R.layout.column_item, R.id.item_layout, true);
+        final ItemAdapter listAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText("Fast songs");
         ((TextView) header.findViewById(R.id.item_count)).setText("" + addItems);
@@ -168,7 +178,7 @@ public class BoardFragment extends Fragment {
                 //mBoardView.removeItem(column, 0);
                 //mBoardView.moveItem(0, 0, 1, 3, false);
                 //mBoardView.replaceItem(0, 0, item1, true);
-                ((TextView) header.findViewById(R.id.item_count)).setText("" + mItemArray.size());
+                ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
             }
         });
 
@@ -178,7 +188,7 @@ public class BoardFragment extends Fragment {
 
     private void addSlowMusicColumnList() {
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
-        int addItems = 15;
+        int addItems = 4;
         for (int i = 0; i < addItems; i++) {
             long id = sCreatedItems++;
             mItemArray.add(new Pair<>(id, "Slow song " + id));

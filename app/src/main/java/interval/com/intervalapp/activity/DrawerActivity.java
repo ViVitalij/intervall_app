@@ -103,7 +103,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
                 RealmSongsList list = new RealmSongsList();
                 Uri uri = data.getData();
                 if (uri != null) {
-                    model.add(new Song("sd", "df", uri.toString(), Song.FAST));
+                    model.add(new Song("title", uri.toString()));
                     getMP3Id(uri.toString());
 
 
@@ -112,7 +112,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
                     for (int x = 0; x < count; x++) {
                         ClipData.Item item = data.getClipData().getItemAt(x);
-                        model.add(new Song("sd", "df", item.getUri().toString(), Song.FAST));
+                        model.add(new Song("title", item.getUri().toString()));
 
 
                     }

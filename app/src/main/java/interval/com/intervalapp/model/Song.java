@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Song extends RealmObject  {
+    //TODO be aware
     public static final String FAST = "fast";
-
     public static final String SLOW = "slow";
 
     @Getter
@@ -15,19 +15,23 @@ public class Song extends RealmObject  {
     @PrimaryKey
     private String id;
     @Setter
-    private String author;
-    @Setter
     private String tittle;
 
     private String uri;
 
+    //TODO
     private String type;
 
-    public Song(String author, String tittle, String uri, String type) {
-        this.author = author;
+    public Song(String tittle, String uri, String type) {
         this.tittle = tittle;
         this.uri = uri;
         this.type = type;
+    }
+
+    public Song(String tittle, String uri) {
+        this.tittle = tittle;
+        this.uri = uri;
+        this.type = FAST;
     }
 
     public Song() {
