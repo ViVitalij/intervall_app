@@ -57,7 +57,6 @@ public class BoardFragment extends Fragment {
     private Realm realm = Realm.getDefaultInstance();
 
 
-
     public static BoardFragment newInstance() {
         return new BoardFragment();
     }
@@ -84,8 +83,8 @@ public class BoardFragment extends Fragment {
             }
 
             @Override
-            public void onItemChangedPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
-                Toast.makeText(mBoardView.getContext(), "Position changed - column: " + newColumn + " row: " + newRow, Toast.LENGTH_SHORT).show();
+            public void onItemChangedPosition(int fromColumn, int fromRow, int toColumn, int toRow) {
+
             }
 
             @Override
@@ -100,18 +99,17 @@ public class BoardFragment extends Fragment {
             public void onItemDragEnded(int fromColumn, final int fromRow, int toColumn, int toRow) {
                 if (fromColumn != toColumn || fromRow != toRow) {
                     if (fromColumn == 0) {
-                        final long id = fastAdapter.getItemId(fromRow);
+                        final long id = slowAdapter.getItemId(toRow);
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-
                                 Song byHash = new RealmSongsDataBase().findByHash((int) id);
                                 byHash.setType(Song.SLOW);
                             }
                         });
 
                     } else {
-                        final long id = slowAdapter.getItemId(fromRow);
+                        final long id = fastAdapter.getItemId(toRow);
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {

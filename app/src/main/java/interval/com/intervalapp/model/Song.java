@@ -52,7 +52,6 @@ public class Song extends RealmObject {
     public int hashCode() {
         int result = getTittle() != null ? getTittle().hashCode() : 0;
         result = 31 * result + (getUri() != null ? getUri().hashCode() : 0);
-        result = 31 * result + (getType() != null ? getType().hashCode() : 0);
         return result;
     }
 }
