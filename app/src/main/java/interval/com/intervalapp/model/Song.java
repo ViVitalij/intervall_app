@@ -1,25 +1,21 @@
 package interval.com.intervalapp.model;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Song extends RealmObject  {
+@Getter
+public class Song extends RealmObject {
     //TODO be aware
     public static final String FAST = "fast";
     public static final String SLOW = "slow";
 
-    @Getter
-    @Setter
-    @PrimaryKey
-    private String id;
     @Setter
     private String tittle;
 
     private String uri;
 
-    //TODO
+    @Setter
     private String type;
 
     public Song(String tittle, String uri, String type) {
@@ -35,5 +31,28 @@ public class Song extends RealmObject  {
     }
 
     public Song() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Song)) return false;
+
+        Song song = (Song) o;
+
+        if (getTittle() != null ? !getTittle().equals(song.getTittle()) : song.getTittle() != null)
+            return false;
+        if (getUri() != null ? !getUri().equals(song.getUri()) : song.getUri() != null)
+            return false;
+        return getType() != null ? getType().equals(song.getType()) : song.getType() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getTittle() != null ? getTittle().hashCode() : 0;
+        result = 31 * result + (getUri() != null ? getUri().hashCode() : 0);
+        result = 31 * result + (getType() != null ? getType().hashCode() : 0);
+        return result;
     }
 }

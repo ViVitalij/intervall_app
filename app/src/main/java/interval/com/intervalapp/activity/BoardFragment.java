@@ -43,6 +43,8 @@ import java.util.List;
 
 import interval.com.intervalapp.R;
 import interval.com.intervalapp.adapter.ItemAdapter;
+import interval.com.intervalapp.database.RealmSongsDataBase;
+import interval.com.intervalapp.model.Song;
 
 public class BoardFragment extends Fragment {
 
@@ -104,9 +106,7 @@ public class BoardFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Board");
 
-        //TODO be aware
-        String songTitle = "przekazany tytul";
-        addFastMusicColumnList(songTitle);
+        addFastMusicColumnList();
         addSlowMusicColumnList();
 
     }
@@ -135,39 +135,22 @@ public class BoardFragment extends Fragment {
                 mBoardView.setDragEnabled(true);
                 getActivity().invalidateOptionsMenu();
                 return true;
-//            case R.id.action_add_column:
-//                addColumnList();
-//                return true;
-//            case R.id.action_remove_column:
-//                mBoardView.removeColumn(0);
-//                return true;
-//            case R.id.action_clear_board:
-//                mBoardView.clearBoard();
-//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void addFastMusicColumnList(String songTitle) {
+    private void addFastMusicColumnList() {
         final List<Pair<Long, String>> songList = new ArrayList<>();
 
-        //TODO be aware
-        long songId = 22;
-        songList.add(new Pair<>(songId, songTitle));
-
-        int addItems = 15;
-        for (int i = 0; i < addItems; i++) {
-            long id = sCreatedItems++;
-
-            songList.add(new Pair<>(id, "Fast song " + id));
+        for (Song song : new RealmSongsDataBase().readSongList()) {
+            songList.add(new Pair((long)song.hashCode(), song.getTittle()));
         }
-
 
         final int column = mColumns;
         final ItemAdapter listAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText("Fast songs");
-        ((TextView) header.findViewById(R.id.item_count)).setText("" + addItems);
+        ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,29 +170,21 @@ public class BoardFragment extends Fragment {
     }
 
     private void addSlowMusicColumnList() {
-        final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
-        int addItems = 4;
-        for (int i = 0; i < addItems; i++) {
-            long id = sCreatedItems++;
-            mItemArray.add(new Pair<>(id, "Slow song " + id));
-        }
-
+        final ArrayList<Pair<Long, String>> list = new ArrayList<>();
         final int column = mColumns;
-        final ItemAdapter listAdapter = new ItemAdapter(mItemArray, R.layout.column_item, R.id.item_layout, true);
+        final ItemAdapter listAdapter = new ItemAdapter(list, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText("Slow songs");
-        ((TextView) header.findViewById(R.id.item_count)).setText("" + addItems);
+        ((TextView) header.findViewById(R.id.item_count)).setText("" + list.size());
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 long id = sCreatedItems++;
                 Pair item = new Pair<>(id, "Test " + id);
                 mBoardView.addItem(column, 0, item, true);
-                //mBoardView.moveItem(4, 0, 0, true);
-                //mBoardView.removeItem(column, 0);
-                //mBoardView.moveItem(0, 0, 1, 3, false);
-                //mBoardView.replaceItem(0, 0, item1, true);
-                ((TextView) header.findViewById(R.id.item_count)).setText("" + mItemArray.size());
+                Song byHash = new RealmSongsDataBase().findByHash((int) id);
+                byHash.setType(Song.SLOW);
+                ((TextView) header.findViewById(R.id.item_count)).setText("" + list.size());
             }
         });
 

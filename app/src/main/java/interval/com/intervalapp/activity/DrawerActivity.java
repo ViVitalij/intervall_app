@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import interval.com.intervalapp.R;
-import interval.com.intervalapp.database.RealmSongsList;
+import interval.com.intervalapp.database.RealmSongsDataBase;
 import interval.com.intervalapp.model.Song;
 
 /**
@@ -41,6 +41,8 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     private DrawerLayout drawer;
     private Context context;
     private final static int REQUEST_PICK = 2;
+    private String name;
+    private String author;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,11 +102,12 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
             if (resultCode == RESULT_OK) {
                 List<Song> model = new ArrayList<>();
-                RealmSongsList list = new RealmSongsList();
+                RealmSongsDataBase list = new RealmSongsDataBase();
                 Uri uri = data.getData();
                 if (uri != null) {
-                    model.add(new Song("title", uri.toString()));
-                    getMP3Id(uri.toString());
+                    String tittle = getMP3Id(uri.toString());
+                    model.add(new Song(tittle, uri.toString()));
+
 
 
                 } else {
@@ -112,7 +115,8 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
                     for (int x = 0; x < count; x++) {
                         ClipData.Item item = data.getClipData().getItemAt(x);
-                        model.add(new Song("title", item.getUri().toString()));
+                       // String tittle = getMP3Id(uri.toString());
+                        model.add(new Song(tittle, item.getUri().toString()));
 
 
                     }
@@ -138,31 +142,15 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         }
     }
 
-    public void getMP3Id(String uri) {
-        String path = null;
-        try {
-            path = new File(new URI(uri).getPath()).getCanonicalPath();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    public String getMP3Id(String uri) {
+
+
         Cursor c = getContentResolver().query(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                new String[]{
-                        MediaStore.Audio.Media.ALBUM,
-                        MediaStore.Audio.Media.ARTIST,
-                        MediaStore.Audio.Media.TRACK,
-                        MediaStore.Audio.Media.TITLE,
-                        MediaStore.Audio.Media.DISPLAY_NAME,
-                        MediaStore.Audio.Media.DATA,
-                        MediaStore.Audio.Media.DURATION,
-                        MediaStore.Audio.Media.YEAR
-                },
-                MediaStore.Audio.Media.DATA + " = ?",
-                new String[]{
-                        path
-                },
+                Uri.parse(uri),
+
+                null,
+                null,
+                null,
                 "");
 
         if (null == c) {
@@ -170,14 +158,8 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         }
 
         while (c.moveToNext()) {
-            c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM));
-            c.getString(c.getColumnIndex(MediaStore.Audio.Media.ARTIST));
-            c.getString(c.getColumnIndex(MediaStore.Audio.Media.TRACK));
-            c.getString(c.getColumnIndex(MediaStore.Audio.Media.TITLE));
-            c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
-            c.getString(c.getColumnIndex(MediaStore.Audio.Media.DATA));
-            c.getString(c.getColumnIndex(MediaStore.Audio.Media.DURATION));
-            c.getString(c.getColumnIndex(MediaStore.Audio.Media.YEAR));
+            name = c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
         }
+        return name;
     }
 }
