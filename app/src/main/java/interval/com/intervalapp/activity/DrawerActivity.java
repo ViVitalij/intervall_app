@@ -1,7 +1,6 @@
 package interval.com.intervalapp.activity;
 
 import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -20,13 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import interval.com.intervalapp.R;
 import interval.com.intervalapp.database.RealmSongsDataBase;
 import interval.com.intervalapp.model.Song;
@@ -36,33 +34,34 @@ import interval.com.intervalapp.model.Song;
  */
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private FloatingActionButton floatingButton;
-    private NavigationView navigationView;
-    private DrawerLayout drawer;
-    private Context context;
+
     private final static int REQUEST_PICK = 2;
     private String name;
-    private String author;
+
+    @BindView(R.id.drawer_layout)
+    protected DrawerLayout drawer;
+
+    @BindView(R.id.nav_view)
+    protected NavigationView navigationView;
+
+    @BindView(R.id.toolbar)
+    protected Toolbar toolbar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_activity);
+        ButterKnife.bind(this);
         initToolbar();
 
-        floatingButton = (FloatingActionButton) findViewById(R.id.fab);
-        floatingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    }
+
+    @OnClick(R.id.fab)
+    protected void buttonClicked(View view){
+        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -77,7 +76,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             startActivityForResult(Intent.createChooser(chooseFile, "Choose a file"), REQUEST_PICK);
 
-
             Toast.makeText(getApplicationContext(), "picker", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_profile) {
@@ -89,7 +87,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_settings) {
 
         }
-
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -107,7 +104,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
                 if (uri != null) {
                     String tittle = getMP3Id(uri);
                     model.add(new Song(tittle, uri.toString()));
-
 
 
                 } else {
@@ -132,7 +128,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     }
 
     private void initToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
 

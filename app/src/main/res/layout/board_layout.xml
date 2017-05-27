@@ -14,13 +14,20 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-
-<com.woxthebox.draglistview.BoardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/board_view"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
 
+    <com.woxthebox.draglistview.BoardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/board_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-
-    />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/approve_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin" />
+</FrameLayout>
 

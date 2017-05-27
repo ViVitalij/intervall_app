@@ -18,6 +18,7 @@ package interval.com.intervalapp.activity;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,9 @@ import com.woxthebox.draglistview.DragItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import interval.com.intervalapp.R;
 import interval.com.intervalapp.adapter.ItemAdapter;
 import interval.com.intervalapp.database.RealmSongsDataBase;
@@ -49,12 +53,10 @@ import io.realm.Realm;
 
 public class BoardFragment extends Fragment {
 
-    private static int sCreatedItems = 0;
-    private BoardView mBoardView;
-    private int mColumns;
-    private ItemAdapter fastAdapter;
-    private ItemAdapter slowAdapter;
+    private ItemAdapter listAdapter;
     private Realm realm = Realm.getDefaultInstance();
+    @BindView(R.id.board_view)
+    protected BoardView mBoardView;
 
 
     public static BoardFragment newInstance() {
@@ -70,8 +72,8 @@ public class BoardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.board_layout, container, false);
+        ButterKnife.bind(this, view);
 
-        mBoardView = (BoardView) view.findViewById(R.id.board_view);
         mBoardView.setSnapToColumnsWhenScrolling(true);
         mBoardView.setSnapToColumnWhenDragging(true);
         mBoardView.setSnapDragItemToTouch(true);
@@ -99,22 +101,22 @@ public class BoardFragment extends Fragment {
             public void onItemDragEnded(int fromColumn, final int fromRow, int toColumn, int toRow) {
                 if (fromColumn != toColumn || fromRow != toRow) {
                     if (fromColumn == 0) {
-                        final long id = slowAdapter.getItemId(toRow);
+                        final long id = listAdapter.getItemId(toRow);
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
                                 Song byHash = new RealmSongsDataBase().findByHash((int) id);
-                                byHash.setType(Song.SLOW);
+                                byHash.setType("slow");
                             }
                         });
 
                     } else {
-                        final long id = fastAdapter.getItemId(toRow);
+                        final long id = listAdapter.getItemId(toRow);
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
                                 Song byHash = new RealmSongsDataBase().findByHash((int) id);
-                                byHash.setType(Song.FAST);
+                                byHash.setType("fast");
                             }
                         });
                     }
@@ -128,7 +130,7 @@ public class BoardFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Board");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.board);
 
         addFastMusicColumnList();
         addSlowMusicColumnList();
@@ -163,37 +165,38 @@ public class BoardFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @OnClick(R.id.approve_button)
+    protected void buttonClicked() {
+        startActivity(new Intent(getContext(), DrawerActivity.class));
+    }
+
     private void addFastMusicColumnList() {
         final List<Pair<Long, String>> songList = new ArrayList<>();
 
-        for (Song song : new RealmSongsDataBase().readSongList(Song.FAST)) {
-            songList.add(new Pair((long) song.hashCode(), song.getTittle()));
+        for (Song song : new RealmSongsDataBase().readSongList("fast")) {
+            songList.add(new Pair<>((long) song.hashCode(), song.getTittle()));
         }
 
-        final int column = mColumns;
-        fastAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
+        listAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
-        ((TextView) header.findViewById(R.id.text)).setText("Fast songs");
+        ((TextView) header.findViewById(R.id.text)).setText(R.string.fast_songs);
         ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
 
-        mBoardView.addColumnList(fastAdapter, header, false);
-        mColumns++;
+        mBoardView.addColumnList(listAdapter, header, false);
     }
 
     private void addSlowMusicColumnList() {
         final ArrayList<Pair<Long, String>> songList = new ArrayList<>();
-        for (Song song : new RealmSongsDataBase().readSongList(Song.SLOW)) {
-            songList.add(new Pair((long) song.hashCode(), song.getTittle()));
+        for (Song song : new RealmSongsDataBase().readSongList("slow")) {
+            songList.add(new Pair<>((long) song.hashCode(), song.getTittle()));
         }
-        final int column = mColumns;
-        slowAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
+
+        listAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
-        ((TextView) header.findViewById(R.id.text)).setText("Slow songs");
+        ((TextView) header.findViewById(R.id.text)).setText(R.string.slow_songs);
         ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
 
-
-        mBoardView.addColumnList(slowAdapter, header, false);
-        mColumns++;
+        mBoardView.addColumnList(listAdapter, header, false);
     }
 
     private static class MyDragItem extends DragItem {

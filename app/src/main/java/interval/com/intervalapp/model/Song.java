@@ -7,9 +7,9 @@ import lombok.Setter;
 
 @Getter
 public class Song extends RealmObject {
-    //TODO be aware
-    public static final String FAST = "fast";
-    public static final String SLOW = "slow";
+
+    private static final String FAST = "fast";
+    private static final String SLOW = "slow";
 
     @Setter
     private String tittle;
