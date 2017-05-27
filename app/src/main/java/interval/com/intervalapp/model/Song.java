@@ -1,6 +1,7 @@
 package interval.com.intervalapp.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ public class Song extends RealmObject {
 
     @Setter
     private String tittle;
-
+    @PrimaryKey
     private String uri;
 
     @Setter

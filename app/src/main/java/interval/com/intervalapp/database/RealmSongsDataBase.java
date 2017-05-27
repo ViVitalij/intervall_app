@@ -12,7 +12,7 @@ public class RealmSongsDataBase {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealm(allSongs);
+                realm.copyToRealmOrUpdate(allSongs);
 
             }
         });
