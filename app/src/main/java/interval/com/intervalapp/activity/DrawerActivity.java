@@ -97,7 +97,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
+
         if (requestCode == REQUEST_PICK) {
 
             if (resultCode == RESULT_OK) {
@@ -105,7 +105,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
                 RealmSongsDataBase list = new RealmSongsDataBase();
                 Uri uri = data.getData();
                 if (uri != null) {
-                    String tittle = getMP3Id(uri.toString());
+                    String tittle = getMP3Id(uri);
                     model.add(new Song(tittle, uri.toString()));
 
 
@@ -115,7 +115,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
                     for (int x = 0; x < count; x++) {
                         ClipData.Item item = data.getClipData().getItemAt(x);
-                       // String tittle = getMP3Id(uri.toString());
+                        String tittle = getMP3Id(item.getUri());
                         model.add(new Song(tittle, item.getUri().toString()));
 
 
@@ -142,11 +142,11 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         }
     }
 
-    public String getMP3Id(String uri) {
+    public String getMP3Id(Uri uri) {
 
 
         Cursor c = getContentResolver().query(
-                Uri.parse(uri),
+                uri,
 
                 null,
                 null,

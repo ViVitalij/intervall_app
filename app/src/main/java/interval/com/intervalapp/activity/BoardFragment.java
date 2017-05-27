@@ -45,12 +45,18 @@ import interval.com.intervalapp.R;
 import interval.com.intervalapp.adapter.ItemAdapter;
 import interval.com.intervalapp.database.RealmSongsDataBase;
 import interval.com.intervalapp.model.Song;
+import io.realm.Realm;
 
 public class BoardFragment extends Fragment {
 
     private static int sCreatedItems = 0;
     private BoardView mBoardView;
     private int mColumns;
+    private ItemAdapter fastAdapter;
+    private ItemAdapter slowAdapter;
+    private Realm realm = Realm.getDefaultInstance();
+
+
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -91,9 +97,29 @@ public class BoardFragment extends Fragment {
             }
 
             @Override
-            public void onItemDragEnded(int fromColumn, int fromRow, int toColumn, int toRow) {
+            public void onItemDragEnded(int fromColumn, final int fromRow, int toColumn, int toRow) {
                 if (fromColumn != toColumn || fromRow != toRow) {
-                    Toast.makeText(mBoardView.getContext(), "End - column: " + toColumn + " row: " + toRow, Toast.LENGTH_SHORT).show();
+                    if (fromColumn == 0) {
+                        final long id = fastAdapter.getItemId(fromRow);
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+
+                                Song byHash = new RealmSongsDataBase().findByHash((int) id);
+                                byHash.setType(Song.SLOW);
+                            }
+                        });
+
+                    } else {
+                        final long id = slowAdapter.getItemId(fromRow);
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                Song byHash = new RealmSongsDataBase().findByHash((int) id);
+                                byHash.setType(Song.FAST);
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -142,53 +168,33 @@ public class BoardFragment extends Fragment {
     private void addFastMusicColumnList() {
         final List<Pair<Long, String>> songList = new ArrayList<>();
 
-        for (Song song : new RealmSongsDataBase().readSongList()) {
-            songList.add(new Pair((long)song.hashCode(), song.getTittle()));
+        for (Song song : new RealmSongsDataBase().readSongList(Song.FAST)) {
+            songList.add(new Pair((long) song.hashCode(), song.getTittle()));
         }
 
         final int column = mColumns;
-        final ItemAdapter listAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
+        fastAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText("Fast songs");
         ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long id = sCreatedItems++;
-                Pair item = new Pair<>(id, "Test " + id);
-                mBoardView.addItem(column, 0, item, true);
-                //mBoardView.moveItem(4, 0, 0, true);
-                //mBoardView.removeItem(column, 0);
-                //mBoardView.moveItem(0, 0, 1, 3, false);
-                //mBoardView.replaceItem(0, 0, item1, true);
-                ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
-            }
-        });
 
-        mBoardView.addColumnList(listAdapter, header, false);
+        mBoardView.addColumnList(fastAdapter, header, false);
         mColumns++;
     }
 
     private void addSlowMusicColumnList() {
-        final ArrayList<Pair<Long, String>> list = new ArrayList<>();
+        final ArrayList<Pair<Long, String>> songList = new ArrayList<>();
+        for (Song song : new RealmSongsDataBase().readSongList(Song.SLOW)) {
+            songList.add(new Pair((long) song.hashCode(), song.getTittle()));
+        }
         final int column = mColumns;
-        final ItemAdapter listAdapter = new ItemAdapter(list, R.layout.column_item, R.id.item_layout, true);
+        slowAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText("Slow songs");
-        ((TextView) header.findViewById(R.id.item_count)).setText("" + list.size());
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long id = sCreatedItems++;
-                Pair item = new Pair<>(id, "Test " + id);
-                mBoardView.addItem(column, 0, item, true);
-                Song byHash = new RealmSongsDataBase().findByHash((int) id);
-                byHash.setType(Song.SLOW);
-                ((TextView) header.findViewById(R.id.item_count)).setText("" + list.size());
-            }
-        });
+        ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
 
-        mBoardView.addColumnList(listAdapter, header, false);
+
+        mBoardView.addColumnList(slowAdapter, header, false);
         mColumns++;
     }
 
