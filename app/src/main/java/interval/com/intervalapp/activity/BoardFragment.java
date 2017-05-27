@@ -18,6 +18,7 @@ package interval.com.intervalapp.activity;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,15 +40,24 @@ import com.woxthebox.draglistview.BoardView;
 import com.woxthebox.draglistview.DragItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import interval.com.intervalapp.R;
 import interval.com.intervalapp.adapter.ItemAdapter;
+import interval.com.intervalapp.database.RealmSongsDataBase;
+import interval.com.intervalapp.model.Song;
+import io.realm.Realm;
 
 public class BoardFragment extends Fragment {
 
-    private static int sCreatedItems = 0;
-    private BoardView mBoardView;
-    private int mColumns;
+    private ItemAdapter listAdapter;
+    private Realm realm = Realm.getDefaultInstance();
+    @BindView(R.id.board_view)
+    protected BoardView mBoardView;
+
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -62,8 +72,8 @@ public class BoardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.board_layout, container, false);
+        ButterKnife.bind(this, view);
 
-        mBoardView = (BoardView) view.findViewById(R.id.board_view);
         mBoardView.setSnapToColumnsWhenScrolling(true);
         mBoardView.setSnapToColumnWhenDragging(true);
         mBoardView.setSnapDragItemToTouch(true);
@@ -75,8 +85,8 @@ public class BoardFragment extends Fragment {
             }
 
             @Override
-            public void onItemChangedPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
-                Toast.makeText(mBoardView.getContext(), "Position changed - column: " + newColumn + " row: " + newRow, Toast.LENGTH_SHORT).show();
+            public void onItemChangedPosition(int fromColumn, int fromRow, int toColumn, int toRow) {
+
             }
 
             @Override
@@ -88,9 +98,28 @@ public class BoardFragment extends Fragment {
             }
 
             @Override
-            public void onItemDragEnded(int fromColumn, int fromRow, int toColumn, int toRow) {
+            public void onItemDragEnded(int fromColumn, final int fromRow, int toColumn, int toRow) {
                 if (fromColumn != toColumn || fromRow != toRow) {
-                    Toast.makeText(mBoardView.getContext(), "End - column: " + toColumn + " row: " + toRow, Toast.LENGTH_SHORT).show();
+                    if (fromColumn == 0) {
+                        final long id = listAdapter.getItemId(toRow);
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                Song byHash = new RealmSongsDataBase().findByHash((int) id);
+                                byHash.setType("slow");
+                            }
+                        });
+
+                    } else {
+                        final long id = listAdapter.getItemId(toRow);
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                Song byHash = new RealmSongsDataBase().findByHash((int) id);
+                                byHash.setType("fast");
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -101,7 +130,7 @@ public class BoardFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Board");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.board);
 
         addFastMusicColumnList();
         addSlowMusicColumnList();
@@ -132,79 +161,42 @@ public class BoardFragment extends Fragment {
                 mBoardView.setDragEnabled(true);
                 getActivity().invalidateOptionsMenu();
                 return true;
-//            case R.id.action_add_column:
-//                addColumnList();
-//                return true;
-//            case R.id.action_remove_column:
-//                mBoardView.removeColumn(0);
-//                return true;
-//            case R.id.action_clear_board:
-//                mBoardView.clearBoard();
-//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @OnClick(R.id.approve_button)
+    protected void buttonClicked() {
+        startActivity(new Intent(getContext(), DrawerActivity.class));
+    }
+
     private void addFastMusicColumnList() {
-        final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
-        int addItems = 15;
-        for (int i = 0; i < addItems; i++) {
-            long id = sCreatedItems++;
-            mItemArray.add(new Pair<>(id, "Fast song " + id));
+        final List<Pair<Long, String>> songList = new ArrayList<>();
+
+        for (Song song : new RealmSongsDataBase().readSongList("fast")) {
+            songList.add(new Pair<>((long) song.hashCode(), song.getTittle()));
         }
 
-        final int column = mColumns;
-        final ItemAdapter listAdapter = new ItemAdapter(mItemArray, R.layout.column_item, R.id.item_layout, true);
+        listAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
-        ((TextView) header.findViewById(R.id.text)).setText("Fast songs");
-        ((TextView) header.findViewById(R.id.item_count)).setText("" + addItems);
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long id = sCreatedItems++;
-                Pair item = new Pair<>(id, "Test " + id);
-                mBoardView.addItem(column, 0, item, true);
-                //mBoardView.moveItem(4, 0, 0, true);
-                //mBoardView.removeItem(column, 0);
-                //mBoardView.moveItem(0, 0, 1, 3, false);
-                //mBoardView.replaceItem(0, 0, item1, true);
-                ((TextView) header.findViewById(R.id.item_count)).setText("" + mItemArray.size());
-            }
-        });
+        ((TextView) header.findViewById(R.id.text)).setText(R.string.fast_songs);
+        ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
 
         mBoardView.addColumnList(listAdapter, header, false);
-        mColumns++;
     }
 
     private void addSlowMusicColumnList() {
-        final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
-        int addItems = 15;
-        for (int i = 0; i < addItems; i++) {
-            long id = sCreatedItems++;
-            mItemArray.add(new Pair<>(id, "Slow song " + id));
+        final ArrayList<Pair<Long, String>> songList = new ArrayList<>();
+        for (Song song : new RealmSongsDataBase().readSongList("slow")) {
+            songList.add(new Pair<>((long) song.hashCode(), song.getTittle()));
         }
 
-        final int column = mColumns;
-        final ItemAdapter listAdapter = new ItemAdapter(mItemArray, R.layout.column_item, R.id.item_layout, true);
+        listAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
-        ((TextView) header.findViewById(R.id.text)).setText("Slow songs");
-        ((TextView) header.findViewById(R.id.item_count)).setText("" + addItems);
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long id = sCreatedItems++;
-                Pair item = new Pair<>(id, "Test " + id);
-                mBoardView.addItem(column, 0, item, true);
-                //mBoardView.moveItem(4, 0, 0, true);
-                //mBoardView.removeItem(column, 0);
-                //mBoardView.moveItem(0, 0, 1, 3, false);
-                //mBoardView.replaceItem(0, 0, item1, true);
-                ((TextView) header.findViewById(R.id.item_count)).setText("" + mItemArray.size());
-            }
-        });
+        ((TextView) header.findViewById(R.id.text)).setText(R.string.slow_songs);
+        ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
 
         mBoardView.addColumnList(listAdapter, header, false);
-        mColumns++;
     }
 
     private static class MyDragItem extends DragItem {

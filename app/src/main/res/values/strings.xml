@@ -13,5 +13,8 @@
     <string name="action_disable_drag">Disable drag</string>
     <string name="action_enable_drag">Enable drag</string>
     <string name="clear_board">Clear board</string>
+    <string name="slow_songs">Slow songs</string>
+    <string name="fast_songs">Fast songs</string>
+    <string name="board">Board</string>
 
 </resources>

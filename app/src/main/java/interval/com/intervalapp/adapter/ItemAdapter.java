@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import interval.com.intervalapp.R;
 
@@ -35,12 +36,12 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     private int mGrabHandleId;
     private boolean mDragOnLongPress;
 
-    public ItemAdapter(ArrayList<Pair<Long, String>> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
+    public ItemAdapter(List<Pair<Long, String>> songList, int layoutId, int grabHandleId, boolean dragOnLongPress) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
         setHasStableIds(true);
-        setItemList(list);
+        setItemList(songList);
     }
 
     @Override
