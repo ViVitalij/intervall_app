@@ -23,10 +23,10 @@
         android:id="@+id/chronometer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.28"
         android:gravity="center"
         android:text="Chronometer"
-        android:textSize="40sp"
         android:textColor="@color/background"
-        android:layout_weight="0.28" />
+        android:textSize="40sp" />
 
 </LinearLayout>

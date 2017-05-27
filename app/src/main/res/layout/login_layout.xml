@@ -5,36 +5,37 @@
     android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="56dp"
+        android:orientation="vertical"
         android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:paddingRight="24dp"
+        android:paddingTop="56dp">
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:text="IntervalApp"
             android:textAlignment="center"
-            android:textColor="@color/accent2"
-            android:textSize="36sp"
-            android:layout_marginBottom="10dp"/>
+            android:textColor="@color/colorAccent"
+            android:textSize="36sp" />
 
-        <ImageView android:src="@drawable/run"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="38dp"
-            android:layout_marginBottom="24dp"
             android:layout_gravity="center_horizontal"
-            android:tint="@color/background"/>
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/run"
+            android:tint="@color/background" />
 
         <!--  Email Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
             <EditText
                 android:id="@+id/loginEmail"
@@ -48,8 +49,8 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
             <EditText
                 android:id="@+id/loginPassword"
