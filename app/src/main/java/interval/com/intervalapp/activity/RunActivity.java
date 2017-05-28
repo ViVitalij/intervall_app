@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import org.joda.time.Duration;
 
 import java.io.IOException;
@@ -36,6 +38,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run);
         ButterKnife.bind(this);
+        JodaTimeAndroid.init(this);
     }
 
     @OnCheckedChanged(R.id.run_button)
@@ -78,7 +81,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     private void startMusic(String musicTempo, Duration duration) {
         //TODO shouldn't be singleton?
         RealmSongsDataBase realmSongsDataBase = new RealmSongsDataBase();
-        
+
         Toast.makeText(this, musicTempo + " section", Toast.LENGTH_LONG).show();
         List<Song> songList = realmSongsDataBase.readSongList(musicTempo);
         if (songList != null) {
