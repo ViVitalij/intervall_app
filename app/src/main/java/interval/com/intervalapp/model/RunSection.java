@@ -1,6 +1,8 @@
 package interval.com.intervalapp.model;
 
 
+import org.joda.time.Duration;
+
 import lombok.Getter;
 
 /**
@@ -23,11 +25,9 @@ public class RunSection {
     }
 
     private Intensity intensity;
+    private Duration duration;
 
-    //TODO change to Duration class from JodaTime
-    private int duration;
-
-    public RunSection(Intensity intensity, int duration) {
+    public RunSection(Intensity intensity, Duration duration) {
         this.intensity = intensity;
         this.duration = duration;
     }

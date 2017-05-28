@@ -48,6 +48,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     annotationProcessor 'org.parceler:parceler:1.1.7'
     provided 'org.projectlombok:lombok:1.12.6'
+    compile 'net.danlew:android.joda:2.9.9'
 }
 
 

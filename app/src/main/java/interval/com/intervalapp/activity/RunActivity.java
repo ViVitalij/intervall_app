@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import org.joda.time.Duration;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
             //TODO be aware when resume running
             List<RunSection> fullRunModel = getFullRunModel();
             RunSection runSection = fullRunModel.get(0);
-            int duration = runSection.getDuration();
+            Duration duration = runSection.getDuration();
 
             Intensity intensity = runSection.getIntensity();
             switch (intensity) {
@@ -73,10 +75,10 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     }
 
     //TODO when songList are empty
-    private void startMusic(String musicTempo, int duration) {
+    private void startMusic(String musicTempo, Duration duration) {
         //TODO shouldn't be singleton?
         RealmSongsDataBase realmSongsDataBase = new RealmSongsDataBase();
-
+        
         Toast.makeText(this, musicTempo + " section", Toast.LENGTH_LONG).show();
         List<Song> songList = realmSongsDataBase.readSongList(musicTempo);
         if (songList != null) {
@@ -116,9 +118,9 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     //TODO move to service class
     private List<RunSection> getFullRunModel() {
 
-        RunSection fast = new RunSection(Intensity.HIGH, 5000);
-        RunSection slow = new RunSection(Intensity.LOW, 10000);
-        RunSection medium = new RunSection(Intensity.MEDIUM, 15000);
+        RunSection fast = new RunSection(Intensity.HIGH, Duration.millis(5000));
+        RunSection slow = new RunSection(Intensity.LOW, Duration.millis(10000));
+        RunSection medium = new RunSection(Intensity.MEDIUM, Duration.millis(15000));
 
         List<RunSection> tabata = new ArrayList<>();
         tabata.add(fast);
