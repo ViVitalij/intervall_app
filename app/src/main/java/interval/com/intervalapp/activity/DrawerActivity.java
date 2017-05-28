@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -59,7 +58,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     }
 
     @OnClick(R.id.fab)
-    protected void buttonClicked(View view){
+    protected void buttonClicked(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
@@ -83,6 +82,8 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             Toast.makeText(getApplicationContext(), "drag and drop", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_history) {
+            startActivity(new Intent(getApplicationContext(), RunActivity.class));
+            Toast.makeText(getApplicationContext(), "run activity", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_settings) {
 
