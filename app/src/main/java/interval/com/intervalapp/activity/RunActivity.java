@@ -1,12 +1,18 @@
 package interval.com.intervalapp.activity;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -16,7 +22,12 @@ import interval.com.intervalapp.model.RunSection;
 import interval.com.intervalapp.model.RunSection.Intensity;
 import interval.com.intervalapp.model.Song;
 
-public class RunActivity extends AppCompatActivity {
+public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
+
+    private MediaPlayer mediaPlayer;
+    private int startingPosition = 0;
+    @BindView(R.id.run_button)
+    protected ToggleButton runButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,54 +38,87 @@ public class RunActivity extends AppCompatActivity {
 
     @OnCheckedChanged(R.id.run_button)
     protected void check(boolean isChecked) {
+
         if (isChecked) {
             //TODO change icon to pause
 
-            Toast.makeText(this, "Start running now", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.start_running, Toast.LENGTH_LONG).show();
 
             //TODO be aware when resume running
             List<RunSection> fullRunModel = getFullRunModel();
             RunSection runSection = fullRunModel.get(0);
-            RealmSongsDataBase realmSongsDataBase = new RealmSongsDataBase();
-            List<Song> slowSongs = realmSongsDataBase.readSongList("slow");
-            //TODO get music from realm and random play
-            switch (runSection.getIntensity()) {
+            int duration = runSection.getDuration();
+
+            Intensity intensity = runSection.getIntensity();
+            switch (intensity) {
                 case LOW:
-                    Toast.makeText(this, "Slow section", Toast.LENGTH_LONG).show();
+                    startMusic("slow", duration);
                     break;
                 case MEDIUM:
-                    Toast.makeText(this, "Medium section", Toast.LENGTH_LONG).show();
+                    startMusic("slow", duration);
                     break;
                 case HIGH:
-                    Toast.makeText(this, "Fast section", Toast.LENGTH_LONG).show();
+                    startMusic("fast", duration);
                     break;
                 default:
-                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                    startMusic("slow", duration);
+                    break;
             }
-
 
         } else {
             //TODO change icon to play
-
+            mediaPlayer.pause();
             Toast.makeText(this, "Pause", Toast.LENGTH_LONG).show();
         }
     }
 
-    //TODO
+    //TODO when songList are empty
+    private void startMusic(String musicTempo, int duration) {
+        //TODO shouldn't be singleton?
+        RealmSongsDataBase realmSongsDataBase = new RealmSongsDataBase();
+
+        Toast.makeText(this, musicTempo + " section", Toast.LENGTH_LONG).show();
+        List<Song> songList = realmSongsDataBase.readSongList(musicTempo);
+        if (songList != null) {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setOnCompletionListener(this);
+
+            //TODO randomise songs
+//            Collections.shuffle(songList);
+
+            String stringSongUri = songList.get(0).getUri();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            try {
+                mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(stringSongUri));
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mediaPlayer.start();
+        }
+    }
+
     @OnClick(R.id.stop_button)
     protected void stopRunning() {
         //TODO change run_button icon to play
 
-        Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
+        runButton.setChecked(false);
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.seekTo(startingPosition);
 
+            //TODO necessary? /release
+            mediaPlayer.reset();
+        }
+        Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
     }
 
     //TODO move to service class
     private List<RunSection> getFullRunModel() {
 
-        RunSection fast = new RunSection(Intensity.HIGH, 3000);
-        RunSection slow = new RunSection(Intensity.LOW, 4000);
-        RunSection medium = new RunSection(Intensity.MEDIUM, 2000);
+        RunSection fast = new RunSection(Intensity.HIGH, 5000);
+        RunSection slow = new RunSection(Intensity.LOW, 10000);
+        RunSection medium = new RunSection(Intensity.MEDIUM, 15000);
 
         List<RunSection> tabata = new ArrayList<>();
         tabata.add(fast);
@@ -82,5 +126,24 @@ public class RunActivity extends AppCompatActivity {
         tabata.add(medium);
 
         return tabata;
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        //TODO next song
+        mediaPlayer.start();
+        mediaPlayer.seekTo(startingPosition);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mediaPlayer.release();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.release();
     }
 }

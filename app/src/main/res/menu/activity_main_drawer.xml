@@ -3,17 +3,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_profile"
+            android:id="@+id/nav_musicList"
             android:icon="@mipmap/ic_launcher_round"
-            android:title="@string/your_profile" />
+            android:title="@string/music_list" />
         <item
-            android:id="@+id/nav_music"
+            android:id="@+id/nav_musicPicker"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/pick_songs" />
+            android:title="@string/music_picker" />
         <item
-            android:id="@+id/nav_history"
+            android:id="@+id/nav_runScreen"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/history" />
+            android:title="@string/run_screen" />
     </group>
 
     <item android:title="@string/settings">

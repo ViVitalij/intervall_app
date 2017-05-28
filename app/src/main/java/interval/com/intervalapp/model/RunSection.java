@@ -23,6 +23,8 @@ public class RunSection {
     }
 
     private Intensity intensity;
+
+    //TODO change to Duration class from JodaTime
     private int duration;
 
     public RunSection(Intensity intensity, int duration) {
