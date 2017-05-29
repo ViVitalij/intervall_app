@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +35,8 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     private int startingPosition = 0;
     @BindView(R.id.run_button)
     protected ToggleButton runButton;
+    private List<Song> fastSongList;
+    private List<Song> slowSongList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,9 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         setContentView(R.layout.activity_run);
         ButterKnife.bind(this);
         JodaTimeAndroid.init(this);
+        RealmSongsDataBase realmSongsDataBase = new RealmSongsDataBase();
+        fastSongList = realmSongsDataBase.readSongList(Song.FAST);
+        slowSongList = realmSongsDataBase.readSongList(Song.SLOW);
     }
 
     @OnCheckedChanged(R.id.run_button)
@@ -53,11 +59,8 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
             //TODO be aware when resume running
             List<RunSection> fullRunModel = getFullRunModel();
-            Iterator runIterator = fullRunModel.iterator();
-
-
-            if(runIterator.hasNext()){
-                RunSection runSection = (RunSection) runIterator.next();
+            if (fullRunModel.isEmpty()) {
+                RunSection runSection = fullRunModel.get(0);
                 Duration duration = runSection.getDuration();
                 Intensity intensity = runSection.getIntensity();
                 switch (intensity) {
@@ -65,7 +68,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
                         startMusic(Song.SLOW, duration);
                         break;
                     case MEDIUM:
-//                        startMusic("slow", duration);
+                        startMusic(Song.SLOW, duration);
                         break;
                     case HIGH:
                         startMusic(Song.FAST, duration);
@@ -84,20 +87,22 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
     //TODO when songList are empty
     private void startMusic(String musicTempo, Duration duration) {
-        //TODO shouldn't be singleton?
-        RealmSongsDataBase realmSongsDataBase = new RealmSongsDataBase();
+        //TODO temporal
+        List<Song> songList;
+        if (musicTempo.equals(Song.FAST)) {
+            songList = fastSongList;
+        } else {
+            songList = slowSongList;
+        }
+
 
         Toast.makeText(this, musicTempo + " section", Toast.LENGTH_LONG).show();
-        final List<Song> songList = realmSongsDataBase.readSongList(musicTempo);
 
         if (songList.isEmpty()) {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setOnCompletionListener(this);
 
-            //TODO randomise songs
-//            Collections.shuffle(songList);
-
-            Song song = songList.get(0);
+            Song song = songList.get(new Random().nextInt(songList.size()));
             String stringSongUri = song.getUri();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             try {
@@ -112,9 +117,8 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
+                mediaPlayer.seekTo(mediaPlayer.getDuration() - 1);
                 mediaPlayer.stop();
-                mediaPlayer.release();
-                check(true);
             }
         }, duration.getMillis());
     }
@@ -125,6 +129,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
         runButton.setChecked(false);
         if (mediaPlayer.isPlaying()) {
+
             mediaPlayer.stop();
             mediaPlayer.release();
 //            mediaPlayer.seekTo(startingPosition);
