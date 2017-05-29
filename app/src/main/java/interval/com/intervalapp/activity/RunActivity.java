@@ -62,16 +62,16 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
                 Intensity intensity = runSection.getIntensity();
                 switch (intensity) {
                     case LOW:
-                        startMusic("slow", duration);
+                        startMusic(Song.SLOW, duration);
                         break;
                     case MEDIUM:
-                        startMusic("slow", duration);
+//                        startMusic("slow", duration);
                         break;
                     case HIGH:
-                        startMusic("fast", duration);
+                        startMusic(Song.FAST, duration);
                         break;
                     default:
-                        startMusic("slow", duration);
+                        startMusic(Song.SLOW, duration);
                         break;
                 }
             }
@@ -89,16 +89,15 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
         Toast.makeText(this, musicTempo + " section", Toast.LENGTH_LONG).show();
         final List<Song> songList = realmSongsDataBase.readSongList(musicTempo);
-        Iterator musicIterator = songList.iterator();
 
-        if (musicIterator.hasNext()) {
+        if (songList.isEmpty()) {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setOnCompletionListener(this);
 
             //TODO randomise songs
 //            Collections.shuffle(songList);
 
-            Song song = (Song) musicIterator.next();
+            Song song = songList.get(0);
             String stringSongUri = song.getUri();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             try {
