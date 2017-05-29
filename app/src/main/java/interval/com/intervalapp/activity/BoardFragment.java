@@ -53,7 +53,8 @@ import io.realm.Realm;
 
 public class BoardFragment extends Fragment {
 
-    private ItemAdapter listAdapter;
+    private ItemAdapter fastAdapter;
+    private ItemAdapter slowAdapter;
     private Realm realm = Realm.getDefaultInstance();
     @BindView(R.id.board_view)
     protected BoardView mBoardView;
@@ -101,7 +102,7 @@ public class BoardFragment extends Fragment {
             public void onItemDragEnded(int fromColumn, final int fromRow, int toColumn, int toRow) {
                 if (fromColumn != toColumn || fromRow != toRow) {
                     if (fromColumn == 0) {
-                        final long id = listAdapter.getItemId(toRow);
+                        final long id = slowAdapter.getItemId(toRow);
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
@@ -111,7 +112,7 @@ public class BoardFragment extends Fragment {
                         });
 
                     } else {
-                        final long id = listAdapter.getItemId(toRow);
+                        final long id = fastAdapter.getItemId(toRow);
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
@@ -177,12 +178,12 @@ public class BoardFragment extends Fragment {
             songList.add(new Pair<>((long) song.hashCode(), song.getTittle()));
         }
 
-        listAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
+        fastAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(R.string.fast_songs);
         ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
 
-        mBoardView.addColumnList(listAdapter, header, false);
+        mBoardView.addColumnList(fastAdapter, header, false);
     }
 
     private void addSlowMusicColumnList() {
@@ -191,12 +192,12 @@ public class BoardFragment extends Fragment {
             songList.add(new Pair<>((long) song.hashCode(), song.getTittle()));
         }
 
-        listAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
+        slowAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(R.string.slow_songs);
         ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
 
-        mBoardView.addColumnList(listAdapter, header, false);
+        mBoardView.addColumnList(slowAdapter, header, false);
     }
 
     private static class MyDragItem extends DragItem {
