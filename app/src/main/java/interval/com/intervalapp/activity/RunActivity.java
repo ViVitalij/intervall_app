@@ -53,25 +53,28 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
             //TODO be aware when resume running
             List<RunSection> fullRunModel = getFullRunModel();
-            RunSection runSection = fullRunModel.get(0);
-            Duration duration = runSection.getDuration();
+            Iterator runIterator = fullRunModel.iterator();
 
-            Intensity intensity = runSection.getIntensity();
-            switch (intensity) {
-                case LOW:
-                    startMusic("slow", duration);
-                    break;
-                case MEDIUM:
-                    startMusic("slow", duration);
-                    break;
-                case HIGH:
-                    startMusic("fast", duration);
-                    break;
-                default:
-                    startMusic("slow", duration);
-                    break;
+
+            if(runIterator.hasNext()){
+                RunSection runSection = (RunSection) runIterator.next();
+                Duration duration = runSection.getDuration();
+                Intensity intensity = runSection.getIntensity();
+                switch (intensity) {
+                    case LOW:
+                        startMusic("slow", duration);
+                        break;
+                    case MEDIUM:
+                        startMusic("slow", duration);
+                        break;
+                    case HIGH:
+                        startMusic("fast", duration);
+                        break;
+                    default:
+                        startMusic("slow", duration);
+                        break;
+                }
             }
-
         } else {
             //TODO change icon to play
             mediaPlayer.pause();
@@ -86,16 +89,16 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
         Toast.makeText(this, musicTempo + " section", Toast.LENGTH_LONG).show();
         final List<Song> songList = realmSongsDataBase.readSongList(musicTempo);
-        Iterator iterator = songList.iterator();
+        Iterator musicIterator = songList.iterator();
 
-        if (iterator.hasNext()) {
+        if (musicIterator.hasNext()) {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setOnCompletionListener(this);
 
             //TODO randomise songs
 //            Collections.shuffle(songList);
 
-            Song song = (Song) iterator.next();
+            Song song = (Song) musicIterator.next();
             String stringSongUri = song.getUri();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             try {
@@ -110,8 +113,9 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                int almostEnd = mediaPlayer.getDuration();
-                mediaPlayer.seekTo(almostEnd-1);
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                check(true);
             }
         }, duration.getMillis());
     }
@@ -123,10 +127,11 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         runButton.setChecked(false);
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
-            mediaPlayer.seekTo(startingPosition);
+            mediaPlayer.release();
+//            mediaPlayer.seekTo(startingPosition);
 
             //TODO necessary? /release
-            mediaPlayer.reset();
+//            mediaPlayer.reset();
         }
         Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
     }
