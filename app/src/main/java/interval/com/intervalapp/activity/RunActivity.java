@@ -4,6 +4,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -14,6 +15,7 @@ import org.joda.time.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -83,15 +85,18 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         RealmSongsDataBase realmSongsDataBase = new RealmSongsDataBase();
 
         Toast.makeText(this, musicTempo + " section", Toast.LENGTH_LONG).show();
-        List<Song> songList = realmSongsDataBase.readSongList(musicTempo);
-        if (songList != null) {
+        final List<Song> songList = realmSongsDataBase.readSongList(musicTempo);
+        Iterator iterator = songList.iterator();
+
+        if (iterator.hasNext()) {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setOnCompletionListener(this);
 
             //TODO randomise songs
 //            Collections.shuffle(songList);
 
-            String stringSongUri = songList.get(0).getUri();
+            Song song = (Song) iterator.next();
+            String stringSongUri = song.getUri();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             try {
                 mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(stringSongUri));
@@ -101,6 +106,14 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
             }
             mediaPlayer.start();
         }
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                int almostEnd = mediaPlayer.getDuration();
+                mediaPlayer.seekTo(almostEnd-1);
+            }
+        }, duration.getMillis());
     }
 
     @OnClick(R.id.stop_button)
@@ -136,8 +149,9 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     @Override
     public void onCompletion(MediaPlayer mp) {
         //TODO next song
-        mediaPlayer.start();
-        mediaPlayer.seekTo(startingPosition);
+        check(true);
+//        mediaPlayer.start();
+//        mediaPlayer.seekTo(startingPosition);
     }
 
     @Override
