@@ -161,4 +161,9 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         }
         return name;
     }
+    @OnClick(R.id.second_mode)
+    void secondModeClicked(){
+        startActivity(new Intent(getApplicationContext(), RunActivity.class));
+        Toast.makeText(getApplicationContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
+    }
 }

@@ -141,24 +141,6 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
     }
 
-    //TODO move to service class
-    private RunningMode getFullRunModel() {
-
-        RunSection fast = new RunSection(Intensity.HIGH, Duration.millis(5000));
-        RunSection slow = new RunSection(Intensity.LOW, Duration.millis(10000));
-        RunSection medium = new RunSection(Intensity.MEDIUM, Duration.millis(15000));
-
-        RunningMode runningMode = new RunningMode();
-        List<RunSection> list = new ArrayList<>();
-        list.add(fast);
-        list.add(slow);
-        list.add(medium);
-        runningMode.setRunMode(list);
-        runningMode.setName("tabata");
-
-        return runningMode;
-    }
-
     @Override
     public void onCompletion(MediaPlayer mp) {
         //TODO next song

@@ -13,21 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LoginActivity">
+        <activity
+            android:name=".activity.DrawerActivity"
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.DrawerActivity"
-            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".activity.SongDragAndDropActivity"
             android:theme="@style/ToolbarTheme" />
         <activity android:name=".activity.RunActivity" />
-        <activity android:name=".activity.ModeActivity" />
+        <activity android:name=".activity.LoginActivity"/>
     </application>
 
 </manifest>
