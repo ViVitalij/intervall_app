@@ -11,25 +11,22 @@
         android:theme="@style/AppTheme">
         <activity
             android:theme="@style/LoginTheme"
-            android:name="interval.com.intervalapp.sample.MainActivity">
+            android:name="interval.com.intervalapp.sample.LoginLayout">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        android:theme="@style/LoginTheme"
         <activity android:name=".sample.Sample2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
-        android:theme="@style/LoginTheme"
         <activity android:name=".sample.ModeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
