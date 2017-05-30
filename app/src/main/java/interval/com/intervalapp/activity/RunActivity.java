@@ -15,7 +15,6 @@ import org.joda.time.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -27,6 +26,7 @@ import interval.com.intervalapp.R;
 import interval.com.intervalapp.database.RealmSongsDataBase;
 import interval.com.intervalapp.model.RunSection;
 import interval.com.intervalapp.model.RunSection.Intensity;
+import interval.com.intervalapp.model.RunningMode;
 import interval.com.intervalapp.model.Song;
 
 public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
@@ -57,27 +57,28 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
             Toast.makeText(this, R.string.start_running, Toast.LENGTH_LONG).show();
 
-            //TODO be aware when resume running
-            List<RunSection> fullRunModel = getFullRunModel();
-            if (fullRunModel.isEmpty()) {
-                RunSection runSection = fullRunModel.get(0);
-                Duration duration = runSection.getDuration();
-                Intensity intensity = runSection.getIntensity();
-                switch (intensity) {
-                    case LOW:
-                        startMusic(Song.SLOW, duration);
-                        break;
-                    case MEDIUM:
-                        startMusic(Song.SLOW, duration);
-                        break;
-                    case HIGH:
-                        startMusic(Song.FAST, duration);
-                        break;
-                    default:
-                        startMusic(Song.SLOW, duration);
-                        break;
-                }
-            }
+//            //TODO be aware when resume running
+//            RunningMode runModel = getFullRunModel();
+//            List<RunSection> runMode = runModel.getRunMode();
+//            if (runMode.isEmpty()) {
+//                RunSection runSection = runMode.get(0);
+//                Duration duration = runSection.getDuration();
+//                Intensity intensity = runSection.getIntensity();
+//                switch (intensity) {
+//                    case LOW:
+//                        startMusic(Song.SLOW, duration);
+//                        break;
+//                    case MEDIUM:
+//                        startMusic(Song.SLOW, duration);
+//                        break;
+//                    case HIGH:
+//                        startMusic(Song.FAST, duration);
+//                        break;
+//                    default:
+//                        startMusic(Song.SLOW, duration);
+//                        break;
+//                }
+//            }
         } else {
             //TODO change icon to play
             mediaPlayer.pause();
@@ -141,18 +142,21 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     }
 
     //TODO move to service class
-    private List<RunSection> getFullRunModel() {
+    private RunningMode getFullRunModel() {
 
         RunSection fast = new RunSection(Intensity.HIGH, Duration.millis(5000));
         RunSection slow = new RunSection(Intensity.LOW, Duration.millis(10000));
         RunSection medium = new RunSection(Intensity.MEDIUM, Duration.millis(15000));
 
-        List<RunSection> tabata = new ArrayList<>();
-        tabata.add(fast);
-        tabata.add(slow);
-        tabata.add(medium);
+        RunningMode runningMode = new RunningMode();
+        List<RunSection> list = new ArrayList<>();
+        list.add(fast);
+        list.add(slow);
+        list.add(medium);
+        runningMode.setRunMode(list);
+        runningMode.setName("tabata");
 
-        return tabata;
+        return runningMode;
     }
 
     @Override
@@ -162,6 +166,24 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 //        mediaPlayer.start();
 //        mediaPlayer.seekTo(startingPosition);
     }
+
+    /* fade in and out
+        public void load(String path, boolean looping)
+        {
+            mediaPlayer = MediaPlayer.create(context, Uri.fromFile(new File(path)));
+            mediaPlayer.setLooping(looping);
+        public void load(int address, boolean looping)
+        {
+            mediaPlayer = MediaPlayer.create(context, address);
+            mediaPlayer.setLooping(looping);
+            if(!mediaPlayer.isPlaying()) mediaPlayer.start();
+            {
+                final Timer timer = new Timer(true);
+                TimerTask timerTask = new TimerTask()
+                {
+                    @Override
+                    {
+    */
 
     @Override
     protected void onStop() {

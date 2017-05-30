@@ -26,7 +26,8 @@
         <activity
             android:name=".activity.SongDragAndDropActivity"
             android:theme="@style/ToolbarTheme" />
-        <activity android:name=".activity.RunActivity"></activity>
+        <activity android:name=".activity.RunActivity" />
+        <activity android:name=".activity.ModeActivity" />
     </application>
 
 </manifest>
