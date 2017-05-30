@@ -25,14 +25,15 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile group: 'org.projectlombok', name: 'lombok', version: '0.11.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
     compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    compile group: 'org.projectlombok', name: 'lombok', version: '0.11.0'
     compile 'com.github.dmytrodanylyk:android-morphing-button:98a4986e56'
     compile 'com.android.support:design:25.3.1'
     compile 'com.flaviofaria:kenburnsview:1.0.7'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 }
+
 

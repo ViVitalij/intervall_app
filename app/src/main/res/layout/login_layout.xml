@@ -77,7 +77,8 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:theme="@style/FilterInputLayout"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/accent">
 
                 <EditText
                     android:id="@+id/loginPassword"
@@ -100,11 +101,13 @@
                 android:textColor="@color/accent" />
 
             <TextView
-                android:id="@+id/newAccount"
+                android:id="@+id/new_account"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
+                android:clickable="true"
                 android:gravity="center"
+                android:onClick="onClick"
                 android:text="No account yet? Create one"
                 android:textColor="@color/accent"
                 android:textSize="16dip" />

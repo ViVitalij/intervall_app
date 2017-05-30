@@ -9,19 +9,19 @@
     </style>
 
     <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/accent</item>
-        <item name="colorPrimaryDark">@color/accent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:windowNoTitle">true</item>
         <!-- Hint color and label color in FALSE state -->
         <item name="android:textColorHint">@color/accent</item>
         <item name="android:textSize">20sp</item>
         <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlNormal">@color/accent</item>
         <item name="colorControlActivated">@color/accent</item>
     </style>
 
-    <style name="FilterInputLayout" >
+    <style name="FilterInputLayout">
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/white</item>

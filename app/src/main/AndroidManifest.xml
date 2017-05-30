@@ -10,17 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:theme="@style/LoginTheme"
-            android:name="interval.com.intervalapp.sample.LoginLayout">
-
+            android:name=".sample.LoginLayout"
+            android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".sample.Sample2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
@@ -29,8 +30,8 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
         <activity android:name=".sample.BaseActivity" />
+        <activity android:name=".sample.NewAccountActivity"></activity>
     </application>
 
 </manifest>
