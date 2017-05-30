@@ -2,17 +2,12 @@ package interval.com.intervalapp.activity;
 
 import android.app.Application;
 
-import org.joda.time.Duration;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import interval.com.intervalapp.database.RealmModeDatabase;
 import interval.com.intervalapp.model.RunSection;
-import interval.com.intervalapp.model.RunSection.Intensity;
 import interval.com.intervalapp.model.RunningMode;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 
 public class App extends Application {
     @Override
@@ -36,15 +31,16 @@ public class App extends Application {
     }
 
     private RunningMode initTabataMode() {
-        RunSection fast = new RunSection(Intensity.HIGH, Duration.millis(50000));
-        RunSection slow = new RunSection(Intensity.LOW, Duration.millis(100000));
-        RunSection medium = new RunSection(Intensity.MEDIUM, Duration.millis(150000));
+        RunSection fast = new RunSection(RunSection.HIGH, 50000L);
+        RunSection slow = new RunSection(RunSection.LOW, 100000L);
+        RunSection medium = new RunSection(RunSection.MEDIUM, 150000L);
 
-        RunningMode runningMode = new RunningMode();
-        List<RunSection> list = new ArrayList<>();
+        RealmList<RunSection> list = new RealmList<>();
         list.add(fast);
         list.add(slow);
         list.add(medium);
+
+        RunningMode runningMode = new RunningMode();
         runningMode.setRunMode(list);
         runningMode.setName("tabata");
         return runningMode;

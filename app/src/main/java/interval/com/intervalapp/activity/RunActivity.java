@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Chronometer;
 import android.widget.Toast;
@@ -12,10 +13,7 @@ import android.widget.ToggleButton;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
-import org.joda.time.Duration;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -25,9 +23,6 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
 import interval.com.intervalapp.database.RealmSongsDataBase;
-import interval.com.intervalapp.model.RunSection;
-import interval.com.intervalapp.model.RunSection.Intensity;
-import interval.com.intervalapp.model.RunningMode;
 import interval.com.intervalapp.model.Song;
 
 public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener,
@@ -62,6 +57,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
             //TODO change icon to pause
 
             Toast.makeText(this, R.string.start_running, Toast.LENGTH_LONG).show();
+            mainChronometer.setBase(SystemClock.elapsedRealtime());
             mainChronometer.start();
 
 //            //TODO be aware when resume running
@@ -94,7 +90,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     }
 
     //TODO when songList are empty
-    private void startMusic(String musicTempo, Duration duration) {
+    private void startMusic(String musicTempo, Long duration) {
         //TODO temporal
         List<Song> songList;
         if (musicTempo.equals(Song.FAST)) {
@@ -128,7 +124,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
                 mediaPlayer.seekTo(mediaPlayer.getDuration() - 1);
                 mediaPlayer.stop();
             }
-        }, duration.getMillis());
+        }, duration);
     }
 
     @OnClick(R.id.stop_button)

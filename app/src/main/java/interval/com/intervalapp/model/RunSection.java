@@ -1,8 +1,6 @@
 package interval.com.intervalapp.model;
 
 
-import org.joda.time.Duration;
-
 import io.realm.RealmObject;
 import lombok.Getter;
 
@@ -11,24 +9,16 @@ import lombok.Getter;
  */
 
 @Getter
-public class RunSection extends RealmObject{
+public class RunSection extends RealmObject {
 
-    public enum Intensity {
-        LOW("low"),
-        MEDIUM("medium"),
-        HIGH("high");
+    public static final String LOW = "low";
+    public static final String MEDIUM = "medium";
+    public static final String HIGH = "high";
 
-        Intensity(String intensity) {
-        }
+    private String intensity;
+    private Long duration;
 
-        Intensity() {
-        }
-    }
-
-    private Intensity intensity;
-    private Duration duration;
-
-    public RunSection(Intensity intensity, Duration duration) {
+    public RunSection(String intensity, Long duration) {
         this.intensity = intensity;
         this.duration = duration;
     }
