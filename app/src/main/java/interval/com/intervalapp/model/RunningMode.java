@@ -2,6 +2,7 @@ package interval.com.intervalapp.model;
 
 import java.util.List;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import lombok.Getter;
@@ -16,9 +17,9 @@ import lombok.Setter;
 public class RunningMode extends RealmObject{
     @PrimaryKey
     private String name;
-    private List<RunSection> runMode;
+    private RealmList<RunSection> runMode;
 
-    public RunningMode(String name, List<RunSection> runMode) {
+    public RunningMode(String name, RealmList<RunSection> runMode) {
         this.name = name;
         this.runMode = runMode;
     }

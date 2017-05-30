@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Chronometer;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -29,7 +30,11 @@ import interval.com.intervalapp.model.RunSection.Intensity;
 import interval.com.intervalapp.model.RunningMode;
 import interval.com.intervalapp.model.Song;
 
-public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
+public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener,
+        Chronometer.OnChronometerTickListener {
+
+    @BindView(R.id.main_chronometer)
+    protected Chronometer mainChronometer;
 
     private MediaPlayer mediaPlayer;
     private int startingPosition = 0;
@@ -47,6 +52,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         RealmSongsDataBase realmSongsDataBase = new RealmSongsDataBase();
         fastSongList = realmSongsDataBase.readSongList(Song.FAST);
         slowSongList = realmSongsDataBase.readSongList(Song.SLOW);
+        mainChronometer.setOnChronometerTickListener(this);
     }
 
     @OnCheckedChanged(R.id.run_button)
@@ -56,6 +62,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
             //TODO change icon to pause
 
             Toast.makeText(this, R.string.start_running, Toast.LENGTH_LONG).show();
+            mainChronometer.start();
 
 //            //TODO be aware when resume running
 //            RunningMode runModel = getFullRunModel();
@@ -177,5 +184,10 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     protected void onPause() {
         super.onPause();
         mediaPlayer.release();
+    }
+
+    @Override
+    public void onChronometerTick(Chronometer chronometer) {
+
     }
 }

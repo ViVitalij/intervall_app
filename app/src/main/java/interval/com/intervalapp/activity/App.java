@@ -36,9 +36,9 @@ public class App extends Application {
     }
 
     private RunningMode initTabataMode() {
-        RunSection fast = new RunSection(Intensity.HIGH, Duration.millis(5000));
-        RunSection slow = new RunSection(Intensity.LOW, Duration.millis(10000));
-        RunSection medium = new RunSection(Intensity.MEDIUM, Duration.millis(15000));
+        RunSection fast = new RunSection(Intensity.HIGH, Duration.millis(50000));
+        RunSection slow = new RunSection(Intensity.LOW, Duration.millis(100000));
+        RunSection medium = new RunSection(Intensity.MEDIUM, Duration.millis(150000));
 
         RunningMode runningMode = new RunningMode();
         List<RunSection> list = new ArrayList<>();

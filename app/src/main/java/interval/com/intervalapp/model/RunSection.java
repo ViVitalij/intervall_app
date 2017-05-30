@@ -3,6 +3,7 @@ package interval.com.intervalapp.model;
 
 import org.joda.time.Duration;
 
+import io.realm.RealmObject;
 import lombok.Getter;
 
 /**
@@ -10,7 +11,7 @@ import lombok.Getter;
  */
 
 @Getter
-public class RunSection {
+public class RunSection extends RealmObject{
 
     public enum Intensity {
         LOW("low"),
@@ -30,5 +31,8 @@ public class RunSection {
     public RunSection(Intensity intensity, Duration duration) {
         this.intensity = intensity;
         this.duration = duration;
+    }
+
+    public RunSection() {
     }
 }
