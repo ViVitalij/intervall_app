@@ -4,9 +4,11 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Chronometer;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -31,8 +33,10 @@ import io.realm.RealmList;
 public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener,
         Chronometer.OnChronometerTickListener {
 
-    @BindView(R.id.main_chronometer)
-    protected Chronometer mainChronometer;
+    @BindView(R.id.android_chronometer)
+    protected Chronometer androidChronometer;
+    @BindView(R.id.class_chronometer)
+    protected interval.com.intervalapp.chronometer.Chronometer classChronometer;
 
     private MediaPlayer mediaPlayer;
     private int startingPosition = 0;
@@ -41,6 +45,8 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     private List<Song> fastSongList;
     private List<Song> slowSongList;
     private RealmList<RunSection> runMode;
+    @BindView(R.id.countdown_timer)
+    protected TextView countdownTimer;
 
 
     @Override
@@ -53,7 +59,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         setSongsList();
         setRunningMode();
 
-        mainChronometer.setOnChronometerTickListener(this);
+//        mainChronometer.setOnChronometerTickListener(this);
     }
 
     private void setRunningMode() {
@@ -71,22 +77,67 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
     @OnCheckedChanged(R.id.run_button)
     protected void check(boolean isChecked) {
-
         if (isChecked) {
             //TODO change icon to pause
+            androidChronometer.setBase(SystemClock.elapsedRealtime());
+            androidChronometer.start();
 
-            Toast.makeText(this, R.string.start_running, Toast.LENGTH_SHORT).show();
+            classChronometer.setBase(SystemClock.elapsedRealtime());
+            classChronometer.start();
+
+            RunSection runSection = runMode.get(0);
+            Long duration = runSection.getDuration();
+            String intensity = runSection.getIntensity();
+
+            startCountdownTimer(duration, intensity);
+            Toast.makeText(this, "tabata started", Toast.LENGTH_SHORT).show();
 
             //TODO be aware when resume running
 
 
-            mainChronometer.setBase(SystemClock.elapsedRealtime());
-            mainChronometer.start();
-
         } else {
             //TODO change icon to play
-            mainChronometer.stop();
+//            mainChronometer.stop();
             Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void startCountdownTimer(Long duration, final String intensity) {
+        CountDownTimer countDownTimer = new CountDownTimer(duration, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                countdownTimer.setText("pozostalo: " + millisUntilFinished / 1000);
+            }
+
+            @Override
+            public void onFinish() {
+                countdownTimer.setText("0");
+                Toast.makeText(getApplicationContext(), intensity, Toast.LENGTH_LONG).show();
+                startingPosition++;
+                startNextIntensitySong();
+            }
+        }.start();
+    }
+
+    private void startNextIntensitySong() {
+        if(startingPosition<runMode.size()){
+            RunSection runSection = runMode.get(startingPosition);
+            Long duration = runSection.getDuration();
+            String intensity = runSection.getIntensity();
+
+            if (intensity.equals(RunSection.LOW)) {
+                startCountdownTimer(duration, intensity);
+//                startMusic(Song.SLOW);
+            } else if (intensity.equals(RunSection.MEDIUM)) {
+                startCountdownTimer(duration, intensity);
+//                startMusic(Song.FAST);
+            } else if (intensity.equals(RunSection.HIGH)) {
+                startCountdownTimer(duration, intensity);
+//                startMusic(Song.FAST);
+            } else {
+                startCountdownTimer(duration, intensity);
+//                startMusic(Song.SLOW);
+            }
         }
     }
 
@@ -130,25 +181,32 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
     @OnClick(R.id.stop_button)
     protected void stopRunning() {
+        //TODO check if user really want to stop
+
         //TODO change run_button icon to play
 
         runButton.setChecked(false);
-        if (mediaPlayer.isPlaying()) {
+        androidChronometer.stop();
+        classChronometer.stop();
 
-            mediaPlayer.stop();
-            mediaPlayer.release();
+
+//        if (mediaPlayer.isPlaying()) {
+//
+//            mediaPlayer.stop();
+//            mediaPlayer.release();
 //            mediaPlayer.seekTo(startingPosition);
 
-            //TODO necessary? /release
+        //TODO necessary? /release
 //            mediaPlayer.reset();
-        }
+//        }
         Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
+
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
         //TODO next song
-        check(true);
+//        check(true);
 //        mediaPlayer.start();
 //        mediaPlayer.seekTo(startingPosition);
     }
