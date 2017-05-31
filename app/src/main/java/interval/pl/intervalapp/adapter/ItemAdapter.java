@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package interval.com.intervalapp.adapter;
+package interval.pl.intervalapp.adapter;
 
 import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
@@ -25,10 +25,9 @@ import android.widget.Toast;
 
 import com.woxthebox.draglistview.DragItemAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import interval.com.intervalapp.R;
+import interval.pl.intervalapp.R;
 
 public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter.ViewHolder> {
 

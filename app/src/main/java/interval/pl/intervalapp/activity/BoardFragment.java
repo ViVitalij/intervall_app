@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package interval.com.intervalapp.activity;
+package interval.pl.intervalapp.activity;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -45,10 +45,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import interval.com.intervalapp.R;
-import interval.com.intervalapp.adapter.ItemAdapter;
-import interval.com.intervalapp.database.RealmSongsDataBase;
-import interval.com.intervalapp.model.Song;
+import interval.pl.intervalapp.R;
+import interval.pl.intervalapp.adapter.ItemAdapter;
+import interval.pl.intervalapp.database.RealmSongsDataBase;
+import interval.pl.intervalapp.model.Song;
 import io.realm.Realm;
 
 public class BoardFragment extends Fragment {

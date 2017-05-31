@@ -1,8 +1,8 @@
-package interval.com.intervalapp.database;
+package interval.pl.intervalapp.database;
 
 import java.util.List;
 
-import interval.com.intervalapp.model.Song;
+import interval.pl.intervalapp.model.Song;
 import io.realm.Realm;
 
 public class RealmSongsDataBase {

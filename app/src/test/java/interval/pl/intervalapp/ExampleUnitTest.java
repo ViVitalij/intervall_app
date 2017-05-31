@@ -1,4 +1,4 @@
-package interval.com.intervalapp;
+package interval.pl.intervalapp;
 
 import org.junit.Test;
 

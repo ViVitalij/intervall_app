@@ -48,6 +48,7 @@ dependencies {
     compile 'com.github.woxthebox:draglistview:1.4.4'
     provided 'org.projectlombok:lombok:1.12.6'
     compile 'com.github.dmytrodanylyk:android-morphing-button:98a4986e56'
+    compile 'com.google.android.gms:play-services-fitness:8.4.0'
 }
 
 

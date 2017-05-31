@@ -1,4 +1,4 @@
-package interval.com.intervalapp.activity;
+package interval.pl.intervalapp.activity;
 
 import android.content.ClipData;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -25,9 +24,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import interval.com.intervalapp.R;
-import interval.com.intervalapp.database.RealmSongsDataBase;
-import interval.com.intervalapp.model.Song;
+import interval.pl.intervalapp.R;
+import interval.pl.intervalapp.database.RealmSongsDataBase;
+import interval.pl.intervalapp.model.Song;
 
 /**
  * Created by m.losK on 19.05.2017.

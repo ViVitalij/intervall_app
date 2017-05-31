@@ -1,4 +1,4 @@
-package interval.com.intervalapp.model;
+package interval.pl.intervalapp.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

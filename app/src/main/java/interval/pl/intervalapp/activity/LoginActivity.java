@@ -1,4 +1,4 @@
-package interval.com.intervalapp.activity;
+package interval.pl.intervalapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import interval.com.intervalapp.R;
+import interval.pl.intervalapp.R;
 
 public class LoginActivity extends AppCompatActivity {
 

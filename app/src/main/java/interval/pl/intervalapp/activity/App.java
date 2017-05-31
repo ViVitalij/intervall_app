@@ -1,4 +1,4 @@
-package interval.com.intervalapp.activity;
+package interval.pl.intervalapp.activity;
 
 import android.app.Application;
 

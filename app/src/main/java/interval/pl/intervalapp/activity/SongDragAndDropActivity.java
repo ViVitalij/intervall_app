@@ -1,4 +1,4 @@
-package interval.com.intervalapp.activity;
+package interval.pl.intervalapp.activity;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import interval.com.intervalapp.R;
+import interval.pl.intervalapp.R;
 
 public class SongDragAndDropActivity extends AppCompatActivity {
 

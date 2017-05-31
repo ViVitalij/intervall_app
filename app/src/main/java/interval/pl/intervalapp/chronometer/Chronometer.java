@@ -1,16 +1,12 @@
-package interval.com.intervalapp.chronometer;
+package interval.pl.intervalapp.chronometer;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.widget.Button;
 
 import java.text.DecimalFormat;
-
-import butterknife.BindView;
-import interval.com.intervalapp.R;
 
 /**
  * Created by RENT on 2017-05-23.

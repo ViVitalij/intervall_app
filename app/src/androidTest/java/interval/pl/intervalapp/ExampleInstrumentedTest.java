@@ -1,4 +1,4 @@
-package interval.com.intervalapp;
+package interval.pl.intervalapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
