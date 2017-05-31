@@ -20,17 +20,13 @@
         android:layout_marginTop="10px"
         android:text="Button" />
     <TextView
-        android:id="@+id/countdown_timer"
+        android:id="@+id/countdown_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
+
     <Chronometer
-        android:id="@+id/android_chronometer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-    <interval.com.intervalapp.chronometer.Chronometer
-        android:id="@+id/class_chronometer"
+        android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>

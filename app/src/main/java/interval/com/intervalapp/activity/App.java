@@ -31,9 +31,9 @@ public class App extends Application {
     }
 
     private RunningMode initTabataMode() {
-        RunSection fast = new RunSection(RunSection.HIGH, 50000L);
-        RunSection slow = new RunSection(RunSection.LOW, 100000L);
-        RunSection medium = new RunSection(RunSection.MEDIUM, 150000L);
+        RunSection fast = new RunSection(RunSection.HIGH, 5000L);
+        RunSection slow = new RunSection(RunSection.LOW, 10000L);
+        RunSection medium = new RunSection(RunSection.MEDIUM, 15000L);
 
         RealmList<RunSection> list = new RealmList<>();
         list.add(fast);
