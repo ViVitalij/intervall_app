@@ -25,13 +25,22 @@
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
-        <activity android:name=".sample.ModeActivity">
+        <activity
+            android:name=".sample.ModeActivity"
+            android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity android:name=".sample.BaseActivity" />
-        <activity android:name=".sample.NewAccountActivity"></activity>
+        <activity
+            android:name=".sample.NewAccountActivity"
+            android:theme="@style/LoginTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".sample.SelectedMode"></activity>
     </application>
 
 </manifest>

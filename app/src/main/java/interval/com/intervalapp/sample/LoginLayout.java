@@ -1,5 +1,6 @@
 package interval.com.intervalapp.sample;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,6 @@ public class LoginLayout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         ButterKnife.bind(this);
-
         String fontPath = "fonts/Pacifico.ttf";
         TextView aboutus = (TextView) findViewById(R.id.textView2);
         Typeface type = Typeface.createFromAsset(getAssets(), fontPath);
@@ -27,7 +27,8 @@ public class LoginLayout extends AppCompatActivity {
 
    @OnClick(R.id.new_account)
     void newAccountClicked(){
-
+       Intent intent = new Intent(getApplicationContext(), NewAccountActivity.class);
+       startActivity(intent);
     }
 }
 

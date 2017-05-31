@@ -81,14 +81,14 @@ public class Sample2Activity extends BaseActivity {
                 .cornerRadius(dimen(R.dimen.mb_height_56))
                 .width(dimen(R.dimen.mb_height_56))
                 .height(dimen(R.dimen.mb_height_56))
-                .color(color(R.color.plainMode))
-                .colorPressed(color(R.color.plainMode))
+                .color(color(R.color.colorAccent))
+                .colorPressed(color(R.color.colorAccent))
                 .icon(R.drawable.ic_done);
         btnMorph.morph(circle);
     }
 
     private void simulateProgress1(@NonNull final LinearProgressButton button) {
-        int progressColor = color(R.color.plainMode);
+        int progressColor = color(R.color.colorAccent);
         int color = color(R.color.mb_gray);
         int progressCornerRadius = dimen(R.dimen.mb_corner_radius_4);
         int width = dimen(R.dimen.mb_width_200);

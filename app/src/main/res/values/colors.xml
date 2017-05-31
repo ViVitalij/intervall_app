@@ -6,10 +6,8 @@
     <color name="colorPrimary">#BDBDBD</color>
     <color name="colorPrimaryDark">#616161</color>
     <color name="colorAccent">#82b1ff</color>
-    <color name="accent">#ffffff</color>
     <color name="background">#616161</color>
     <color name="primary_background">#BDBDBD</color>
-    <color name="plainMode">#82b1ff</color>
     <color name="easyMode">#AED581</color>
     <color name="notSoEasyMode">#FF8A65</color>
 
