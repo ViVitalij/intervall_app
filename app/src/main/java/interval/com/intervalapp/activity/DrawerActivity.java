@@ -161,9 +161,13 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         }
         return name;
     }
+
+    //TODO move to fragment ModeActivity
     @OnClick(R.id.second_mode)
-    void secondModeClicked(){
-        startActivity(new Intent(getApplicationContext(), RunActivity.class));
+    void secondModeClicked() {
+        Intent intent = new Intent(getApplicationContext(), RunActivity.class);
+        intent.putExtra("modeName", "tabata");
+        startActivity(intent);
         Toast.makeText(getApplicationContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
     }
 }

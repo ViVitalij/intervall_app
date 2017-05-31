@@ -4,7 +4,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Chronometer;
@@ -22,8 +21,12 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
+import interval.com.intervalapp.database.RealmModeDatabase;
 import interval.com.intervalapp.database.RealmSongsDataBase;
+import interval.com.intervalapp.model.RunSection;
+import interval.com.intervalapp.model.RunningMode;
 import interval.com.intervalapp.model.Song;
+import io.realm.RealmList;
 
 public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener,
         Chronometer.OnChronometerTickListener {
@@ -37,6 +40,8 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     protected ToggleButton runButton;
     private List<Song> fastSongList;
     private List<Song> slowSongList;
+    private RealmList<RunSection> runMode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +49,24 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         setContentView(R.layout.activity_run);
         ButterKnife.bind(this);
         JodaTimeAndroid.init(this);
+
+        setSongsList();
+        setRunningMode();
+
+        mainChronometer.setOnChronometerTickListener(this);
+    }
+
+    private void setRunningMode() {
+        String modeNameFromIntent = getIntent().getStringExtra("modeName");
+        RealmModeDatabase realmModeDatabase = new RealmModeDatabase();
+        RunningMode runningMode = realmModeDatabase.readRunningMode(modeNameFromIntent);
+        runMode = runningMode.getRunMode();
+    }
+
+    private void setSongsList() {
         RealmSongsDataBase realmSongsDataBase = new RealmSongsDataBase();
         fastSongList = realmSongsDataBase.readSongList(Song.FAST);
         slowSongList = realmSongsDataBase.readSongList(Song.SLOW);
-        mainChronometer.setOnChronometerTickListener(this);
     }
 
     @OnCheckedChanged(R.id.run_button)
@@ -56,41 +75,23 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         if (isChecked) {
             //TODO change icon to pause
 
-            Toast.makeText(this, R.string.start_running, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.start_running, Toast.LENGTH_SHORT).show();
+
+            //TODO be aware when resume running
+
+
             mainChronometer.setBase(SystemClock.elapsedRealtime());
             mainChronometer.start();
 
-//            //TODO be aware when resume running
-//            RunningMode runModel = getFullRunModel();
-//            List<RunSection> runMode = runModel.getRunMode();
-//            if (runMode.isEmpty()) {
-//                RunSection runSection = runMode.get(0);
-//                Duration duration = runSection.getDuration();
-//                Intensity intensity = runSection.getIntensity();
-//                switch (intensity) {
-//                    case LOW:
-//                        startMusic(Song.SLOW, duration);
-//                        break;
-//                    case MEDIUM:
-//                        startMusic(Song.SLOW, duration);
-//                        break;
-//                    case HIGH:
-//                        startMusic(Song.FAST, duration);
-//                        break;
-//                    default:
-//                        startMusic(Song.SLOW, duration);
-//                        break;
-//                }
-//            }
         } else {
             //TODO change icon to play
-            mediaPlayer.pause();
-            Toast.makeText(this, "Pause", Toast.LENGTH_LONG).show();
+            mainChronometer.stop();
+            Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show();
         }
     }
 
-    //TODO when songList are empty
-    private void startMusic(String musicTempo, Long duration) {
+    //TODO when songsList are empty
+    private void startMusic(String musicTempo) {
         //TODO temporal
         List<Song> songList;
         if (musicTempo.equals(Song.FAST)) {
@@ -100,7 +101,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         }
 
 
-        Toast.makeText(this, musicTempo + " section", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, musicTempo + " section", Toast.LENGTH_SHORT).show();
 
         if (songList.isEmpty()) {
             mediaPlayer = new MediaPlayer();
@@ -118,13 +119,13 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
             mediaPlayer.start();
         }
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                mediaPlayer.seekTo(mediaPlayer.getDuration() - 1);
-                mediaPlayer.stop();
-            }
-        }, duration);
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            public void run() {
+//                mediaPlayer.seekTo(mediaPlayer.getDuration() - 1);
+//                mediaPlayer.stop();
+//            }
+//        }, duration);
     }
 
     @OnClick(R.id.stop_button)
@@ -184,6 +185,22 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
     @Override
     public void onChronometerTick(Chronometer chronometer) {
+//        RunSection runSection = runMode.get(0);
+//        Long duration = runSection.getDuration();
+//        String intensity = runSection.getIntensity();
+//
+//        if(intensity.equals(RunSection.LOW)){
+//            startMusic(Song.SLOW);
+//        } else if(intensity.equals(RunSection.MEDIUM)){
+//            startMusic(Song.FAST);
+//        } else if (intensity.equals(RunSection.HIGH)){
+//            startMusic(Song.FAST);
+//        } else {
+//            startMusic(Song.SLOW);
+//        }
+        if (chronometer.equals("0:20")) {
+            Toast.makeText(this, "HAAAAAAAA", Toast.LENGTH_LONG).show();
+        }
 
     }
 }
