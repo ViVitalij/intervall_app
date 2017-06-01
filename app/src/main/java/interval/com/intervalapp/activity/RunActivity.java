@@ -144,11 +144,13 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
         runButton.setChecked(false);
         chronometer.stop();
+        counter=0;
 
 
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
 
             mediaPlayer.stop();
+            mediaPlayer.release();
             //TODO ask about release() and error state
         }
         Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
