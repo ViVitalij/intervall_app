@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="Select your mode"
+            android:text="@string/select_your_mode"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="30sp" />
@@ -35,7 +35,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/mybutton"
             android:padding="12dp"
-            android:text="FAT BURNING"
+            android:text="@string/fat_burning"
             android:textColor="@color/white" />
 
         <android.support.v7.widget.AppCompatButton
@@ -46,7 +46,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/mybutton"
             android:padding="12dp"
-            android:text="CARDIO"
+            android:text="@string/cardio"
             android:textColor="@color/white" />
 
         <android.support.v7.widget.AppCompatButton
@@ -57,7 +57,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/mybutton"
             android:padding="12dp"
-            android:text="NEXT MODE"
+            android:text="@string/next_mode"
             android:textColor="@color/white" />
 
 

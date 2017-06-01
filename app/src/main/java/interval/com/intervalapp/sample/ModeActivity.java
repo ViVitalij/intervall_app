@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import interval.com.intervalapp.R;
 
+
 /**
  * Created by RENT on 2017-05-25.
  */
