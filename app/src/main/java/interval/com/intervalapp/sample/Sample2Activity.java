@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,7 +27,9 @@ public class Sample2Activity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ac_sample_lineral);
+        setContentView(R.layout.selected_mode_activity);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         final Chronometer mChronometer = (Chronometer) findViewById(R.id.chronometer);
 
@@ -69,8 +72,8 @@ public class Sample2Activity extends BaseActivity {
                 .cornerRadius(dimen(R.dimen.mb_height_56))
                 .width(dimen(R.dimen.mb_height_56))
                 .height(dimen(R.dimen.mb_height_56))
-                .color(color(R.color.easyMode))
-                .colorPressed(color(R.color.easyMode))
+                .color(color(R.color.start))
+                .colorPressed(color(R.color.start))
                 .text(getString(R.string.mb_button));
         btnMorph.morph(circle);
     }

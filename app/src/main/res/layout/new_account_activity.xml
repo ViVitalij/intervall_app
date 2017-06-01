@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="Create new account"
+            android:text="@string/create_new_account"
             android:elevation="20dp"
             android:backgroundTint="@color/colorPrimaryDark"
             android:textAlignment="center"
@@ -42,7 +42,7 @@
                 android:id="@+id/accountName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
+                android:hint="@string/name"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/white" />
         </android.support.design.widget.TextInputLayout>
@@ -59,7 +59,7 @@
                 android:id="@+id/accountSurname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Surname"
+                android:hint="@string/surname"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/white" />
         </android.support.design.widget.TextInputLayout>
@@ -76,7 +76,7 @@
                 android:id="@+id/accountEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/white" />
         </android.support.design.widget.TextInputLayout>
@@ -95,7 +95,7 @@
                 android:id="@+id/accountPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:textColor="@color/white"
                 android:visibility="visible" />
@@ -109,7 +109,7 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/mybutton"
             android:padding="5dp"
-            android:text="Create Account"
+            android:text="@string/create_account"
             android:textColor="@color/white" />
 
         <TextView
@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:gravity="center"
-            android:text="Forget password?"
+            android:text="@string/forget_password"
             android:textColor="@color/white"
             android:textSize="16dip" />
 

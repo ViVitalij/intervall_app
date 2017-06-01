@@ -8,8 +8,12 @@
     <color name="colorAccent">#82b1ff</color>
     <color name="background">#616161</color>
     <color name="primary_background">#BDBDBD</color>
-    <color name="easyMode">#AED581</color>
+    <color name="easyMode">#D6DEB5</color>
     <color name="notSoEasyMode">#A5868B</color>
+    <color name="start">#D6DEB5</color>
+    <color name="pause">#8ebbcf</color>
+    <color name="stop">#e0ff3e5d</color>
+
 
     <color name="black">#000000</color>
     <color name="jet">#222222</color>

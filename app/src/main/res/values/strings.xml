@@ -96,4 +96,11 @@
     <string name="fat_burning">FAT BURNING</string>
     <string name="next_mode">NEXT MODE</string>
     <string name="select_your_mode">Select your mode</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="forget_password">Forget password?</string>
 </resources>
