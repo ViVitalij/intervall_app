@@ -44,7 +44,6 @@ dependencies {
     compile 'org.parceler:parceler-api:1.1.7'
     compile 'com.github.woxthebox:draglistview:1.4.4'
     compile 'com.github.dmytrodanylyk:android-morphing-button:98a4986e56'
-    compile 'net.danlew:android.joda:2.9.9'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     annotationProcessor 'org.parceler:parceler:1.1.7'

@@ -4,14 +4,13 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import net.danlew.android.joda.JodaTimeAndroid;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,17 +44,15 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     @BindView(R.id.countdown_textView)
     protected TextView countdownTextView;
 
-
-    private Long duration = 0L;
     private Integer counter = 0;
-    private Long countdownValue;
+
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run);
         ButterKnife.bind(this);
-        JodaTimeAndroid.init(this);
 
         setSongsList();
         setRunningMode();
@@ -85,14 +82,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
             chronometer.setBase(SystemClock.elapsedRealtime());
             chronometer.start();
 
-//            RunSection runSection = runMode.get(0);
-//            Long duration = runSection.getDuration();
-//            String intensity = runSection.getIntensity();
-//
-//            startCountdownTimer(duration, intensity);
-//            Toast.makeText(this, "tabata started", Toast.LENGTH_SHORT).show();
-
-
+            handler.postDelayed(runnable, 100);
         } else {
             //TODO change icon to play
             chronometer.stop();
@@ -100,34 +90,50 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         }
     }
 
-    //TODO when songsList are empty
-    private void startMusic(String musicTempo) {
-        //TODO temporal
-        List<Song> songList;
-        if (musicTempo.equals(Song.FAST)) {
-            songList = fastSongList;
-        } else {
-            songList = slowSongList;
-        }
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (counter < runMode.size()) {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                RunSection runSection = runMode.get(counter);
+                Long duration = runSection.getDuration();
+                String intensity = runSection.getIntensity();
+                startMusic(intensity);
+                Toast.makeText(getApplicationContext(), intensity, Toast.LENGTH_LONG).show();
+                counter++;
 
-
-        Toast.makeText(this, musicTempo + " section", Toast.LENGTH_SHORT).show();
-
-        if (songList.isEmpty()) {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setOnCompletionListener(this);
-
-            Song song = songList.get(new Random().nextInt(songList.size()));
-            String stringSongUri = song.getUri();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            try {
-                mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(stringSongUri));
-                mediaPlayer.prepare();
-            } catch (IOException e) {
-                e.printStackTrace();
+                handler.postDelayed(this, duration);
+            } else {
+                handler.removeCallbacks(runnable);
             }
-            mediaPlayer.start();
         }
+    };
+
+    //TODO when songsList are empty
+    private void startMusic(String intensity) {
+        Song song;
+        if (intensity.equals(RunSection.HIGH)) {
+            song = fastSongList.get(new Random().nextInt(fastSongList.size()));
+        } else {
+            song = slowSongList.get(new Random().nextInt(slowSongList.size()));
+        }
+
+        mediaPlayer = new MediaPlayer();
+
+        //TODO ask if it can be somewhere else
+        mediaPlayer.setOnCompletionListener(this);
+
+        String stringSongUri = song.getUri();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        try {
+            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(stringSongUri));
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.start();
     }
 
     @OnClick(R.id.stop_button)
@@ -140,28 +146,34 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         chronometer.stop();
 
 
-//        if (mediaPlayer.isPlaying()) {
-//
-//            mediaPlayer.stop();
-//            mediaPlayer.release();
-//            mediaPlayer.seekTo(startingPosition);
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
 
-        //TODO necessary? /release
-//            mediaPlayer.reset();
-//        }
+            mediaPlayer.stop();
+            //TODO ask about release() and error state
+        }
         Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
-
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
         //TODO next song
-//        check(true);
-//        mediaPlayer.start();
-//        mediaPlayer.seekTo(startingPosition);
+        mediaPlayer.start();
     }
 
-    /* fade in and out
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+    }
+
+    @Override
+    public void onChronometerTick(Chronometer chronometer) {
+    }
+}
+
+/* fade in and out
         public void load(String path, boolean looping)
         {
             mediaPlayer = MediaPlayer.create(context, Uri.fromFile(new File(path)));
@@ -178,48 +190,3 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
                     @Override
                     {
     */
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mediaPlayer.release();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mediaPlayer.release();
-    }
-
-    @Override
-    public void onChronometerTick(Chronometer chronometer) {
-        long timeElapsed = SystemClock.elapsedRealtime() - chronometer.getBase();
-        boolean isInit = "00:00".equals(chronometer.getText());
-        if (isInit) {
-            RunSection runSection = runMode.get(counter++);
-            duration = runSection.getDuration();
-//            startMusic(runSection.getIntensity());
-        }
-        countdownValue = (duration - timeElapsed) / 1000;
-        countdownTextView.setText(String.valueOf(countdownValue));
-        if ((!isInit) && countdownValue <= 0 && counter < runMode.size()) {
-            RunSection nextRunSection = runMode.get(counter++);
-            duration = nextRunSection.getDuration();
-//            startMusic(nextRunSection.getIntensity());
-        }
-
-//        RunSection runSection = runMode.get(0);
-//        Long duration = runSection.getDuration();
-//        String intensity = runSection.getIntensity();
-//
-//        if(intensity.equals(RunSection.LOW)){
-//            startMusic(Song.SLOW);
-//        } else if(intensity.equals(RunSection.MEDIUM)){
-//            startMusic(Song.FAST);
-//        } else if (intensity.equals(RunSection.HIGH)){
-//            startMusic(Song.FAST);
-//        } else {
-//            startMusic(Song.SLOW);
-//        }
-    }
-}

@@ -34,11 +34,15 @@ public class App extends Application {
         RunSection fast = new RunSection(RunSection.HIGH, 5000L);
         RunSection slow = new RunSection(RunSection.LOW, 10000L);
         RunSection medium = new RunSection(RunSection.MEDIUM, 15000L);
+        RunSection medium2 = new RunSection(RunSection.MEDIUM, 15000L);
+        RunSection medium3 = new RunSection(RunSection.MEDIUM, 15000L);
 
         RealmList<RunSection> list = new RealmList<>();
         list.add(fast);
         list.add(slow);
         list.add(medium);
+        list.add(medium2);
+        list.add(medium3);
 
         RunningMode runningMode = new RunningMode();
         runningMode.setRunMode(list);
