@@ -1,4 +1,4 @@
-package interval.com.intervalapp.sample;
+package interval.com.intervalapp.activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,9 +10,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
 
-public class LoginLayout extends AppCompatActivity {
-
-
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +23,10 @@ public class LoginLayout extends AppCompatActivity {
         aboutus.setTypeface(type);
     }
 
-   @OnClick(R.id.new_account)
-    void newAccountClicked(){
-       Intent intent = new Intent(getApplicationContext(), NewAccountActivity.class);
-       startActivity(intent);
+    @OnClick(R.id.new_account)
+    void newAccountClicked() {
+        Intent intent = new Intent(getApplicationContext(), NewAccountActivity.class);
+        startActivity(intent);
     }
 }
 

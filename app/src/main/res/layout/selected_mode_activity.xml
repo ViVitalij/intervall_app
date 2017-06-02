@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="interval.com.intervalapp.sample.c.ScrollingActivity">
+    tools:context="interval.com.intervalapp.activity.c.ScrollingActivity">
 
 
     <android.support.design.widget.FloatingActionButton

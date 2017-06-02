@@ -1,4 +1,4 @@
-package interval.com.intervalapp.sample;
+package interval.com.intervalapp.activity;
 
 /**
  * Created by RENT on 2017-05-24.

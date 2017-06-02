@@ -24,4 +24,8 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="app_color">#8EAE3C</color>
+    <color name="accent2">#82b1ff</color>
+
 </resources>

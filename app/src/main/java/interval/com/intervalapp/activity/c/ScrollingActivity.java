@@ -1,4 +1,4 @@
-package interval.com.intervalapp.sample.c;
+package interval.com.intervalapp.activity.c;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

@@ -1,8 +1,9 @@
-package interval.com.intervalapp.sample;
+package interval.com.intervalapp.activity;
 
 import android.os.Bundle;
 
 import interval.com.intervalapp.R;
+import interval.com.intervalapp.activity.BaseActivity;
 
 
 /**
