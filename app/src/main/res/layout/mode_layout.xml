@@ -6,7 +6,6 @@
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
     android:theme="@style/LoginTheme">
-    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +17,7 @@
         android:paddingTop="24dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
@@ -28,7 +27,7 @@
             android:textSize="30sp" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/firstMode"
+            android:id="@+id/first_mode"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -39,7 +38,7 @@
             android:textColor="@color/white" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/secondMode"
+            android:id="@+id/second_mode"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -50,7 +49,7 @@
             android:textColor="@color/white" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/thirdMode"
+            android:id="@+id/third_mode"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"

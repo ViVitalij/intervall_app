@@ -22,7 +22,6 @@
     <string name="fat_burning">FAT BURNING</string>
     <string name="next_mode">NEXT MODE</string>
     <string name="select_your_mode">Select your mode</string>
-    <string name="create_new_account">Create new account</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="email">Email</string>
@@ -120,5 +119,8 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="app_name_no_space">IntervalApp</string>
+    <string name="login">Login</string>
+    <string name="create_new_account">No account yet? Create one</string>
 
 </resources>

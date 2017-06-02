@@ -12,7 +12,7 @@ import com.dd.morphingbutton.MorphingButton;
 import com.dd.morphingbutton.impl.LinearProgressButton;
 
 import interval.com.intervalapp.R;
-import interval.com.intervalapp.sample.Chronometer;
+import interval.com.intervalapp.chronometer.Chronometer;
 import interval.com.intervalapp.utils.ProgressGenerator;
 
 public class Sample2Activity extends BaseActivity {

@@ -55,7 +55,7 @@
 
         </LinearLayout>
 
-        <interval.com.intervalapp.sample.Chronometer
+        <Chronometer
             android:id="@+id/chronometer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

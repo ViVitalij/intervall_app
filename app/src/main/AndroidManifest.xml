@@ -12,8 +12,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".activity.LoginActivity">
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,20 +26,16 @@
             android:name=".activity.SongDragAndDropActivity"
             android:theme="@style/ToolbarTheme" />
         <activity android:name=".activity.RunActivity" />
-        <activity
-            android:name=".activity.DrawerActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activity.Sample2Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.DrawerActivity" />
+        <activity android:name=".activity.Sample2Activity" />
         <activity
             android:name=".activity.ModeActivity"
             android:theme="@style/LoginTheme" />
         <activity android:name=".activity.SelectedMode" />
         <activity
             android:name=".activity.c.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_scrolling" />
+        <activity android:name=".activity.NewAccountActivity" />
     </application>
 
 </manifest>
