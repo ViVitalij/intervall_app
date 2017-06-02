@@ -4,10 +4,11 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -59,30 +60,33 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     }
 
     @OnClick(R.id.fab)
-    protected void buttonClicked(View view){
+    protected void buttonClicked(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_music) {
+        if (id == R.id.nav_musicPicker) {
             Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
             chooseFile.setType("audio/*");
             chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             startActivityForResult(Intent.createChooser(chooseFile, "Choose a file"), REQUEST_PICK);
 
-            Toast.makeText(getApplicationContext(), "picker", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.music_picker, Toast.LENGTH_SHORT).show();
 
-        } else if (id == R.id.nav_profile) {
+        } else if (id == R.id.nav_musicList) {
             startActivity(new Intent(getApplicationContext(), SongDragAndDropActivity.class));
-            Toast.makeText(getApplicationContext(), "drag and drop", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.music_list, Toast.LENGTH_SHORT).show();
 
-        } else if (id == R.id.nav_history) {
+        } else if (id == R.id.nav_runScreen) {
+            startActivity(new Intent(getApplicationContext(), RunActivity.class));
+            Toast.makeText(getApplicationContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_settings) {
 
@@ -156,5 +160,14 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             name = c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
         }
         return name;
+    }
+
+    //TODO move to fragment ModeActivity
+    @OnClick(R.id.second_mode)
+    void secondModeClicked() {
+        Intent intent = new Intent(getApplicationContext(), RunActivity.class);
+        intent.putExtra("modeName", "tabata");
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
     }
 }

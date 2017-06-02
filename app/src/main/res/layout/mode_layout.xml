@@ -6,19 +6,19 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/firstMode"
+        android:id="@+id/first_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="FAT BURNING" />
 
     <Button
-        android:id="@+id/secondMode"
+        android:id="@+id/second_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="CARDIO" />
 
     <Button
-        android:id="@+id/thirdMode"
+        android:id="@+id/third_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Button" />
