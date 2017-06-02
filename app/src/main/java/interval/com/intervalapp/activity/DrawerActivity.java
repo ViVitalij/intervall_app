@@ -165,7 +165,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     //TODO move to fragment ModeActivity
     @OnClick(R.id.second_mode)
     void secondModeClicked() {
-        Intent intent = new Intent(getApplicationContext(), RunActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SelectedMode.class);
         intent.putExtra("modeName", "tabata");
         startActivity(intent);
         Toast.makeText(getApplicationContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
