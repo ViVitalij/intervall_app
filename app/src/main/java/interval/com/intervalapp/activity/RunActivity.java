@@ -4,13 +4,13 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +18,6 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
 import interval.com.intervalapp.database.RealmModeDatabase;
@@ -28,25 +27,24 @@ import interval.com.intervalapp.model.RunningMode;
 import interval.com.intervalapp.model.Song;
 import io.realm.RealmList;
 
-public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener, Chronometer.OnChronometerTickListener {
+public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
 
     @BindView(R.id.chronometer)
     protected Chronometer chronometer;
-
-    private MediaPlayer mediaPlayer;
-    private int startingPosition = 0;
-    @BindView(R.id.run_button)
-    protected ToggleButton runButton;
-    private List<Song> fastSongList;
-    private List<Song> slowSongList;
-    private RealmList<RunSection> runMode;
     @BindView(R.id.countdown_textView)
     protected TextView countdownTextView;
 
+    private MediaPlayer mediaPlayer;
+    private int startingPosition = 0;
+    private List<Song> fastSongList;
+    private List<Song> slowSongList;
+    private RealmList<RunSection> runMode;
     private Integer counter = 0;
-
+    //TODO new Handler() here or onCreate?
     private Handler handler = new Handler();
+    private CountDownTimer countDownTimer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +54,6 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
         setSongsList();
         setRunningMode();
-
-        chronometer.setOnChronometerTickListener(this);
     }
 
     private void setRunningMode() {
@@ -73,21 +69,48 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         slowSongList = realmSongsDataBase.readSongList(Song.SLOW);
     }
 
-    @OnCheckedChanged(R.id.run_button)
-    protected void check(boolean isChecked) {
-        if (isChecked) {
-            //TODO change icon to pause
-            //TODO be aware when resume running
+    @OnClick(R.id.start_button)
+    protected void startClicked() {
+        //TODO change icon to pause
+        //TODO be aware when resume running
 
-            chronometer.setBase(SystemClock.elapsedRealtime());
-            chronometer.start();
 
-            handler.postDelayed(runnable, 100);
-        } else {
-            //TODO change icon to play
-            chronometer.stop();
-            Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show();
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
+
+        handler.postDelayed(runnable, 100);
+    }
+
+    //TODO warning - not working
+    @OnClick(R.id.pause_button)
+    protected void pauseClicked() {
+
+        chronometer.stop();
+        mediaPlayer.pause();
+        Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @OnClick(R.id.stop_button)
+    protected void stopClicked() {
+        //TODO check if user really want to stop
+
+        //TODO change run_button icon to play
+
+        counter = 0;
+        chronometer.stop();
+        chronometer.setText("00:00");
+        countDownTimer.cancel();
+        countdownTextView.setText("0");
+
+        handler.removeCallbacks(runnable);
+
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            //TODO ask about release() and error state
         }
+        Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
     }
 
     private Runnable runnable = new Runnable() {
@@ -99,8 +122,11 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
                 }
                 RunSection runSection = runMode.get(counter);
                 Long duration = runSection.getDuration();
+                startCountDownTimer(duration);
                 String intensity = runSection.getIntensity();
-                startMusic(intensity);
+                if (!(fastSongList.size() == 0 && slowSongList.size() == 0)) {
+                    startMusic(intensity);
+                }
                 Toast.makeText(getApplicationContext(), intensity, Toast.LENGTH_LONG).show();
                 counter++;
 
@@ -111,7 +137,26 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         }
     };
 
+    private void startCountDownTimer(Long duration) {
+        countDownTimer = new CountDownTimer(duration, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countdownTextView.setText("" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                if (counter == runMode.size()) {
+                    countdownTextView.setText("done!");
+                } else {
+                    countdownTextView.setText("0");
+                }
+            }
+        };
+        countDownTimer.start();
+    }
+
     //TODO when songsList are empty
+    //TODO random with no repetitions
     private void startMusic(String intensity) {
         Song song;
         if (intensity.equals(RunSection.HIGH)) {
@@ -121,8 +166,6 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         }
 
         mediaPlayer = new MediaPlayer();
-
-        //TODO ask if it can be somewhere else
         mediaPlayer.setOnCompletionListener(this);
 
         String stringSongUri = song.getUri();
@@ -134,26 +177,6 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
             e.printStackTrace();
         }
         mediaPlayer.start();
-    }
-
-    @OnClick(R.id.stop_button)
-    protected void stopRunning() {
-        //TODO check if user really want to stop
-
-        //TODO change run_button icon to play
-
-        runButton.setChecked(false);
-        chronometer.stop();
-        counter=0;
-
-
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            //TODO ask about release() and error state
-        }
-        Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -168,10 +191,6 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         if (mediaPlayer != null) {
             mediaPlayer.release();
         }
-    }
-
-    @Override
-    public void onChronometerTick(Chronometer chronometer) {
     }
 }
 
