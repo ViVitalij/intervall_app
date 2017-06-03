@@ -3,26 +3,49 @@ package interval.com.intervalapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Chronometer;
 
 import com.dd.morphingbutton.MorphingButton;
 import com.dd.morphingbutton.impl.LinearProgressButton;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import interval.com.intervalapp.R;
-import interval.com.intervalapp.chronometer.Chronometer;
 import interval.com.intervalapp.utils.ProgressGenerator;
 
 public class SelectedMode extends BaseActivity {
-    private int mMorphCounter1 = 1;
-    Chronometer focus;
-    LinearProgressButton start;
+    @BindView(R.id.chronometer)
+    Chronometer chronometer;
+//    @BindView(R.id.start_button)
+//    LinearProgressButton startButton;
+
     boolean isStart;
+    private int mMorphCounter1 = 1;
 
     public static void startThisActivity(@NonNull Context context) {
         context.startActivity(new Intent(context, SelectedMode.class));
+    }
+
+
+    @OnClick(R.id.stop_button)
+    void stopButtonClicked() {
+
+    }
+
+    @OnClick(R.id.pause_button)
+    void pauseButtonClicked() {
+
+    }
+
+    @OnClick(R.id.start_button)
+    void startButtonClicked(View view) {
+        onMorphButton1Clicked((LinearProgressButton) view);
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
     }
 
     @Override
@@ -32,27 +55,17 @@ public class SelectedMode extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final Chronometer mChronometer = (Chronometer) findViewById(R.id.chronometer);
 
-        mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            public void onChronometerTick(Chronometer chronometer) {
-                if (chronometer.getText().toString().equalsIgnoreCase("00:05:0")) {
-                    chronometer.stop();
-                    Toast.makeText(getBaseContext(), "Reached the end.",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        final LinearProgressButton startButton = (LinearProgressButton) findViewById(R.id.startButton);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onMorphButton1Clicked(startButton);
-                mChronometer.start();
-            }
-        });
-        morphToSquare(startButton, 0);
+//        final LinearProgressButton startButton = (LinearProgressButton) findViewById(R.id.start_button);
+//        startButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                onMorphButton1Clicked(startButton);
+//                chronometer.setBase(SystemClock.elapsedRealtime());
+//                chronometer.start();
+//            }
+//        });
+//        morphToSquare(startButton, 0);
     }
 
 

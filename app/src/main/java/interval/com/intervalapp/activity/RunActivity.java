@@ -69,7 +69,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         slowSongList = realmSongsDataBase.readSongList(Song.SLOW);
     }
 
-    @OnClick(R.id.start_button)
+    @OnClick(R.id.start_button2)
     protected void startClicked() {
         //TODO change icon to pause
         //TODO be aware when resume running
@@ -82,7 +82,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     }
 
     //TODO warning - not working
-    @OnClick(R.id.pause_button)
+    @OnClick(R.id.pause_button2)
     protected void pauseClicked() {
 
         chronometer.stop();
@@ -91,7 +91,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     }
 
 
-    @OnClick(R.id.stop_button)
+    @OnClick(R.id.stop_button2)
     protected void stopClicked() {
         //TODO check if user really want to stop
 

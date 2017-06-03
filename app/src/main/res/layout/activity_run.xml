@@ -8,19 +8,19 @@
     android:weightSum="1">
 
     <Button
-        android:id="@+id/start_button"
+        android:id="@+id/start_button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start" />
 
     <Button
-        android:id="@+id/pause_button"
+        android:id="@+id/pause_button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10px"
         android:text="Pause" />
     <Button
-        android:id="@+id/stop_button"
+        android:id="@+id/stop_button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10px"
