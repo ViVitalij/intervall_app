@@ -16,7 +16,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.appName_textView)
     TextView aboutUsTextView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.login_button)
-    protected void loginButtonClicked(){
-        startActivity(new Intent(this, DrawerActivity.class));
+    protected void loginButtonClicked() {
+        startActivity(new Intent(this, ModeActivity.class));
     }
 }
 

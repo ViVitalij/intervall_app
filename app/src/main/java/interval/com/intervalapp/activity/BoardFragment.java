@@ -53,11 +53,12 @@ import io.realm.Realm;
 
 public class BoardFragment extends Fragment {
 
+    @BindView(R.id.board_view)
+    protected BoardView mBoardView;
+
     private ItemAdapter fastAdapter;
     private ItemAdapter slowAdapter;
     private Realm realm = Realm.getDefaultInstance();
-    @BindView(R.id.board_view)
-    protected BoardView mBoardView;
 
 
     public static BoardFragment newInstance() {
@@ -168,7 +169,7 @@ public class BoardFragment extends Fragment {
 
     @OnClick(R.id.approve_button)
     protected void buttonClicked() {
-        startActivity(new Intent(getContext(), DrawerActivity.class));
+        startActivity(new Intent(getContext(), ModeActivity.class));
     }
 
     private void addFastMusicColumnList() {

@@ -1,6 +1,5 @@
 package interval.com.intervalapp.model;
 
-
 import io.realm.RealmObject;
 import lombok.Getter;
 

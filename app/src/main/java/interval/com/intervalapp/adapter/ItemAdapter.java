@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.woxthebox.draglistview.DragItemAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import interval.com.intervalapp.R;

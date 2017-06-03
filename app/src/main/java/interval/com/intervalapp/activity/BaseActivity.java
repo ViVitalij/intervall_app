@@ -1,9 +1,5 @@
 package interval.com.intervalapp.activity;
 
-/**
- * Created by RENT on 2017-05-24.
- */
-
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IntegerRes;

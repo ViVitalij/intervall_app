@@ -8,6 +8,7 @@ import io.realm.Realm;
  */
 
 public class RealmModeDatabase {
+
     private Realm realm = Realm.getDefaultInstance();
 
     public void saveRunningMode(final RunningMode runningMode) {
@@ -24,9 +25,9 @@ public class RealmModeDatabase {
         return realm.where(RunningMode.class).equalTo("name", modeName).findFirst();
     }
 
-    public RunningMode findByHash(int hash){
-        for(RunningMode s: realm.where(RunningMode.class).findAll()){
-            if(s.hashCode() == hash){
+    public RunningMode findByHash(int hash) {
+        for (RunningMode s : realm.where(RunningMode.class).findAll()) {
+            if (s.hashCode() == hash) {
                 return s;
             }
         }

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="interval.com.intervalapp.activity.RunActivity"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:context="interval.com.intervalapp.activity.RunActivity">
 
     <Button
         android:id="@+id/start_button2"
@@ -19,22 +19,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10px"
         android:text="Pause" />
+
     <Button
         android:id="@+id/stop_button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10px"
         android:text="Stop" />
+
     <TextView
         android:id="@+id/countdown_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
     <Chronometer
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
 </LinearLayout>
