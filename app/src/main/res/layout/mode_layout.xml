@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/backlegs"
+        android:background="@drawable/back_legs"
         android:orientation="vertical"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/mybutton"
+            android:background="@drawable/my_button"
             android:padding="12dp"
             android:text="@string/fat_burning"
             android:textColor="@color/white" />
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/mybutton"
+            android:background="@drawable/my_button"
             android:padding="12dp"
             android:text="@string/cardio"
             android:textColor="@color/white" />
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/mybutton"
+            android:background="@drawable/my_button"
             android:padding="12dp"
             android:text="@string/next_mode"
             android:textColor="@color/white" />
@@ -65,7 +65,7 @@
             android:layout_height="match_parent">
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/newModeActionButton"
+                android:id="@+id/new_mode_action_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
