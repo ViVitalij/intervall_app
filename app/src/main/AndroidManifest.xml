@@ -27,11 +27,10 @@
             android:theme="@style/ToolbarTheme" />
         <activity android:name=".activity.RunActivity" />
         <activity android:name=".activity.DrawerActivity" />
-        <activity android:name=".activity.Sample2Activity" />
+        <activity android:name=".activity.SelectedMode" />
         <activity
             android:name=".activity.ModeActivity"
             android:theme="@style/LoginTheme" />
-        <activity android:name=".activity.SelectedMode" />
         <activity
             android:name=".activity.c.ScrollingActivity"
             android:label="@string/title_activity_scrolling" />
