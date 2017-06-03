@@ -1,11 +1,13 @@
 package interval.com.intervalapp.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Chronometer;
@@ -24,16 +26,17 @@ public class SelectedMode extends BaseActivity {
     @BindView(R.id.start_button)
     FloatingActionButton startButton;
 
-    boolean isStart;
-    private int mMorphCounter1 = 1;
-
-    public static void startThisActivity(@NonNull Context context) {
-        context.startActivity(new Intent(context, SelectedMode.class));
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.selected_mode_activity);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
     }
-
 
     @OnClick(R.id.stop_button)
     void stopButtonClicked() {
+        showAlertDialog();
 
     }
 
@@ -48,11 +51,30 @@ public class SelectedMode extends BaseActivity {
         chronometer.start();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.selected_mode_activity);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+    private void showAlertDialog() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Are you sure fatass?");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(getApplicationContext(), SummaryActivity.class);
+                        startActivity(intent);
+                        dialog.cancel();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 }
