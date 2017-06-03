@@ -121,5 +121,6 @@
     <string name="app_name_no_space">IntervalApp</string>
     <string name="login">Login</string>
     <string name="create_new_account">No account yet? Create one</string>
+    <string name="delete">Delete</string>
 
 </resources>

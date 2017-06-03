@@ -14,8 +14,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,8 +29,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
+import interval.com.intervalapp.adapter.TrybRowAdapter;
+import interval.com.intervalapp.database.RealmModeDatabase;
 import interval.com.intervalapp.database.RealmSongsDataBase;
+import interval.com.intervalapp.model.RunningMode;
 import interval.com.intervalapp.model.Song;
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 /**
  * Created by m.losK on 19.05.2017.
@@ -38,6 +48,12 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
     protected DrawerLayout drawer;
     @BindView(R.id.nav_view)
     protected NavigationView navigationView;
+    @BindView(R.id.listView)
+    protected ListView listView;
+
+    private TrybRowAdapter rowAdapter;
+    private RealmResults<RunningMode> runningModes;
+    private Realm realm = Realm.getDefaultInstance();
 
     private final static int REQUEST_PICK = 2;
     private String name;
@@ -50,6 +66,8 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+
+        initList();
     }
 
     @OnClick(R.id.fab)
@@ -144,12 +162,54 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
         return name;
     }
 
-    //TODO move to fragment ModeActivity
-    @OnClick(R.id.second_mode)
-    void secondModeClicked() {
-        Intent intent = new Intent(getApplicationContext(), SelectedMode.class);
-        intent.putExtra("modeName", "tabata");
-        startActivity(intent);
-        Toast.makeText(getApplicationContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
+//    //TODO move to fragment ModeActivity
+//    @OnClick(R.id.second_mode)
+//    void secondModeClicked() {
+//        Intent intent = new Intent(getApplicationContext(), SelectedMode.class);
+//        intent.putExtra("modeName", "tabata");
+//        startActivity(intent);
+//        Toast.makeText(getApplicationContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
+//    }
+
+    private void initList() {
+        RealmModeDatabase base = new RealmModeDatabase();
+        runningModes = base.readAllModes();
+        rowAdapter = new TrybRowAdapter(this, runningModes);
+        listView.setAdapter(rowAdapter);
+        registerForContextMenu(listView);
+        runningModes.addChangeListener(new RealmChangeListener<RealmResults<RunningMode>>() {
+            @Override
+            public void onChange(RealmResults<RunningMode> runningModes) {
+                rowAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        switch (item.getItemId()) {
+            case R.id.delete:
+                final RunningMode mode = rowAdapter.getItem(info.position);
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        mode.deleteFromRealm();
+                        ;
+                    }
+                });
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }

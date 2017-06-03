@@ -18,10 +18,10 @@
             android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.SongDragAndDropActivity"
             android:theme="@style/ToolbarTheme" />
@@ -29,6 +29,7 @@
         <activity android:name=".activity.ModeActivity" />
         <activity android:name=".activity.SelectedMode" />
         <activity android:name=".activity.NewAccountActivity" />
+        <activity android:name=".activity.SummaryActivity"></activity>
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package interval.com.intervalapp.database;
 
 import interval.com.intervalapp.model.RunningMode;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by m.losK on 2017-05-30.
@@ -23,6 +24,11 @@ public class RealmModeDatabase {
     public RunningMode readRunningMode(String modeName) {
 
         return realm.where(RunningMode.class).equalTo("name", modeName).findFirst();
+    }
+
+    public RealmResults<RunningMode> readAllModes() {
+        return realm.where(RunningMode.class).findAll();
+
     }
 
     public RunningMode findByHash(int hash) {
