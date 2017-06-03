@@ -121,6 +121,22 @@
     <string name="app_name_no_space">IntervalApp</string>
     <string name="login">Login</string>
     <string name="create_new_account">No account yet? Create one</string>
-    <string name="delete">Delete</string>
-
+    <string name="lbl_forgot_password">forgot_password</string>
+    <string name="forgot_password_msg">forgot_password_msg</string>
+    <string name="hint_email">hint_email</string>
+    <string name="btn_reset_password">btn_reset_password</string>
+    <string name="btn_back">btn_back</string>
+    <string name="btn_sign_out">btn_sign_out</string>
+    <string name="remove_user">remove_user</string>
+    <string name="send_password_reset_email">send_password_reset_email</string>
+    <string name="change_password">change_password</string>
+    <string name="change_email">change_email</string>
+    <string name="btn_remove">btn_remove</string>
+    <string name="btn_send">btn_send</string>
+    <string name="btn_change">btn_change</string>
+    <string name="new_pass">new_pass</string>
+    <string name="hint_password">hint_password</string>
+    <string name="hint_new_email">hint_new_email</string>
+    <string name="minimum_password">minimum_password</string>
+    <string name="auth_failed">authentication_failed</string>
 </resources>
