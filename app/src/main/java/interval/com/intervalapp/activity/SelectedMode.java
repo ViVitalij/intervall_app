@@ -13,6 +13,7 @@ import com.dd.morphingbutton.MorphingButton;
 import com.dd.morphingbutton.impl.LinearProgressButton;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
 import interval.com.intervalapp.utils.ProgressGenerator;
@@ -20,8 +21,10 @@ import interval.com.intervalapp.utils.ProgressGenerator;
 public class SelectedMode extends BaseActivity {
     @BindView(R.id.chronometer)
     Chronometer chronometer;
-//    @BindView(R.id.start_button)
-//    LinearProgressButton startButton;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.start_button)
+    LinearProgressButton startButton;
 
     boolean isStart;
     private int mMorphCounter1 = 1;
@@ -52,20 +55,9 @@ public class SelectedMode extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selected_mode_activity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
-
-//        final LinearProgressButton startButton = (LinearProgressButton) findViewById(R.id.start_button);
-//        startButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                onMorphButton1Clicked(startButton);
-//                chronometer.setBase(SystemClock.elapsedRealtime());
-//                chronometer.start();
-//            }
-//        });
-//        morphToSquare(startButton, 0);
+        morphToSquare(startButton, 0);
     }
 
 
