@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/back_legs"
         android:orientation="vertical"
         android:paddingLeft="24dp"
@@ -58,7 +58,7 @@
             android:padding="12dp"
             android:text="@string/next_mode"
             android:textColor="@color/white" />
-        
+
     </LinearLayout>
 
 </ScrollView>

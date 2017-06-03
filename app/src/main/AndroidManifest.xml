@@ -31,9 +31,6 @@
         <activity
             android:name=".activity.ModeActivity"
             android:theme="@style/LoginTheme" />
-        <activity
-            android:name=".activity.c.ScrollingActivity"
-            android:label="@string/title_activity_scrolling" />
         <activity android:name=".activity.NewAccountActivity" />
     </application>
 
