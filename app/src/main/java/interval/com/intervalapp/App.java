@@ -1,4 +1,4 @@
-package interval.com.intervalapp.activity;
+package interval.com.intervalapp;
 
 import android.app.Application;
 
@@ -10,6 +10,7 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 
 public class App extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();

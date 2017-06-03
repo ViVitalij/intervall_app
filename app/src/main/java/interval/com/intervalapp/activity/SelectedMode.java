@@ -19,6 +19,7 @@ import interval.com.intervalapp.R;
 import interval.com.intervalapp.utils.ProgressGenerator;
 
 public class SelectedMode extends BaseActivity {
+
     @BindView(R.id.chronometer)
     Chronometer chronometer;
     @BindView(R.id.toolbar)

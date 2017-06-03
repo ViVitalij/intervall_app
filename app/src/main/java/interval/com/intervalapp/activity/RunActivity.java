@@ -29,7 +29,6 @@ import io.realm.RealmList;
 
 public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
-
     @BindView(R.id.chronometer)
     protected Chronometer chronometer;
     @BindView(R.id.countdown_textView)

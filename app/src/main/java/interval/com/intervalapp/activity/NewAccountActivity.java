@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import interval.com.intervalapp.R;
 
-
 public class NewAccountActivity extends AppCompatActivity {
 
     @Override
