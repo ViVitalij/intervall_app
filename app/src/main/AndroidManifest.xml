@@ -30,6 +30,7 @@
         <activity android:name=".activity.SelectedMode" />
         <activity android:name=".activity.NewAccountActivity" />
         <activity android:name=".activity.SummaryActivity"></activity>
+        <activity android:name=".activity.CreateModeActivity"></activity>
     </application>
 
 </manifest>

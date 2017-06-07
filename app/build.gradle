@@ -7,7 +7,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "interval.com.intervalapp"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -49,5 +49,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     annotationProcessor 'org.parceler:parceler:1.1.7'
     provided 'org.projectlombok:lombok:1.12.6'
+    compile 'us.belka:androidtoggleswitch:1.2.2'
+    compile 'com.github.bmarrdev:android-DecoView-charting:v0.9.3'
+    compile 'com.github.polok:clicknumberpicker:0.1.2'
+    compile 'com.github.BeppiMenozzi:TriStateToggleButton:1.1.4'
 }
 

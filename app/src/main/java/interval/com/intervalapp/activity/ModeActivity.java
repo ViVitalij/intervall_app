@@ -72,8 +72,9 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
 
     @OnClick(R.id.fab)
     protected void buttonClicked(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        Intent intent = new Intent(getApplicationContext(),CreateModeActivity.class);
+        startActivity(intent);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
