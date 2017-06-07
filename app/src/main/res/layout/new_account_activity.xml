@@ -27,7 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:theme="@style/FilterInputLayout">
 
         <EditText
             android:id="@+id/name_editText"
@@ -41,7 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:theme="@style/FilterInputLayout">
 
         <EditText
             android:id="@+id/surname_editText"
@@ -55,7 +57,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:theme="@style/FilterInputLayout">
 
         <EditText
             android:id="@+id/email_editText"
@@ -70,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:theme="@style/FilterInputLayout"
         app:passwordToggleEnabled="true"
         app:passwordToggleTint="@color/white">
 
@@ -92,5 +96,12 @@
         android:padding="5dp"
         android:text="@string/create_account"
         android:textColor="@color/white" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
 
 </LinearLayout>

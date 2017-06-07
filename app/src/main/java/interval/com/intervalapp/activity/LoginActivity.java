@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailEditText;
     @BindView(R.id.password_editText)
     EditText passwordEditText;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private FirebaseAuth authentication;
 
@@ -52,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.forget_password_textView)
-    void forgetPasswordClicked(){
+    void forgetPasswordClicked() {
         startActivity(new Intent(this, ResetPasswordActivity.class));
     }
 
@@ -68,10 +72,12 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), R.string.enter_password, Toast.LENGTH_SHORT).show();
             return;
         }
+        progressBar.setVisibility(View.VISIBLE);
         authentication.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
                         if (!task.isSuccessful()) {
                             if (password.length() < 6) {
                                 Toast.makeText(LoginActivity.this, getString(R.string.minimum_password),
