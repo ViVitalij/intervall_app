@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.ModeActivity"
             android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,8 @@
             android:name=".activity.SongDragAndDropActivity"
             android:theme="@style/ToolbarTheme" />
         <activity android:name=".activity.RunActivity" />
-        <activity android:name=".activity.ModeActivity" />
+        <activity android:name=".activity.LoginActivity"
+            android:theme="@style/LoginTheme"/>
         <activity android:name=".activity.SelectedMode" />
         <activity android:name=".activity.NewAccountActivity" />
         <activity android:name=".activity.SummaryActivity"/>
