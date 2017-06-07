@@ -23,7 +23,7 @@ import interval.com.intervalapp.R;
 public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.appName_textView)
-    TextView aboutUsTextView;
+    TextView appNameTextView;
     @BindView(R.id.email_editText)
     EditText emailEditText;
     @BindView(R.id.password_editText)
@@ -43,13 +43,17 @@ public class LoginActivity extends AppCompatActivity {
     private void setHeaderStyle() {
         String fontPath = getString(R.string.pacifico_font_path);
         Typeface type = Typeface.createFromAsset(getAssets(), fontPath);
-        aboutUsTextView.setTypeface(type);
+        appNameTextView.setTypeface(type);
     }
 
     @OnClick(R.id.new_account_textView)
     void newAccountClicked() {
-        Intent intent = new Intent(getApplicationContext(), NewAccountActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, NewAccountActivity.class));
+    }
+
+    @OnClick(R.id.forget_password_textView)
+    void forgetPasswordClicked(){
+        startActivity(new Intent(this, ResetPasswordActivity.class));
     }
 
     @OnClick(R.id.login_button)
