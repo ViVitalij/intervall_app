@@ -8,15 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AnticipateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.hookedonplay.decoviewlib.DecoView;
-import com.hookedonplay.decoviewlib.charts.DecoDrawEffect;
-import com.hookedonplay.decoviewlib.charts.SeriesItem;
-import com.hookedonplay.decoviewlib.events.DecoEvent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,30 +27,23 @@ import pl.polak.clicknumberpicker.ClickNumberPickerView;
 public class CreateModeActivity extends AppCompatActivity {
     @BindView(R.id.add_mode)
     protected Button addMode;
-    @BindView(R.id.mode_name_editor)
+    @BindView(R.id.mode_name)
     protected EditText modeName;
     @BindView(R.id.delete_mode)
     protected Button deleteMode;
 
-    @BindView(R.id.desription)
-    protected TextView description;
-    @BindView(R.id.textPercentage)
-    protected TextView percentage;
+    @BindView(R.id.description)
+    protected EditText description;
     @BindView(R.id.intensityTextView)
     protected TextView intensityText;
 
 
     private Realm realm = Realm.getDefaultInstance();
-    private int mBackIndex;
-    private int mSeries1Index;
-    private int mSeries2Index;
-    private int mSeries3Index;
-    private final float mSeriesMax = 50f;
-    private DecoView mDecoView;
+
     static Dialog d;
     private RealmList<RunSection> sectionList;
-    String intensityMode = "";
-    Long duration = (long) 0;
+    String intensityMode;
+    Long duration;
 
 
     @Override
@@ -64,20 +51,8 @@ public class CreateModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_mode_layout);
         ButterKnife.bind(this);
-
-
-        mDecoView = (DecoView) findViewById(R.id.dynamicArcView);
-        createBackSeries();
-        createEvents();
         toogleButton();
         sectionList = new RealmList<>();
-        RunSection sectionTMP = new RunSection(intensityMode, duration);
-        sectionList.add(sectionTMP);
-        createDataSeries3();
-        createDataSeries2();
-        createDataSeries1();
-
-
     }
 
 
@@ -105,191 +80,6 @@ public class CreateModeActivity extends AppCompatActivity {
         }
     }
 
-    private void createBackSeries() {
-        SeriesItem seriesItem = new SeriesItem.Builder(Color.parseColor("#FFE2E2E2"))
-                .setRange(0, mSeriesMax, 0)
-                .setInitialVisibility(true)
-                .build();
-
-        mBackIndex = mDecoView.addSeries(seriesItem);
-    }
-
-    private void createDataSeries1() {
-        final SeriesItem seriesItem = new SeriesItem.Builder(Color.parseColor("#FFFF8800"))
-                .setRange(0, mSeriesMax, 0)
-                .setInitialVisibility(false)
-                .build();
-
-        final TextView textPercentage = (TextView) findViewById(R.id.textPercentage);
-        seriesItem.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
-            @Override
-            public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
-                float percentFilled = ((currentPosition - seriesItem.getMinValue()) / (seriesItem.getMaxValue() - seriesItem.getMinValue()));
-            }
-
-            @Override
-            public void onSeriesItemDisplayProgress(float percentComplete) {
-
-            }
-        });
-
-
-        seriesItem.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
-            @Override
-            public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
-
-            }
-
-            @Override
-            public void onSeriesItemDisplayProgress(float percentComplete) {
-
-            }
-        });
-
-        seriesItem.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
-            @Override
-            public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
-            }
-
-            @Override
-            public void onSeriesItemDisplayProgress(float percentComplete) {
-
-            }
-        });
-
-        mSeries1Index = mDecoView.addSeries(seriesItem);
-    }
-
-    private void createDataSeries2() {
-        final SeriesItem seriesItem = new SeriesItem.Builder(Color.parseColor("#FFFF4444"))
-                .setRange(0, mSeriesMax, 0)
-                .setInitialVisibility(false)
-                .build();
-
-
-        seriesItem.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
-            @Override
-            public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
-            }
-
-            @Override
-            public void onSeriesItemDisplayProgress(float percentComplete) {
-
-            }
-        });
-
-        mSeries2Index = mDecoView.addSeries(seriesItem);
-    }
-
-    private void createDataSeries3() {
-        final SeriesItem seriesItem = new SeriesItem.Builder(Color.parseColor("#FF6699FF"))
-                .setRange(0, mSeriesMax, 0)
-                .setInitialVisibility(false)
-                .build();
-
-
-        seriesItem.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
-            @Override
-            public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
-            }
-
-            @Override
-            public void onSeriesItemDisplayProgress(float percentComplete) {
-
-            }
-        });
-
-        mSeries3Index = mDecoView.addSeries(seriesItem);
-    }
-
-    private void createEvents() {
-        mDecoView.executeReset();
-
-        mDecoView.addEvent(new DecoEvent.Builder(mSeriesMax)
-                .setIndex(mBackIndex)
-                .setDuration(3000)
-                .setDelay(100)
-                .build());
-
-        mDecoView.addEvent(new DecoEvent.Builder(DecoDrawEffect.EffectType.EFFECT_SPIRAL_OUT)
-                .setIndex(mSeries1Index)
-                .setDuration(2000)
-                .setDelay(1250)
-                .build());
-
-        mDecoView.addEvent(new DecoEvent.Builder(42.4f)
-                .setIndex(mSeries1Index)
-                .setDelay(3250)
-                .build());
-
-        mDecoView.addEvent(new DecoEvent.Builder(DecoDrawEffect.EffectType.EFFECT_SPIRAL_OUT)
-                .setIndex(mSeries2Index)
-                .setDuration(1000)
-                .setEffectRotations(1)
-                .setDelay(7000)
-                .build());
-
-        mDecoView.addEvent(new DecoEvent.Builder(16.3f)
-                .setIndex(mSeries2Index)
-                .setDelay(8500)
-                .build());
-
-        mDecoView.addEvent(new DecoEvent.Builder(DecoDrawEffect.EffectType.EFFECT_SPIRAL_OUT)
-                .setIndex(mSeries3Index)
-                .setDuration(1000)
-                .setEffectRotations(1)
-                .setDelay(12500)
-                .build());
-
-        mDecoView.addEvent(new DecoEvent.Builder(4.36f).setIndex(mSeries3Index).setDelay(14000).build());
-
-        mDecoView.addEvent(new DecoEvent.Builder(0).setIndex(mSeries3Index).setDelay(18000).build());
-
-        mDecoView.addEvent(new DecoEvent.Builder(0).setIndex(mSeries2Index).setDelay(18000).build());
-
-        mDecoView.addEvent(new DecoEvent.Builder(0)
-                .setIndex(mSeries1Index)
-                .setDelay(20000)
-                .setDuration(1000)
-                .setInterpolator(new AnticipateInterpolator())
-                .setListener(new DecoEvent.ExecuteEventListener() {
-                    @Override
-                    public void onEventStart(DecoEvent decoEvent) {
-
-                    }
-
-                    @Override
-                    public void onEventEnd(DecoEvent decoEvent) {
-                        resetText();
-                    }
-                })
-                .build());
-
-        mDecoView.addEvent(new DecoEvent.Builder(DecoDrawEffect.EffectType.EFFECT_SPIRAL_EXPLODE)
-                .setIndex(mSeries1Index)
-                .setDelay(21000)
-                .setDuration(3000)
-                .setDisplayText("GOAL!")
-                .setListener(new DecoEvent.ExecuteEventListener() {
-                    @Override
-                    public void onEventStart(DecoEvent decoEvent) {
-
-                    }
-
-                    @Override
-                    public void onEventEnd(DecoEvent decoEvent) {
-                        createEvents();
-                    }
-                })
-                .build());
-
-        resetText();
-    }
-
-    private void resetText() {
-        ((TextView) findViewById(R.id.textPercentage)).setText("");
-
-    }
 
     public void showPicker() {
         d = new Dialog(this);
@@ -346,9 +136,3 @@ public class CreateModeActivity extends AppCompatActivity {
 
     }
 }
-
-
-
-
-
-
