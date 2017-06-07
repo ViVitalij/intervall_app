@@ -16,6 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import interval.com.intervalapp.R;
+import interval.com.intervalapp.activity.RunActivity;
 import interval.com.intervalapp.activity.SelectedMode;
 import interval.com.intervalapp.model.RunningMode;
 
@@ -40,7 +41,7 @@ public class TrybRowAdapter extends ArrayAdapter<RunningMode> {
         rowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), SelectedMode.class);
+                Intent intent = new Intent(getContext(), RunActivity.class);
                 intent.putExtra("modeName", rowButton.getText());
                 getContext().startActivity(intent);
                 Toast.makeText(getContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
