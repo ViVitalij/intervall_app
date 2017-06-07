@@ -137,6 +137,9 @@
     <string name="new_pass">new_pass</string>
     <string name="hint_password">hint_password</string>
     <string name="hint_new_email">hint_new_email</string>
-    <string name="minimum_password">minimum_password</string>
-    <string name="auth_failed">authentication_failed</string>
+    <string name="minimum_password">Password should contain at least 6 characters</string>
+    <string name="auth_failed">Authentication failed, please try later</string>
+    <string name="enter_email">Enter email address!</string>
+    <string name="enter_password">Enter password!</string>
+    <string name="pacifico_font_path">fonts/Pacifico.ttf</string>
 </resources>
