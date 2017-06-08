@@ -1,7 +1,9 @@
 package interval.com.intervalapp.activity;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -11,9 +13,11 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,6 +48,7 @@ import io.realm.RealmResults;
 
 public class ModeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int READ_EXTERNAL_STORAGE_REQUEST = 234;
     @BindView(R.id.drawer_layout)
     protected DrawerLayout drawer;
     @BindView(R.id.nav_view)
@@ -84,6 +89,12 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_musicPicker) {
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}
+                , READ_EXTERNAL_STORAGE_REQUEST);
+                Log.i("TAG", "PERMISSION NEEDED");
+                return false;
+            }
             Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
             chooseFile.setType("audio/*");
             chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
