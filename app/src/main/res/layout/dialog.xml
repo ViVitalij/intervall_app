@@ -1,67 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/colorPrimaryDark"
->
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:background="#efefef"
+    android:gravity="center"
+    android:orientation="vertical"
+    app:picker_corner_radius="20">
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set interval time"
+        android:layout_gravity="center"
+        android:layout_marginBottom="35dp"
+        android:textSize="25sp"/>
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/minutes"
+            android:textSize="20sp" />
+
+        <pl.polak.clicknumberpicker.ClickNumberPickerView
+            android:id="@+id/minutePicker"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:decimal_number="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:max_value="60"
+            app:picker_corner_radius="20"
+            app:pickers_background_color="#8d8d8d"
+            app:value_background_color="#bdbdbd"
+            app:value_text_color="@android:color/white" />
 
 
-
-    <pl.polak.clicknumberpicker.ClickNumberPickerView
-        android:id="@+id/minutePicker"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:picker_corner_radius="10"
-        app:pickers_background_color="#3F51B5"
-        app:swipe_enabled="false"
-        app:value="0"
-        app:max_value="60"
-        app:value_background_color="#5C6BC0"
-        app:value_text_color="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.96"
-        app:layout_constraintHorizontal_bias="0.866"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:text="@string/seconds"
+            android:textSize="20sp" />
 
         <pl.polak.clicknumberpicker.ClickNumberPickerView
             android:id="@+id/secondsPicker"
             android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="71dp"
-            app:decimal_number="2"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:decimal_number="0"
             app:integer_priority="false"
             app:picker_corner_radius="20"
-            app:pickers_background_color="#424242"
+            app:pickers_background_color="#8d8d8d"
             app:step="1"
-            app:swipe_animation="false"
-            app:swipe_enabled="false"
             app:value_animation_down="true"
             app:value_animation_up="true"
-            app:value_background_color="#212121"
+            app:value_background_color="#bdbdbd"
             app:value_text_color="@android:color/white"
-            app:value_view_offset="15"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true" />
-    </pl.polak.clicknumberpicker.ClickNumberPickerView>
+            app:value_view_offset="15" />
+
+    </GridLayout>
+
     <Button
+        android:id="@+id/set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/minutePicker"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
-        android:id="@+id/set"
-        android:text="@string/set"/>
-
-
-</RelativeLayout>
+        android:layout_marginTop="15dp"
+        android:background="@drawable/my_button"
+        android:text="@string/set"
+        android:textColor="@color/white" />
+</LinearLayout>

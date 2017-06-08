@@ -10,12 +10,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.widget.Chronometer;
 
-import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
+
+import static interval.com.intervalapp.R.id.circuralProgress;
 
 public class SelectedMode extends BaseActivity {
 
@@ -25,7 +26,7 @@ public class SelectedMode extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.start_button)
     FloatingActionButton startButton;
-    @BindView(R.id.circuralProgress)
+    @BindView(circuralProgress)
     CircularProgressBar circularProgressBar;
 
     @Override
@@ -35,7 +36,7 @@ public class SelectedMode extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        CircularProgressBar circularProgressBar = (CircularProgressBar)findViewById(R.id.circuralProgress);
+        CircularProgressBar circularProgressBar = (CircularProgressBar) findViewById(circuralProgress);
         circularProgressBar.setColor(ContextCompat.getColor(this, R.color.start));
         circularProgressBar.setBackgroundColor(ContextCompat.getColor(this, R.color.pause));
         circularProgressBar.setProgressBarWidth(getResources().getDimension(R.dimen.progressBarWidth));
@@ -46,11 +47,21 @@ public class SelectedMode extends BaseActivity {
 
     @OnClick(R.id.stop_button)
     void stopButtonClicked() {
+        circularProgressBar.stopAnimation();
+        circularProgressBar.setProgress(0);
         showAlertDialog();
     }
 
     @OnClick(R.id.pause_button)
     void pauseButtonClicked() {
+
+        circularProgressBar.stopAnimation();
+//        float prodresStatus = circularProgressBar.getProgress();
+//        circularProgressBar.setProgress(prodresStatus);
+//        circularProgressBar.getAnimation().cancel();
+//        float prodresStatus = circularProgressBar.getProgress();
+//        circularProgressBar
+//        circularProgressBar.setProgress(prodresStatus);
     }
 
     @OnClick(R.id.start_button)
@@ -80,6 +91,8 @@ public class SelectedMode extends BaseActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        circularProgressBar.stopAnimation();
+                        circularProgressBar.setProgress(0);
                     }
                 });
 
