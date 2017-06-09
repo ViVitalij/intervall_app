@@ -164,7 +164,7 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
                 "");
 
         if (null == c) {
-            // ERROR
+            Log.i("TAG", "getMP3Id error");
         }
 
         while (c.moveToNext()) {

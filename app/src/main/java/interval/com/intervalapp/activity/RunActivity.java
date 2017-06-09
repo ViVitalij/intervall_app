@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     private Handler handler = new Handler();
     private CountDownTimer countDownTimer;
 
+    private final static String TAG = "TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +108,8 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
-            mediaPlayer.reset();
-            //TODO ask about release() and error state
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
         Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
     }
@@ -118,6 +120,9 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
             if (counter < runMode.size()) {
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
                 }
                 RunSection runSection = runMode.get(counter);
                 Long duration = runSection.getDuration();
@@ -163,18 +168,38 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         } else {
             song = slowSongList.get(new Random().nextInt(slowSongList.size()));
         }
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(this);
 
-        String stringSongUri = song.getUri();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        Uri songUri = Uri.parse(song.getUri());
+        Log.i(TAG, songUri.toString());
         try {
-            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(stringSongUri));
-            mediaPlayer.prepare();
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setOnCompletionListener(this);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setDataSource(this, songUri);
+        } catch (IllegalStateException e) {
+            Log.d(TAG, "IllegalStateException: " + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d(TAG, "IOException: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "IllegalArgumentException: " + e.getMessage());
+        } catch (SecurityException e) {
+            Log.d(TAG, "SecurityException: " + e.getMessage());
         }
-        mediaPlayer.start();
+
+        try {
+            mediaPlayer.prepareAsync();
+        } catch (IllegalStateException e) {
+            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
+        }
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+
+        {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mediaPlayer.start();
+            }
+        });
+//        mediaPlayer.start();
     }
 
     @Override
@@ -187,6 +212,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     protected void onDestroy() {
         super.onDestroy();
         if (mediaPlayer != null) {
+            mediaPlayer.reset();
             mediaPlayer.release();
             mediaPlayer = null;
         }
