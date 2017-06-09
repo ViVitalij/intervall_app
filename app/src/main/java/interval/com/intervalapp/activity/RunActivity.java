@@ -101,7 +101,9 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         counter = 0;
         chronometer.stop();
         chronometer.setText("00:00");
-        countDownTimer.cancel();
+        if(countDownTimer!=null){
+            countDownTimer.cancel();
+        }
         countdownTextView.setText("0");
 
         handler.removeCallbacks(runnable);
@@ -210,12 +212,12 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (mediaPlayer != null) {
-            mediaPlayer.reset();
+            mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
         }
+        super.onDestroy();
     }
 }
 

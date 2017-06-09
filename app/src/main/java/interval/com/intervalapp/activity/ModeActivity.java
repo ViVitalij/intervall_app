@@ -95,7 +95,7 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
                 Log.i("TAG", "PERMISSION NEEDED");
                 return false;
             }
-            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
             chooseFile.setType("audio/*");
             chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             startActivityForResult(Intent.createChooser(chooseFile, "Choose a file"), REQUEST_PICK);
