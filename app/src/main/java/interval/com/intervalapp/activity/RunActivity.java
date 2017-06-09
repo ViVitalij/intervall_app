@@ -163,7 +163,6 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         } else {
             song = slowSongList.get(new Random().nextInt(slowSongList.size()));
         }
-
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(this);
 
@@ -189,6 +188,7 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         super.onDestroy();
         if (mediaPlayer != null) {
             mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 }

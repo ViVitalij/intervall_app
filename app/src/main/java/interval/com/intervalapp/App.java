@@ -1,6 +1,8 @@
 package interval.com.intervalapp;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import interval.com.intervalapp.database.RealmModeDatabase;
 import interval.com.intervalapp.model.RunSection;
@@ -22,6 +24,12 @@ public class App extends Application {
         Realm.setDefaultConfiguration(config);
 
         addDefaultRunningModesToDatabase();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private void addDefaultRunningModesToDatabase() {
