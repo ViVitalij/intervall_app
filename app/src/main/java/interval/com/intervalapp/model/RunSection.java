@@ -11,10 +11,13 @@ import lombok.Getter;
 public class RunSection extends RealmObject {
 
     public static final String LOW = "low";
+
     public static final String MEDIUM = "medium";
+
     public static final String HIGH = "high";
 
     private String intensity;
+
     private Long duration;
 
     public RunSection(String intensity, Long duration) {

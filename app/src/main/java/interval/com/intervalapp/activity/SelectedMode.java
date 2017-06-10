@@ -46,29 +46,26 @@ public class SelectedMode extends AppCompatActivity {
     }
 
     private void showAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure fatass?");
-        builder.setCancelable(true);
-
-        builder.setPositiveButton(
-                "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(getApplicationContext(), SummaryActivity.class);
-                        startActivity(intent);
-                        dialog.cancel();
-                    }
-                });
-
-        builder.setNegativeButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert11 = builder.create();
-        alert11.show();
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure?")
+                .setCancelable(true)
+                .setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(getApplicationContext(), SummaryActivity.class);
+                                startActivity(intent);
+                                dialog.cancel();
+                            }
+                        })
+                .setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                .create()
+                .show();
     }
 }
