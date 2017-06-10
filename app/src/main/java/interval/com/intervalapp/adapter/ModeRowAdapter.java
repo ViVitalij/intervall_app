@@ -21,6 +21,8 @@ import interval.com.intervalapp.model.RunningMode;
 
 
 public class ModeRowAdapter extends ArrayAdapter<RunningMode> {
+
+    //TODO why access can be private?
     @BindView(R.id.row)
     protected Button rowButton;
 
@@ -46,7 +48,6 @@ public class ModeRowAdapter extends ArrayAdapter<RunningMode> {
                 Toast.makeText(getContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
             }
         });
-
         return convertView;
     }
 
