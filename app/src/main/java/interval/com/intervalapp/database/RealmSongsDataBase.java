@@ -9,7 +9,7 @@ public class RealmSongsDataBase {
 
     private Realm realm = Realm.getDefaultInstance();
 
-    public void saveSongs(final List<Song> allSongs) {
+    public void saveOrUpdateSongs(final List<Song> allSongs) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

@@ -26,7 +26,7 @@ public class App extends Application {
         RunningMode tabata = initTabataMode();
 
         RealmModeDatabase realmModeDatabase = new RealmModeDatabase();
-        realmModeDatabase.saveRunningMode(tabata);
+        realmModeDatabase.saveOrUpdateRunningMode(tabata);
     }
 
     private RunningMode initTabataMode() {

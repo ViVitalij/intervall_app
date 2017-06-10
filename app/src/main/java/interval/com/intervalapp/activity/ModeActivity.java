@@ -131,7 +131,7 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
                     }
 
                 }
-                list.saveSongs(model);
+                list.saveOrUpdateSongs(model);
                 Intent intent = new Intent(this, SongDragAndDropActivity.class);
                 startActivity(intent);
             }
