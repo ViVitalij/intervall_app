@@ -25,13 +25,13 @@ import interval.com.intervalapp.R;
 public class NewAccountActivity extends AppCompatActivity {
 
     @BindView(R.id.appName_textView)
-    TextView appNameTextView;
+    protected TextView appNameTextView;
     @BindView(R.id.email_editText)
-    EditText emailEditText;
+    protected EditText emailEditText;
     @BindView(R.id.password_editText)
-    EditText passwordEditText;
+    protected EditText passwordEditText;
     @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
+    protected ProgressBar progressBar;
 
     private FirebaseAuth authentication;
 

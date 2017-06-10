@@ -20,7 +20,7 @@ import interval.com.intervalapp.activity.SelectedMode;
 import interval.com.intervalapp.model.RunningMode;
 
 
-public class TrybRowAdapter extends ArrayAdapter<RunningMode> {
+public class ModeRowAdapter extends ArrayAdapter<RunningMode> {
     @BindView(R.id.row)
     protected Button rowButton;
 
@@ -50,7 +50,7 @@ public class TrybRowAdapter extends ArrayAdapter<RunningMode> {
         return convertView;
     }
 
-    public TrybRowAdapter(Context context, List<RunningMode> mode) {
+    public ModeRowAdapter(Context context, List<RunningMode> mode) {
         super(context, 0, mode);
     }
 
