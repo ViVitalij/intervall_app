@@ -26,6 +26,7 @@ public class SelectedMode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selected_mode_activity);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
     }
 
