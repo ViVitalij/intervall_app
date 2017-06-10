@@ -31,16 +31,23 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
     @BindView(R.id.chronometer)
     protected Chronometer chronometer;
+
     @BindView(R.id.countdown_textView)
     protected TextView countdownTextView;
 
     private MediaPlayer mediaPlayer;
+
     private List<Song> fastSongList;
+
     private List<Song> slowSongList;
+
     private RealmList<RunSection> runMode;
+
     private Integer counter = 0;
+
     //TODO new Handler() here or onCreate?
     private Handler handler = new Handler();
+
     private CountDownTimer countDownTimer;
 
 

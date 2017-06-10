@@ -25,8 +25,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     @BindView(R.id.progress_bar)
     protected ProgressBar progressBar;
 
-    //TODO aware with refactor
-    private FirebaseAuth auth;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.reset_password_activity);
         ButterKnife.bind(this);
 
-        auth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     @OnClick(R.id.back_button)
@@ -50,7 +49,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
-        auth.sendPasswordResetEmail(email)
+        firebaseAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

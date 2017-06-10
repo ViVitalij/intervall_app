@@ -54,12 +54,13 @@ import io.realm.Realm;
 public class BoardFragment extends Fragment {
 
     @BindView(R.id.board_view)
-    protected BoardView mBoardView;
+    protected BoardView boardView;
 
     private ItemAdapter fastAdapter;
-    private ItemAdapter slowAdapter;
-    private Realm realm = Realm.getDefaultInstance();
 
+    private ItemAdapter slowAdapter;
+
+    private Realm realm = Realm.getDefaultInstance();
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -85,17 +86,16 @@ public class BoardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.board_layout, container, false);
-        //TODO here or onCreate?
         ButterKnife.bind(this, view);
 
-        mBoardView.setSnapToColumnsWhenScrolling(true);
-        mBoardView.setSnapToColumnWhenDragging(true);
-        mBoardView.setSnapDragItemToTouch(true);
-        mBoardView.setCustomDragItem(new MyDragItem(getActivity(), R.layout.column_item));
-        mBoardView.setBoardListener(new BoardView.BoardListener() {
+        boardView.setSnapToColumnsWhenScrolling(true);
+        boardView.setSnapToColumnWhenDragging(true);
+        boardView.setSnapDragItemToTouch(true);
+        boardView.setCustomDragItem(new MyDragItem(getActivity(), R.layout.column_item));
+        boardView.setBoardListener(new BoardView.BoardListener() {
             @Override
             public void onItemDragStarted(int column, int row) {
-                Toast.makeText(mBoardView.getContext(), "Start - column: " + column + " row: " + row, Toast.LENGTH_SHORT).show();
+                Toast.makeText(boardView.getContext(), "Start - column: " + column + " row: " + row, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -104,10 +104,10 @@ public class BoardFragment extends Fragment {
 
             @Override
             public void onItemChangedColumn(int oldColumn, int newColumn) {
-                TextView itemCount1 = (TextView) mBoardView.getHeaderView(oldColumn).findViewById(R.id.item_count);
-                itemCount1.setText(Integer.toString(mBoardView.getAdapter(oldColumn).getItemCount()));
-                TextView itemCount2 = (TextView) mBoardView.getHeaderView(newColumn).findViewById(R.id.item_count);
-                itemCount2.setText(Integer.toString(mBoardView.getAdapter(newColumn).getItemCount()));
+                TextView itemCount1 = (TextView) boardView.getHeaderView(oldColumn).findViewById(R.id.item_count);
+                itemCount1.setText(Integer.toString(boardView.getAdapter(oldColumn).getItemCount()));
+                TextView itemCount2 = (TextView) boardView.getHeaderView(newColumn).findViewById(R.id.item_count);
+                itemCount2.setText(Integer.toString(boardView.getAdapter(newColumn).getItemCount()));
             }
 
             @Override
@@ -148,19 +148,19 @@ public class BoardFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.action_disable_drag).setVisible(mBoardView.isDragEnabled());
-        menu.findItem(R.id.action_enable_drag).setVisible(!mBoardView.isDragEnabled());
+        menu.findItem(R.id.action_disable_drag).setVisible(boardView.isDragEnabled());
+        menu.findItem(R.id.action_enable_drag).setVisible(!boardView.isDragEnabled());
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_disable_drag:
-                mBoardView.setDragEnabled(false);
+                boardView.setDragEnabled(false);
                 getActivity().invalidateOptionsMenu();
                 return true;
             case R.id.action_enable_drag:
-                mBoardView.setDragEnabled(true);
+                boardView.setDragEnabled(true);
                 getActivity().invalidateOptionsMenu();
                 return true;
         }
@@ -184,7 +184,7 @@ public class BoardFragment extends Fragment {
         ((TextView) header.findViewById(R.id.text)).setText(R.string.fast_songs);
         ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
 
-        mBoardView.addColumnList(fastAdapter, header, false);
+        boardView.addColumnList(fastAdapter, header, false);
     }
 
     private void addSlowMusicColumnList() {
@@ -198,7 +198,7 @@ public class BoardFragment extends Fragment {
         ((TextView) header.findViewById(R.id.text)).setText(R.string.slow_songs);
         ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
 
-        mBoardView.addColumnList(slowAdapter, header, false);
+        boardView.addColumnList(slowAdapter, header, false);
     }
 
     private static class MyDragItem extends DragItem {

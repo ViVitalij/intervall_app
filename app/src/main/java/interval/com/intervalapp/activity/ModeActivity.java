@@ -46,14 +46,19 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
 
     @BindView(R.id.drawer_layout)
     protected DrawerLayout drawer;
+
     @BindView(R.id.nav_view)
     protected NavigationView navigationView;
+
     @BindView(R.id.listView)
     protected ListView listView;
 
     private ModeRowAdapter rowAdapter;
+
     private Realm realm = Realm.getDefaultInstance();
+
     private final static int REQUEST_PICK = 2;
+
     private String name;
 
     @Override
@@ -107,7 +112,7 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PICK) {
             if (resultCode == RESULT_OK) {
                 List<Song> model = new ArrayList<>();
@@ -126,12 +131,11 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
                     }
 
                 }
-                list.saveSongs(model);
+                list.saveOrUpdateSongs(model);
                 Intent intent = new Intent(this, SongDragAndDropActivity.class);
                 startActivity(intent);
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public String getSongId(Uri uri) {
