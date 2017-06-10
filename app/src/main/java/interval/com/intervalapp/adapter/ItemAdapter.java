@@ -31,21 +31,21 @@ import interval.com.intervalapp.R;
 
 public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter.ViewHolder> {
 
-    private int mLayoutId;
-    private int mGrabHandleId;
-    private boolean mDragOnLongPress;
+    private int layoutId;
+    private int grabHandleId;
+    private boolean dragOnLongPress;
 
     public ItemAdapter(List<Pair<Long, String>> songList, int layoutId, int grabHandleId, boolean dragOnLongPress) {
-        mLayoutId = layoutId;
-        mGrabHandleId = grabHandleId;
-        mDragOnLongPress = dragOnLongPress;
+        this.layoutId = layoutId;
+        this.grabHandleId = grabHandleId;
+        this.dragOnLongPress = dragOnLongPress;
         setHasStableIds(true);
         setItemList(songList);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         return new ViewHolder(view);
     }
 
@@ -53,7 +53,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     public void onBindViewHolder(ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         String text = mItemList.get(position).second;
-        holder.mText.setText(text);
+        holder.textView.setText(text);
         holder.itemView.setTag(mItemList.get(position));
     }
 
@@ -63,11 +63,11 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     }
 
     class ViewHolder extends DragItemAdapter.ViewHolder {
-        TextView mText;
+        private TextView textView;
 
         ViewHolder(final View itemView) {
-            super(itemView, mGrabHandleId, mDragOnLongPress);
-            mText = (TextView) itemView.findViewById(R.id.text);
+            super(itemView, grabHandleId, dragOnLongPress);
+            textView = (TextView) itemView.findViewById(R.id.text);
         }
 
         @Override

@@ -9,10 +9,12 @@ import lombok.Setter;
 public class Song extends RealmObject {
 
     public static final String FAST = "fast";
+
     public static final String SLOW = "slow";
 
     @Setter
     private String tittle;
+
     @PrimaryKey
     private String uri;
 

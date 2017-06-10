@@ -26,14 +26,17 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.appName_textView)
     protected TextView appNameTextView;
+
     @BindView(R.id.email_editText)
     protected EditText emailEditText;
+
     @BindView(R.id.password_editText)
     protected EditText passwordEditText;
+
     @BindView(R.id.progress_bar)
     protected ProgressBar progressBar;
 
-    private FirebaseAuth authentication;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_layout);
         ButterKnife.bind(this);
         setHeaderStyle();
-        authentication = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        checkUserLoginStatus();
+    }
+
+    private void checkUserLoginStatus() {
+        if (firebaseAuth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this, ModeActivity.class));
+            finish();
+        }
     }
 
     private void setHeaderStyle() {
@@ -73,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
-        authentication.signInWithEmailAndPassword(email, password)
+        firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

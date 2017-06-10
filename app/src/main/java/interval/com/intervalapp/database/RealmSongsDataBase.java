@@ -14,15 +14,12 @@ public class RealmSongsDataBase {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(allSongs);
-
             }
         });
     }
 
     public List<Song> readSongList(String type) {
-
         return realm.where(Song.class).equalTo("type", type).findAll();
-
     }
 
     public Song findByHash(int hash) {

@@ -22,13 +22,11 @@ public class RealmModeDatabase {
     }
 
     public RunningMode readRunningMode(String modeName) {
-
         return realm.where(RunningMode.class).equalTo("name", modeName).findFirst();
     }
 
     public RealmResults<RunningMode> readAllModes() {
         return realm.where(RunningMode.class).findAll();
-
     }
 
     public RunningMode findByHash(int hash) {

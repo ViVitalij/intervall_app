@@ -15,12 +15,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
-
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
-
         addDefaultRunningModesToDatabase();
     }
 
@@ -32,18 +30,12 @@ public class App extends Application {
     }
 
     private RunningMode initTabataMode() {
-        RunSection fast = new RunSection(RunSection.HIGH, 5000L);
-        RunSection slow = new RunSection(RunSection.LOW, 10000L);
-        RunSection medium = new RunSection(RunSection.MEDIUM, 15000L);
-        RunSection medium2 = new RunSection(RunSection.MEDIUM, 15000L);
-        RunSection medium3 = new RunSection(RunSection.MEDIUM, 15000L);
-
         RealmList<RunSection> list = new RealmList<>();
-        list.add(fast);
-        list.add(slow);
-        list.add(medium);
-        list.add(medium2);
-        list.add(medium3);
+        list.add(new RunSection(RunSection.HIGH, 5000L));
+        list.add(new RunSection(RunSection.LOW, 10000L));
+        list.add(new RunSection(RunSection.MEDIUM, 15000L));
+        list.add(new RunSection(RunSection.HIGH, 15000L));
+        list.add(new RunSection(RunSection.MEDIUM, 15000L));
 
         RunningMode runningMode = new RunningMode();
         runningMode.setRunMode(list);
