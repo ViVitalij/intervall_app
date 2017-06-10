@@ -72,8 +72,20 @@ public class BoardFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.board);
+
+        addFastMusicColumnList();
+        addSlowMusicColumnList();
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.board_layout, container, false);
+        //TODO here or onCreate?
         ButterKnife.bind(this, view);
 
         mBoardView.setSnapToColumnsWhenScrolling(true);
@@ -88,7 +100,6 @@ public class BoardFragment extends Fragment {
 
             @Override
             public void onItemChangedPosition(int fromColumn, int fromRow, int toColumn, int toRow) {
-
             }
 
             @Override
@@ -126,17 +137,6 @@ public class BoardFragment extends Fragment {
             }
         });
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.board);
-
-        addFastMusicColumnList();
-        addSlowMusicColumnList();
-
     }
 
     @Override
@@ -203,7 +203,7 @@ public class BoardFragment extends Fragment {
 
     private static class MyDragItem extends DragItem {
 
-        public MyDragItem(Context context, int layoutId) {
+        private MyDragItem(Context context, int layoutId) {
             super(context, layoutId);
         }
 

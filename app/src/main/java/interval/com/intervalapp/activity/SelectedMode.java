@@ -1,15 +1,12 @@
 package interval.com.intervalapp.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Chronometer;
 
 import butterknife.BindView;
@@ -17,14 +14,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
 
-public class SelectedMode extends BaseActivity {
+public class SelectedMode extends AppCompatActivity {
 
     @BindView(R.id.chronometer)
-    Chronometer chronometer;
+    protected Chronometer chronometer;
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.start_button)
-    FloatingActionButton startButton;
+    protected Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +32,10 @@ public class SelectedMode extends BaseActivity {
     @OnClick(R.id.stop_button)
     void stopButtonClicked() {
         showAlertDialog();
-
     }
 
     @OnClick(R.id.pause_button)
     void pauseButtonClicked() {
-
     }
 
     @OnClick(R.id.start_button)
@@ -52,11 +45,11 @@ public class SelectedMode extends BaseActivity {
     }
 
     private void showAlertDialog() {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("Are you sure fatass?");
-        builder1.setCancelable(true);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure fatass?");
+        builder.setCancelable(true);
 
-        builder1.setPositiveButton(
+        builder.setPositiveButton(
                 "Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -66,7 +59,7 @@ public class SelectedMode extends BaseActivity {
                     }
                 });
 
-        builder1.setNegativeButton(
+        builder.setNegativeButton(
                 "No",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -74,7 +67,7 @@ public class SelectedMode extends BaseActivity {
                     }
                 });
 
-        AlertDialog alert11 = builder1.create();
+        AlertDialog alert11 = builder.create();
         alert11.show();
     }
 }
