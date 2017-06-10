@@ -45,6 +45,14 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setHeaderStyle();
         firebaseAuth = FirebaseAuth.getInstance();
+        checkUserLoginStatus();
+    }
+
+    private void checkUserLoginStatus() {
+        if (firebaseAuth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this, ModeActivity.class));
+            finish();
+        }
     }
 
     private void setHeaderStyle() {
