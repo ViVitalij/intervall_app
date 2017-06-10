@@ -12,7 +12,7 @@ public class RealmModeDatabase {
 
     private Realm realm = Realm.getDefaultInstance();
 
-    public void saveRunningMode(final RunningMode runningMode) {
+    public void saveOrUpdateRunningMode(final RunningMode runningMode) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
