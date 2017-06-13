@@ -2,7 +2,6 @@ package interval.com.intervalapp.activity;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -170,14 +169,12 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         } else {
             song = slowSongList.get(new Random().nextInt(slowSongList.size()));
         }
-
-        Uri songUri = Uri.parse(song.getUri());
-        Log.i(TAG, songUri.toString());
+        Log.i(TAG, song.getPath());
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setOnCompletionListener(this);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setDataSource(this, songUri);
+            mediaPlayer.setDataSource(song.getPath());
         } catch (IllegalStateException e) {
             Log.d(TAG, "IllegalStateException: " + e.getMessage());
         } catch (IOException e) {

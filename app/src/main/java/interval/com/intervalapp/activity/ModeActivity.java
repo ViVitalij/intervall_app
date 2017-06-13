@@ -1,47 +1,31 @@
 package interval.com.intervalapp.activity;
 
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
-import android.view.View;
-import android.widget.Button;
-
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-
-
-
-import android.Manifest;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -60,6 +44,9 @@ import interval.com.intervalapp.model.Song;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**
  * Created by m.losK on 19.05.2017.
@@ -84,7 +71,6 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
     private Realm realm = Realm.getDefaultInstance();
 
     private final static int REQUEST_PICK = 2;
-    private String name;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -198,7 +184,6 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     @OnClick(R.id.fab)
     protected void buttonClicked(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -217,6 +202,7 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
             Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
             chooseFile.setType("audio/*");
             chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+
             startActivityForResult(Intent.createChooser(chooseFile, "Choose a file"), REQUEST_PICK);
 
             Toast.makeText(getApplicationContext(), R.string.music_picker, Toast.LENGTH_SHORT).show();
@@ -247,19 +233,13 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
                 RealmSongsDataBase list = new RealmSongsDataBase();
                 Uri uri = data.getData();
                 if (uri != null) {
-                    String tittle = getMP3Id(uri);
-                    model.add(new Song(tittle, uri.toString()));
-
-
+                    model.add(createSongModel(uri));
                 } else {
                     int count = data.getClipData().getItemCount();
 
                     for (int x = 0; x < count; x++) {
                         ClipData.Item item = data.getClipData().getItemAt(x);
-                        String tittle = getMP3Id(item.getUri());
-                        model.add(new Song(tittle, item.getUri().toString()));
-
-
+                        model.add(createSongModel(item.getUri()));
                     }
 
                 }
@@ -272,34 +252,26 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public String getMP3Id(Uri uri) {
+    public Song createSongModel(Uri uri) {
 
+        String wholeID = DocumentsContract.getDocumentId(uri);
+        String id = wholeID.split(":")[1];
+        try (Cursor c = getContentResolver().query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                null,
+                MediaStore.Images.Media._ID + "=?",
+                new String[]{id},
+                null)) {
 
-        Cursor c = getContentResolver().query(
-                uri,
-                null,
-                null,
-                null,
-                "");
+            assert c != null;
+            c.moveToFirst();
 
-        if (null == c) {
-            Log.i("TAG", "getMP3Id error");
+            String path = c.getString(c.getColumnIndex(MediaStore.Audio.Media.DATA));
+            String name = c.getString(c.getColumnIndex("title"));
+            String artist = c.getString(c.getColumnIndex("artist"));
+            return new Song(name, path, artist, Song.FAST);
         }
-
-        while (c.moveToNext()) {
-            name = c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
-        }
-        return name;
     }
-
-//    //TODO move to fragment ModeActivity
-//    @OnClick(R.id.second_mode)
-//    void secondModeClicked() {
-//        Intent intent = new Intent(getApplicationContext(), SelectedMode.class);
-//        intent.putExtra("modeName", "tabata");
-//        startActivity(intent);
-//        Toast.makeText(getApplicationContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
-//    }
 
     private void initList() {
         RealmModeDatabase base = new RealmModeDatabase();
@@ -334,7 +306,6 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void execute(Realm realm) {
                         mode.deleteFromRealm();
-                        ;
                     }
                 });
                 return true;
