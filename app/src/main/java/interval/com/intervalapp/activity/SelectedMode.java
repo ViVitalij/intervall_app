@@ -68,7 +68,7 @@ public class SelectedMode extends BaseActivity {
     void startButtonClicked() {
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
-        circularProgressBar.setProgressWithAnimation(100, 6000);
+        circularProgressBar.setProgressWithAnimation(100, (int) SystemClock.elapsedRealtime());
     }
 
     private void showAlertDialog() {

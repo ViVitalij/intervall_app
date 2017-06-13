@@ -44,4 +44,8 @@ public class RunningMode extends RealmObject {
         result = 31 * result + (runMode != null ? runMode.hashCode() : 0);
         return result;
     }
+
+    public RealmList<RunSection> getRunMode() {
+        return runMode;
+    }
 }
