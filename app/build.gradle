@@ -53,5 +53,7 @@ dependencies {
     compile 'com.github.bmarrdev:android-DecoView-charting:v0.9.3'
     compile 'com.github.polok:clicknumberpicker:0.1.2'
     compile 'com.github.BeppiMenozzi:TriStateToggleButton:1.1.4'
+    compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
+    compile 'com.nineoldandroids:library:2.4.0'
 }
 

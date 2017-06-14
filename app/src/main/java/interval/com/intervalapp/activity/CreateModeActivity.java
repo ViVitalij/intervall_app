@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,6 +39,8 @@ public class CreateModeActivity extends AppCompatActivity {
     protected EditText description;
     @BindView(R.id.intensityTextView)
     protected TextView intensityText;
+    @BindView(R.id.piechart)
+    protected PieChart pieChart;
 
 
     private Realm realm = Realm.getDefaultInstance();
@@ -64,6 +69,7 @@ public class CreateModeActivity extends AppCompatActivity {
     @OnClick(R.id.add_mode)
     public void createRunSection() {
         createOneRunSection();
+        createChart();
     }
 
     @OnClick(R.id.add_mode_button)
@@ -135,4 +141,24 @@ public class CreateModeActivity extends AppCompatActivity {
         Log.e("asd", String.valueOf(sectionList.size()));
 
     }
+
+    public void createChart() {
+        switch (intensityMode) {
+            case RunSection.HIGH:
+                pieChart.addPieSlice(new PieModel("High", 15, Color.parseColor("#CC1D1D")));
+                break;
+            case RunSection.MEDIUM:
+                pieChart.addPieSlice(new PieModel("Medium", 25, Color.parseColor("#8EAE3C")));
+                break;
+            case RunSection.LOW:
+                pieChart.addPieSlice(new PieModel("Low", 25, Color.parseColor("#FFFFFF")));
+            default:
+                break;
+        }
+
+        pieChart.startAnimation();
+        
+    }
+
+
 }
