@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -71,6 +72,10 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
     private Realm realm = Realm.getDefaultInstance();
 
     private final static int REQUEST_PICK = 2;
+
+    public final int GALLERY_PHOTO = 2;
+    Bitmap newbitmap;
+    private Uri fileUri;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -233,13 +238,13 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
                 RealmSongsDataBase list = new RealmSongsDataBase();
                 Uri uri = data.getData();
                 if (uri != null) {
-                    model.add(createSongModel(uri));
+                    model.add(createSongModel(uri, data));
                 } else {
                     int count = data.getClipData().getItemCount();
 
                     for (int x = 0; x < count; x++) {
                         ClipData.Item item = data.getClipData().getItemAt(x);
-                        model.add(createSongModel(item.getUri()));
+                        model.add(createSongModel(item.getUri(), data));
                     }
 
                 }
@@ -252,25 +257,84 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public Song createSongModel(Uri uri) {
+    public Song createSongModel(Uri uri, Intent data) {
+        Song song = null;
 
-        String wholeID = DocumentsContract.getDocumentId(uri);
-        String id = wholeID.split(":")[1];
-        try (Cursor c = getContentResolver().query(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                null,
-                MediaStore.Images.Media._ID + "=?",
-                new String[]{id},
-                null)) {
+        // SDK >= 11 && SDK < 19
+        if (Build.VERSION.SDK_INT < 19) {
 
-            assert c != null;
-            c.moveToFirst();
 
-            String path = c.getString(c.getColumnIndex(MediaStore.Audio.Media.DATA));
-            String name = c.getString(c.getColumnIndex("title"));
-            String artist = c.getString(c.getColumnIndex("artist"));
-            return new Song(name, path, artist, Song.FAST);
+//            String realPath = RealPathUtil.getRealPathFromURI_API11to18(
+//                    ModeActivity.this,
+//                    data.getData());
+//                setTextViews(Build.VERSION.SDK_INT, data.getData()
+//                        .getPath(), realPath);
+
+            Uri selectedAudio = data.getData();
+            String[] filePathColumn = {MediaStore.Audio.Media.DATA};
+
+            Cursor cursor = getContentResolver()
+                    .query(selectedAudio, filePathColumn, null,
+                            null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor
+                    .getColumnIndex(filePathColumn[0]);
+            String filePath = cursor.getString(columnIndex);
+//            String path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+            String name = getTitle(selectedAudio);
+            String artist = "artist";
+            cursor.close();
+
+            song = new Song(name, filePath, artist, Song.FAST);
+            return song;
+
+
+        } else {
+            String wholeID = DocumentsContract.getDocumentId(uri);
+            String id = wholeID.split(":")[1];
+            Cursor cursor = getContentResolver().query(
+                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    null,
+                    MediaStore.Audio.Media._ID + "=?",
+                    new String[]{id},
+                    null);
+
+            if (cursor.moveToFirst()) {
+                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+                String name = cursor.getString(cursor.getColumnIndex("title"));
+                String artist = cursor.getString(cursor.getColumnIndex("artist"));
+                song = new Song(name, path, artist, Song.FAST);
+            }
+            cursor.close();
         }
+
+        return song;
+    }
+
+//    private void setTextViews(int sdk, String uriPath, String realPath) {
+//
+//        fileUri = Uri.fromFile(new File(realPath));
+//
+//        Log.d("Status", "Build.VERSION.SDK_INT:" + sdk);
+//        Log.d("Status", "URI Path:" + fileUri);
+//        Log.d("Status", "Real Path: " + realPath);
+//
+//    }
+
+    private String getTitle(Uri uri){
+        String name = null;
+        Cursor c = getContentResolver().query(uri,null,null,null,null);
+
+        if(c==null){
+            //error
+        }
+
+        while(c.moveToNext()){
+            name = c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+        }
+
+        return name;
     }
 
     private void initList() {
