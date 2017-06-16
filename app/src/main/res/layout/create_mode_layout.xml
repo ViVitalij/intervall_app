@@ -63,33 +63,40 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center|end"
                 android:text="@string/mode_level"
+                android:paddingEnd="10dp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <it.beppi.tristatetogglebutton_library.TriStateToggleButton
                 android:id="@+id/tristate_intensity_button"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
+                android:layout_weight="1"
                 app:layout_constraintVertical_bias="0.342"
+                app:tbDefaultStatus="mid"
                 app:tbMidColor="@color/medium_intensity"
                 app:tbOffColor="@color/high_intensity"
                 app:tbOnColor="@color/low_intensity" />
 
             <TextView
                 android:id="@+id/intensity_text_view"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/high" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/medium"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
         </LinearLayout>
 

@@ -138,5 +138,6 @@
     <string name="mode_level">mode level:</string>
     <string name="plus">plus</string>
     <string name="minus">minus</string>
+    <string name="set_interval_time">Set interval time</string>
 
 </resources>

@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="300dp"
     android:background="#efefef"
     android:gravity="center"
     android:orientation="vertical"
     app:picker_corner_radius="20">
-    
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set interval time"
         android:layout_gravity="center"
         android:layout_marginBottom="35dp"
-        android:textSize="25sp"/>
+        android:text="@string/set_interval_time"
+        android:textSize="25sp" />
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -26,18 +25,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:paddingEnd="10dp"
+            android:paddingStart="5dp"
             android:text="@string/minutes"
             android:textSize="20sp" />
 
         <pl.polak.clicknumberpicker.ClickNumberPickerView
-            android:id="@+id/minutePicker"
+            android:id="@+id/minutes_picker"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            app:decimal_number="0"
+            app:integer_priority="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:max_value="60"
+            app:max_value="250"
             app:picker_corner_radius="20"
             app:pickers_background_color="#8d8d8d"
             app:value_background_color="#bdbdbd"
@@ -48,17 +49,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="10dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="5dp"
             android:text="@string/seconds"
             android:textSize="20sp" />
 
         <pl.polak.clicknumberpicker.ClickNumberPickerView
-            android:id="@+id/secondsPicker"
+            android:id="@+id/seconds_picker"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            app:decimal_number="0"
-            app:integer_priority="false"
+            app:integer_priority="true"
+            app:max_value="60"
             app:picker_corner_radius="20"
             app:pickers_background_color="#8d8d8d"
             app:step="1"
@@ -71,11 +73,9 @@
     </GridLayout>
 
     <Button
-        android:id="@+id/set"
+        android:id="@+id/set_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/minutePicker"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:background="@drawable/my_button"
         android:text="@string/set"

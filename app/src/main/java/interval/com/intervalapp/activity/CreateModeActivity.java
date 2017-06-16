@@ -1,25 +1,25 @@
 /**
  * The MIT License (MIT)
-
- Copyright (c) 2016 Beppi Menozzi
-
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE.
+ * <p>
+ * Copyright (c) 2016 Beppi Menozzi
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 package interval.com.intervalapp.activity;
@@ -39,6 +39,9 @@ import android.widget.TextView;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,7 +49,6 @@ import interval.com.intervalapp.R;
 import interval.com.intervalapp.database.RealmModeDatabase;
 import interval.com.intervalapp.model.RunSection;
 import interval.com.intervalapp.model.RunningMode;
-import io.realm.Realm;
 import io.realm.RealmList;
 import it.beppi.tristatetogglebutton_library.TriStateToggleButton;
 import pl.polak.clicknumberpicker.ClickNumberPickerView;
@@ -68,6 +70,9 @@ public class CreateModeActivity extends AppCompatActivity implements TriStateTog
     @BindView(R.id.tristate_intensity_button)
     protected TriStateToggleButton intensityButton;
 
+    @BindView(R.id.intensity_duration_button)
+    protected Button intensityDurationButton;
+
     private Dialog dialog;
 
     private RealmList<RunSection> realmSectionList;
@@ -86,7 +91,7 @@ public class CreateModeActivity extends AppCompatActivity implements TriStateTog
     }
 
     @Override
-    public void onToggle(TriStateToggleButton.ToggleStatus toggleStatus,  boolean booleanToggleStatus,
+    public void onToggle(TriStateToggleButton.ToggleStatus toggleStatus, boolean booleanToggleStatus,
                          int toggleIntValue) {
         switch (toggleStatus) {
             case off:
@@ -99,7 +104,7 @@ public class CreateModeActivity extends AppCompatActivity implements TriStateTog
                 intensityTextView.setText(R.string.low);
                 break;
             default:
-                intensityTextView.setText(R.string.high);
+                intensityTextView.setText(R.string.medium);
                 break;
         }
     }
@@ -132,20 +137,24 @@ public class CreateModeActivity extends AppCompatActivity implements TriStateTog
         }
     }
 
-
     private void showPicker() {
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog);
         dialog.show();
-        final ClickNumberPickerView minutePicker = (ClickNumberPickerView) dialog.findViewById(R.id.minutePicker);
-        final ClickNumberPickerView secondsPicker = (ClickNumberPickerView) dialog.findViewById(R.id.secondsPicker);
-        Button button = (Button) dialog.findViewById(R.id.set);
-        button.setOnClickListener(new View.OnClickListener() {
+        final ClickNumberPickerView minutesPicker = (ClickNumberPickerView) dialog.findViewById(R.id.minutes_picker);
+        final ClickNumberPickerView secondsPicker = (ClickNumberPickerView) dialog.findViewById(R.id.seconds_picker);
+        Button setButton = (Button) dialog.findViewById(R.id.set_button);
+        setButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long minutesInMillis = (long) (minutePicker.getValue() * 60000);
+                long minutesInMillis = (long) (minutesPicker.getValue() * 60000);
                 long secondsInMillis = (long) (secondsPicker.getValue() * 1000);
                 duration = minutesInMillis + secondsInMillis;
+                SimpleDateFormat formatter = new SimpleDateFormat("mm:ss", Locale.US);
+                String dateString = formatter.format(duration);
+                intensityDurationButton.setText(dateString);
+//                intensityDurationButton.setText(String.valueOf(minutesPicker.getValue()) +
+//                        ":" + secondsPicker.getValue());
                 dialog.dismiss();
             }
         });
