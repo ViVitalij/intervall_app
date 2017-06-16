@@ -33,13 +33,13 @@ public class ModeRowAdapter extends ArrayAdapter<RunningMode> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        final RunningMode model = getItem(position);
+        final RunningMode runningMode = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.tryb_low, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.mode_row, parent, false);
             convertView.setLongClickable(true);
         }
         ButterKnife.bind(this, convertView);
-        rowButton.setText(model.getName());
+        rowButton.setText(runningMode.getName());
         rowButton.setLongClickable(true);
 
         return convertView;

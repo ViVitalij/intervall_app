@@ -8,7 +8,6 @@
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
     android:paddingTop="24dp">
-
     <TextView
         android:id="@+id/text_view"
         android:layout_width="match_parent"
@@ -18,15 +17,12 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </RelativeLayout>
-
 </LinearLayout>

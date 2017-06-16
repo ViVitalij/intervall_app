@@ -35,7 +35,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     private int grabHandleId;
     private boolean dragOnLongPress;
 
-    public ItemAdapter(List<Pair<Long, String>> songList, int layoutId, int grabHandleId, boolean dragOnLongPress) {
+    public ItemAdapter(List<Pair<Long, String>> songList, int layoutId, int grabHandleId,
+                       boolean dragOnLongPress) {
         this.layoutId = layoutId;
         this.grabHandleId = grabHandleId;
         this.dragOnLongPress = dragOnLongPress;

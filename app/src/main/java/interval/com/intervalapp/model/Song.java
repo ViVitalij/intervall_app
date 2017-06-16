@@ -12,25 +12,20 @@ public class Song extends RealmObject {
 
     public static final String SLOW = "slow";
 
-    @Setter
-    private String tittle;
-
     @PrimaryKey
-    private String uri;
+    private String path;
+
+    @Setter
+    private String title;
 
     @Setter
     private String type;
 
-    public Song(String tittle, String uri, String type) {
-        this.tittle = tittle;
-        this.uri = uri;
-        this.type = type;
-    }
 
-    public Song(String tittle, String uri) {
-        this.tittle = tittle;
-        this.uri = uri;
-        this.type = FAST;
+    public Song(String title, String path, String type) {
+        this.title = title;
+        this.path = path;
+        this.type = type;
     }
 
     public Song() {
@@ -43,9 +38,9 @@ public class Song extends RealmObject {
 
         Song song = (Song) o;
 
-        if (getTittle() != null ? !getTittle().equals(song.getTittle()) : song.getTittle() != null)
+        if (getTitle() != null ? !getTitle().equals(song.getTitle()) : song.getTitle() != null)
             return false;
-        if (getUri() != null ? !getUri().equals(song.getUri()) : song.getUri() != null)
+        if (getPath() != null ? !getPath().equals(song.getPath()) : song.getPath() != null)
             return false;
         return getType() != null ? getType().equals(song.getType()) : song.getType() == null;
 
@@ -53,8 +48,8 @@ public class Song extends RealmObject {
 
     @Override
     public int hashCode() {
-        int result = getTittle() != null ? getTittle().hashCode() : 0;
-        result = 31 * result + (getUri() != null ? getUri().hashCode() : 0);
+        int result = getTitle() != null ? getTitle().hashCode() : 0;
+        result = 31 * result + (getPath() != null ? getPath().hashCode() : 0);
         return result;
     }
 }

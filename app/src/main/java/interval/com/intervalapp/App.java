@@ -1,6 +1,8 @@
 package interval.com.intervalapp;
 
-import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import interval.com.intervalapp.database.RealmModeDatabase;
 import interval.com.intervalapp.model.RunSection;
@@ -9,7 +11,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     @Override
     public void onCreate() {

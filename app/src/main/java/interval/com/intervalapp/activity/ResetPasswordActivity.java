@@ -22,6 +22,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     @BindView(R.id.email)
     protected EditText emailEditText;
+
     @BindView(R.id.progress_bar)
     protected ProgressBar progressBar;
 
