@@ -9,7 +9,7 @@
         <item
             android:id="@+id/nav_musicPicker"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/music_picker" />
+            android:title="@string/choose_music" />
         <item
             android:id="@+id/nav_runScreen"
             android:icon="@mipmap/ic_launcher"
