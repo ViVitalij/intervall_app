@@ -37,8 +37,8 @@ public class SelectedMode extends BaseActivity {
         setSupportActionBar(toolbar);
 
         CircularProgressBar circularProgressBar = (CircularProgressBar) findViewById(circuralProgress);
-        circularProgressBar.setColor(ContextCompat.getColor(this, R.color.start));
-        circularProgressBar.setBackgroundColor(ContextCompat.getColor(this, R.color.pause));
+        circularProgressBar.setColor(ContextCompat.getColor(this, R.color.low_intensity));
+        circularProgressBar.setBackgroundColor(ContextCompat.getColor(this, R.color.medium_intensity));
         circularProgressBar.setProgressBarWidth(getResources().getDimension(R.dimen.progressBarWidth));
         circularProgressBar.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.backgroundProgressBarWidth));
 //        int animationDuration = 2500; // 2500ms = 2,5s

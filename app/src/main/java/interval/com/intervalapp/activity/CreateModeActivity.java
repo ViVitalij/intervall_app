@@ -28,27 +28,26 @@ import it.beppi.tristatetogglebutton_library.TriStateToggleButton;
 import pl.polak.clicknumberpicker.ClickNumberPickerView;
 
 public class CreateModeActivity extends AppCompatActivity {
-    @BindView(R.id.add_mode)
-    protected Button addMode;
-    @BindView(R.id.mode_name)
-    protected EditText modeName;
-    @BindView(R.id.delete_mode)
-    protected Button deleteMode;
 
-    @BindView(R.id.description)
+    @BindView(R.id.mode_name_edit_text)
+    protected EditText modeName;
+
+    @BindView(R.id.description_edit_text)
     protected EditText description;
-    @BindView(R.id.intensityTextView)
+
+    @BindView(R.id.intensity_text_view)
     protected TextView intensityText;
-    @BindView(R.id.piechart)
+
+    @BindView(R.id.pie_chart)
     protected PieChart pieChart;
 
 
     private Realm realm = Realm.getDefaultInstance();
 
-    static Dialog d;
+    private Dialog dialog;
     private RealmList<RunSection> sectionList;
-    String intensityMode;
-    Long duration;
+    private String intensity;
+    private Long duration;
 
 
     @Override
@@ -56,17 +55,18 @@ public class CreateModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_mode_layout);
         ButterKnife.bind(this);
-        toogleButton();
+        setToggleButton();
         sectionList = new RealmList<>();
+
     }
 
 
-    @OnClick(R.id.time_picker)
+    @OnClick(R.id.intensity_duration_button)
     public void setTimePicker(View view) {
         showPicker();
     }
 
-    @OnClick(R.id.add_mode)
+    @OnClick(R.id.add_mode_icon)
     public void createRunSection() {
         createOneRunSection();
         createChart();
@@ -88,19 +88,19 @@ public class CreateModeActivity extends AppCompatActivity {
 
 
     public void showPicker() {
-        d = new Dialog(this);
-        d.setContentView(R.layout.dialog);
-        d.show();
-        final ClickNumberPickerView minutePicker = (ClickNumberPickerView) d.findViewById(R.id.minutePicker);
-        final ClickNumberPickerView secondsPicker = (ClickNumberPickerView) d.findViewById(R.id.secondsPicker);
-        Button button = (Button) d.findViewById(R.id.set);
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog);
+        dialog.show();
+        final ClickNumberPickerView minutePicker = (ClickNumberPickerView) dialog.findViewById(R.id.minutePicker);
+        final ClickNumberPickerView secondsPicker = (ClickNumberPickerView) dialog.findViewById(R.id.secondsPicker);
+        Button button = (Button) dialog.findViewById(R.id.set);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 long minutesInMillis = (long) (minutePicker.getValue() * 60000);
                 long secondsInMillis = (long) (secondsPicker.getValue() * 1000);
                 duration = minutesInMillis + secondsInMillis;
-                d.dismiss();
+                dialog.dismiss();
             }
         });
 
@@ -108,26 +108,31 @@ public class CreateModeActivity extends AppCompatActivity {
     }
 
 
-    public void toogleButton() {
-        TriStateToggleButton tstb_1 = (TriStateToggleButton) findViewById(R.id.intensityButton);
-        tstb_1.setOnToggleChanged(new TriStateToggleButton.OnToggleChanged() {
+    public void setToggleButton() {
+        TriStateToggleButton toggleButton = (TriStateToggleButton) findViewById(R.id.tristate_intensity_button);
+        toggleButton.setOnToggleChanged(new TriStateToggleButton.OnToggleChanged() {
             @Override
             public void onToggle(TriStateToggleButton.ToggleStatus toggleStatus, boolean booleanToggleStatus, int toggleIntValue) {
                 switch (toggleStatus) {
                     case off:
                         intensityText.setText("High");
                         intensityText.setTextColor(Color.parseColor("#CC1D1D"));
-                        intensityMode = RunSection.HIGH;
+                        intensity = RunSection.HIGH;
                         break;
                     case mid:
                         intensityText.setText("Medium");
                         intensityText.setTextColor(Color.parseColor("#8EAE3C"));
-                        intensityMode = RunSection.MEDIUM;
+                        intensity = RunSection.MEDIUM;
                         break;
                     case on:
                         intensityText.setText("Low");
                         intensityText.setTextColor(Color.parseColor("#FFFFFF"));
-                        intensityMode = RunSection.LOW;
+                        intensity = RunSection.LOW;
+                        break;
+                    default:
+                        intensityText.setText("High");
+                        intensityText.setTextColor(Color.parseColor("#CC1D1D"));
+                        intensity = RunSection.HIGH;
                         break;
                 }
             }
@@ -136,14 +141,14 @@ public class CreateModeActivity extends AppCompatActivity {
 
 
     public void createOneRunSection() {
-        RunSection section = new RunSection(intensityMode, duration);
+        RunSection section = new RunSection(intensity, duration);
         sectionList.add(section);
         Log.e("asd", String.valueOf(sectionList.size()));
 
     }
 
     public void createChart() {
-        switch (intensityMode) {
+        switch (intensity) {
             case RunSection.HIGH:
                 pieChart.addPieSlice(new PieModel("High", 15, Color.parseColor("#CC1D1D")));
                 break;
@@ -157,7 +162,7 @@ public class CreateModeActivity extends AppCompatActivity {
         }
 
         pieChart.startAnimation();
-        
+
     }
 
 

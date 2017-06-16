@@ -128,11 +128,14 @@
     <string name="Medium">Medium</string>
     <string name="high">High</string>
     <string name="low">Low</string>
-    <string name="choose_time_of_mode">Choose time of mode</string>
+    <string name="select_section_duration">Select section duration</string>
     <string name="description">Description</string>
     <string name="minutes">minutes</string>
     <string name="seconds">seconds</string>
     <string name="set">set</string>
     <string name="add_your_mode">Add your mode:</string>
+    <string name="mode_level">mode level:</string>
+    <string name="plus">plus</string>
+    <string name="minus">minus</string>
 
 </resources>

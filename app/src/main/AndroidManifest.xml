@@ -13,9 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@style/LoginTheme">
+        <activity android:name=".activity.CreateModeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +28,10 @@
         <activity android:name=".activity.SelectedMode" />
         <activity android:name=".activity.NewAccountActivity" />
         <activity android:name=".activity.SummaryActivity"></activity>
-        <activity android:name=".activity.CreateModeActivity"></activity>
+
+    <activity
+        android:name=".activity.LoginActivity"
+        android:theme="@style/LoginTheme"/>
     </application>
 
 </manifest>
