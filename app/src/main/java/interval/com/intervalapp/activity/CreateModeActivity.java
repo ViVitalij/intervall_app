@@ -1,3 +1,27 @@
+/**
+ * The MIT License (MIT)
+
+ Copyright (c) 2016 Beppi Menozzi
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+ */
+
 package interval.com.intervalapp.activity;
 
 import android.app.Dialog;
@@ -27,44 +51,64 @@ import io.realm.RealmList;
 import it.beppi.tristatetogglebutton_library.TriStateToggleButton;
 import pl.polak.clicknumberpicker.ClickNumberPickerView;
 
-public class CreateModeActivity extends AppCompatActivity {
+public class CreateModeActivity extends AppCompatActivity implements TriStateToggleButton.OnToggleChanged {
 
     @BindView(R.id.mode_name_edit_text)
-    protected EditText modeName;
+    protected EditText modeNameEditText;
 
     @BindView(R.id.description_edit_text)
-    protected EditText description;
+    protected EditText descriptionEditText;
 
     @BindView(R.id.intensity_text_view)
-    protected TextView intensityText;
+    protected TextView intensityTextView;
 
     @BindView(R.id.pie_chart)
     protected PieChart pieChart;
 
-
-    private Realm realm = Realm.getDefaultInstance();
+    @BindView(R.id.tristate_intensity_button)
+    protected TriStateToggleButton intensityButton;
 
     private Dialog dialog;
-    private RealmList<RunSection> sectionList;
-    private String intensity;
-    private Long duration;
 
+    private RealmList<RunSection> realmSectionList;
+
+    private String intensity;
+
+    private Long duration;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_mode_layout);
         ButterKnife.bind(this);
-        setToggleButton();
-        sectionList = new RealmList<>();
-
+        intensityButton.setOnToggleChanged(this);
+        realmSectionList = new RealmList<>();
     }
 
+    @Override
+    public void onToggle(TriStateToggleButton.ToggleStatus toggleStatus,  boolean booleanToggleStatus,
+                         int toggleIntValue) {
+        switch (toggleStatus) {
+            case off:
+                intensityTextView.setText(R.string.high);
+                break;
+            case mid:
+                intensityTextView.setText(R.string.medium);
+                break;
+            case on:
+                intensityTextView.setText(R.string.low);
+                break;
+            default:
+                intensityTextView.setText(R.string.high);
+                break;
+        }
+    }
 
     @OnClick(R.id.intensity_duration_button)
     public void setTimePicker(View view) {
         showPicker();
     }
+
 
     @OnClick(R.id.add_mode_icon)
     public void createRunSection() {
@@ -72,22 +116,24 @@ public class CreateModeActivity extends AppCompatActivity {
         createChart();
     }
 
+
     @OnClick(R.id.add_mode_button)
     public void addNewMode() {
-        if (modeName.getText().length() == 0) {
-            modeName.requestFocus();
-            modeName.setError("Insert mode name!");
+        if (modeNameEditText.getText().length() == 0) {
+            modeNameEditText.requestFocus();
+            modeNameEditText.setError("Insert mode name!");
         } else {
-            RunningMode runningMode = new RunningMode(modeName.getText().toString(), sectionList);
+            RunningMode runningMode = new RunningMode(modeNameEditText.getText().toString(), realmSectionList);
             RealmModeDatabase base = new RealmModeDatabase();
             base.saveRunningMode(runningMode);
             Intent intent = new Intent(this, ModeActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 
 
-    public void showPicker() {
+    private void showPicker() {
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog);
         dialog.show();
@@ -103,51 +149,15 @@ public class CreateModeActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-
-
     }
 
-
-    public void setToggleButton() {
-        TriStateToggleButton toggleButton = (TriStateToggleButton) findViewById(R.id.tristate_intensity_button);
-        toggleButton.setOnToggleChanged(new TriStateToggleButton.OnToggleChanged() {
-            @Override
-            public void onToggle(TriStateToggleButton.ToggleStatus toggleStatus, boolean booleanToggleStatus, int toggleIntValue) {
-                switch (toggleStatus) {
-                    case off:
-                        intensityText.setText("High");
-                        intensityText.setTextColor(Color.parseColor("#CC1D1D"));
-                        intensity = RunSection.HIGH;
-                        break;
-                    case mid:
-                        intensityText.setText("Medium");
-                        intensityText.setTextColor(Color.parseColor("#8EAE3C"));
-                        intensity = RunSection.MEDIUM;
-                        break;
-                    case on:
-                        intensityText.setText("Low");
-                        intensityText.setTextColor(Color.parseColor("#FFFFFF"));
-                        intensity = RunSection.LOW;
-                        break;
-                    default:
-                        intensityText.setText("High");
-                        intensityText.setTextColor(Color.parseColor("#CC1D1D"));
-                        intensity = RunSection.HIGH;
-                        break;
-                }
-            }
-        });
-    }
-
-
-    public void createOneRunSection() {
+    private void createOneRunSection() {
         RunSection section = new RunSection(intensity, duration);
-        sectionList.add(section);
-        Log.e("asd", String.valueOf(sectionList.size()));
-
+        realmSectionList.add(section);
+        Log.e("asd", String.valueOf(realmSectionList.size()));
     }
 
-    public void createChart() {
+    private void createChart() {
         switch (intensity) {
             case RunSection.HIGH:
                 pieChart.addPieSlice(new PieModel("High", 15, Color.parseColor("#CC1D1D")));
@@ -160,10 +170,6 @@ public class CreateModeActivity extends AppCompatActivity {
             default:
                 break;
         }
-
         pieChart.startAnimation();
-
     }
-
-
 }

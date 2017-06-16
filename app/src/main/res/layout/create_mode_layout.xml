@@ -78,8 +78,8 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintVertical_bias="0.342"
-                app:tbOffColor="@color/high_intensity"
                 app:tbMidColor="@color/medium_intensity"
+                app:tbOffColor="@color/high_intensity"
                 app:tbOnColor="@color/low_intensity" />
 
             <TextView
@@ -88,16 +88,17 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="20dp"
+                android:text="@string/high" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/activity_vertical_margin">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/intensity_duration_button"

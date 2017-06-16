@@ -127,6 +127,7 @@
     <string name="Slow">slow</string>
     <string name="Medium">Medium</string>
     <string name="high">High</string>
+    <string name="medium">Medium</string>
     <string name="low">Low</string>
     <string name="select_section_duration">Select section duration</string>
     <string name="description">Description</string>
