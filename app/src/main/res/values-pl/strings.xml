@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Interval App</string>
+    <string name="account_created" translatable="false">Konto zostało utworzone</string>
+    <string name="action_disable_drag" translatable="false">Wyłącz przeciąganie</string>
+    <string name="action_enable_drag">Włącz przeciąganie</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="btn_back">Wstecz</string>
+    <string name="btn_change">Zmień</string>
+    <string name="btn_remove">Usuń</string>
+    <string name="btn_reset_password">Zmień hasło</string>
+    <string name="btn_send">Wyślij</string>
+    <string name="btn_sign_out">Wyloguj</string>
+    <string name="cardio"></string>
+    <string name="change_email">zmień email</string>
+    <string name="change_password">zmień hasło</string>
+    <string name="clear_board"></string>
+    <string name="create_account">Utwórz konto</string>
+    <string name="create_new_account">Nie masz konta? Utwórz je</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Wprowadź adres email!</string>
+    <string name="enter_password">Wprowadź hasło!</string>
+    <string name="fast_songs">Szybkie piosenki</string>
+    <string name="fat_burning">SPALANIE TŁUSZCZU</string>
+    <string name="forget_password">Zapomniałeś hasła?</string>
+    <string name="hint_email">Podaj obecny email</string>
+    <string name="hint_new_email">Podaj nowy adres email</string>
+    <string name="hint_password">Podaj obecne hasło</string>
+    <string name="lbl_forgot_password">Podaj nowe hasło</string>
+    <string name="login">Login</string>
+    <string name="mb_button">Start</string>
+    <string name="minimum_password">Hasło musi zawierać minimum 6 znaków</string>
+    <string name="music_list">Lista z muzyką</string>
+    <string name="music_picker">Wybierz swoją muzykę</string>
+    <string name="name">Imię</string>
+    <string name="new_pass"></string>
+    <string name="next_mode">NASTĘPNY TRYB</string>
+    <string name="password">Hasło</string>
+    <string name="remove_user">Usuń użytkownika</string>
+    <string name="run_screen">Biegnij!</string>
+    <string name="select_your_mode">Wybierz swój tryb</string>
+    <string name="send_password_reset_email">Wyślij email resetujący hasło</string>
+    <string name="settings">Ustawienia</string>
+    <string name="slow_songs">Wolne piosenki</string>
+    <string name="start_running">Zacznij bieganie</string>
+    <string name="surname">Nazwisko</string>
+    <string name="auth_failed">Uwierzytelnienie nie powiodło się</string>
+</resources>

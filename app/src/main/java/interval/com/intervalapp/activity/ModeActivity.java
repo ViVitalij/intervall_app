@@ -17,6 +17,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
-import interval.com.intervalapp.adapter.TrybRowAdapter;
+import interval.com.intervalapp.adapter.ModeRowAdapter;
 import interval.com.intervalapp.database.RealmModeDatabase;
 import interval.com.intervalapp.database.RealmSongsDataBase;
 import interval.com.intervalapp.model.RunningMode;
@@ -69,7 +70,7 @@ public class ModeActivity extends AppCompatActivity
     @BindView(R.id.coordinator_layout)
     protected CoordinatorLayout coordinatorLayout;
 
-    private TrybRowAdapter rowAdapter;
+    private ModeRowAdapter rowAdapter;
 
     private Realm realm = Realm.getDefaultInstance();
 
@@ -78,10 +79,8 @@ public class ModeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mode_activity);
         ButterKnife.bind(this);
-
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
-
         initList();
     }
 
@@ -119,7 +118,10 @@ public class ModeActivity extends AppCompatActivity
                 break;
             case R.id.nav_settings:
                 break;
+            default:
+                break;
         }
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -198,7 +200,7 @@ public class ModeActivity extends AppCompatActivity
                         songsList.add(createSongModel(item.getUri(), data));
                     }
                 }
-                realmSongsDatabase.saveSongs(songsList);
+                realmSongsDatabase.saveOrUpdateSongs(songsList);
                 Intent intent = new Intent(this, SongDragAndDropActivity.class);
                 startActivity(intent);
             }
@@ -259,7 +261,7 @@ public class ModeActivity extends AppCompatActivity
     private void initList() {
         RealmModeDatabase base = new RealmModeDatabase();
         RealmResults<RunningMode> runningModes = base.readAllModes();
-        rowAdapter = new TrybRowAdapter(this, runningModes);
+        rowAdapter = new ModeRowAdapter(this, runningModes);
         listView.setAdapter(rowAdapter);
         registerForContextMenu(listView);
         runningModes.addChangeListener(new RealmChangeListener<RealmResults<RunningMode>>() {

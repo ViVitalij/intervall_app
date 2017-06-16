@@ -12,7 +12,7 @@ public class RealmModeDatabase {
 
     private Realm realm = Realm.getDefaultInstance();
 
-    public void saveRunningMode(final RunningMode runningMode) {
+    public void saveOrUpdateRunningMode(final RunningMode runningMode) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -22,13 +22,11 @@ public class RealmModeDatabase {
     }
 
     public RunningMode readRunningMode(String modeName) {
-
         return realm.where(RunningMode.class).equalTo("name", modeName).findFirst();
     }
 
     public RealmResults<RunningMode> readAllModes() {
         return realm.where(RunningMode.class).findAll();
-
     }
 
     public RunningMode findByHash(int hash) {

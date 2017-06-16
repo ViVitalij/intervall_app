@@ -25,15 +25,18 @@ import interval.com.intervalapp.R;
 public class NewAccountActivity extends AppCompatActivity {
 
     @BindView(R.id.appName_textView)
-    TextView appNameTextView;
-    @BindView(R.id.email_editText)
-    EditText emailEditText;
-    @BindView(R.id.password_editText)
-    EditText passwordEditText;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
+    protected TextView appNameTextView;
 
-    private FirebaseAuth authentication;
+    @BindView(R.id.email_editText)
+    protected EditText emailEditText;
+
+    @BindView(R.id.password_editText)
+    protected EditText passwordEditText;
+
+    @BindView(R.id.progress_bar)
+    protected ProgressBar progressBar;
+
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class NewAccountActivity extends AppCompatActivity {
         setContentView(R.layout.new_account_activity);
         ButterKnife.bind(this);
         setHeaderStyle();
-        authentication = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     @OnClick(R.id.create_account_button)
@@ -61,7 +64,7 @@ public class NewAccountActivity extends AppCompatActivity {
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
-        authentication.createUserWithEmailAndPassword(email, password)
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(NewAccountActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

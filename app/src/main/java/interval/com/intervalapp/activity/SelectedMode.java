@@ -1,15 +1,12 @@
 package interval.com.intervalapp.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Chronometer;
 
 import butterknife.BindView;
@@ -17,32 +14,29 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
 
-public class SelectedMode extends BaseActivity {
+public class SelectedMode extends AppCompatActivity {
 
     @BindView(R.id.chronometer)
-    Chronometer chronometer;
+    protected Chronometer chronometer;
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.start_button)
-    FloatingActionButton startButton;
+    protected Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selected_mode_activity);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
     }
 
     @OnClick(R.id.stop_button)
     void stopButtonClicked() {
         showAlertDialog();
-
     }
 
     @OnClick(R.id.pause_button)
     void pauseButtonClicked() {
-
     }
 
     @OnClick(R.id.start_button)
@@ -52,29 +46,26 @@ public class SelectedMode extends BaseActivity {
     }
 
     private void showAlertDialog() {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("Are you sure fatass?");
-        builder1.setCancelable(true);
-
-        builder1.setPositiveButton(
-                "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(getApplicationContext(), SummaryActivity.class);
-                        startActivity(intent);
-                        dialog.cancel();
-                    }
-                });
-
-        builder1.setNegativeButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure?")
+                .setCancelable(true)
+                .setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(getApplicationContext(), SummaryActivity.class);
+                                startActivity(intent);
+                                dialog.cancel();
+                            }
+                        })
+                .setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                .create()
+                .show();
     }
 }

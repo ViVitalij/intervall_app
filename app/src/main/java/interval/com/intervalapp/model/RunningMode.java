@@ -3,15 +3,13 @@ package interval.com.intervalapp.model;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Created by m.losK on 2017-05-30.
  */
 
-@Getter
-@Setter
+@Data
 public class RunningMode extends RealmObject {
 
     @PrimaryKey
