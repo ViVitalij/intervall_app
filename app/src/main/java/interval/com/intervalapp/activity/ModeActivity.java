@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -72,10 +71,6 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
     private Realm realm = Realm.getDefaultInstance();
 
     private final static int REQUEST_PICK = 2;
-
-    public final int GALLERY_PHOTO = 2;
-    Bitmap newbitmap;
-    private Uri fileUri;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -258,36 +253,26 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public Song createSongModel(Uri uri, Intent data) {
-        Song song = null;
 
-        // SDK >= 11 && SDK < 19
+        String filePath = null;
+        String title = null;
+
         if (Build.VERSION.SDK_INT < 19) {
-
-
-//            String realPath = RealPathUtil.getRealPathFromURI_API11to18(
-//                    ModeActivity.this,
-//                    data.getData());
-//                setTextViews(Build.VERSION.SDK_INT, data.getData()
-//                        .getPath(), realPath);
-
             Uri selectedAudio = data.getData();
             String[] filePathColumn = {MediaStore.Audio.Media.DATA};
 
             Cursor cursor = getContentResolver()
                     .query(selectedAudio, filePathColumn, null,
                             null, null);
-            cursor.moveToFirst();
 
-            int columnIndex = cursor
-                    .getColumnIndex(filePathColumn[0]);
-            String filePath = cursor.getString(columnIndex);
-//            String path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-            String name = getTitle(selectedAudio);
-            String artist = "artist";
-            cursor.close();
-
-            song = new Song(name, filePath, artist, Song.FAST);
-            return song;
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int columnIndex = cursor
+                        .getColumnIndex(filePathColumn[0]);
+                filePath = cursor.getString(columnIndex);
+                title = getTitle(selectedAudio);
+                cursor.close();
+            }
 
 
         } else {
@@ -300,41 +285,27 @@ public class ModeActivity extends AppCompatActivity implements NavigationView.On
                     new String[]{id},
                     null);
 
-            if (cursor.moveToFirst()) {
-                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-                String name = cursor.getString(cursor.getColumnIndex("title"));
-                String artist = cursor.getString(cursor.getColumnIndex("artist"));
-                song = new Song(name, path, artist, Song.FAST);
-            }
-            cursor.close();
-        }
+            if (cursor != null) {
 
-        return song;
+                cursor.moveToFirst();
+                filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+                title = cursor.getString(cursor.getColumnIndex("title"));
+                cursor.close();
+            }
+        }
+        return new Song(title, filePath, Song.FAST);
     }
 
-//    private void setTextViews(int sdk, String uriPath, String realPath) {
-//
-//        fileUri = Uri.fromFile(new File(realPath));
-//
-//        Log.d("Status", "Build.VERSION.SDK_INT:" + sdk);
-//        Log.d("Status", "URI Path:" + fileUri);
-//        Log.d("Status", "Real Path: " + realPath);
-//
-//    }
-
-    private String getTitle(Uri uri){
-        String name = null;
-        Cursor c = getContentResolver().query(uri,null,null,null,null);
-
-        if(c==null){
-            //error
+    private String getTitle(Uri uri) {
+        String nameWithoutExtension = null;
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            String name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+            cursor.close();
+            nameWithoutExtension = name.split("\\.")[0];
         }
-
-        while(c.moveToNext()){
-            name = c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
-        }
-
-        return name;
+        return nameWithoutExtension;
     }
 
     private void initList() {

@@ -19,16 +19,12 @@ public class Song extends RealmObject {
     private String title;
 
     @Setter
-    private String artist;
-
-    @Setter
     private String type;
 
 
-    public Song(String title, String path, String artist, String type) {
+    public Song(String title, String path, String type) {
         this.title = title;
         this.path = path;
-        this.artist = artist;
         this.type = type;
     }
 
