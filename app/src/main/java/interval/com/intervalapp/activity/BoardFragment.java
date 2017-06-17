@@ -176,7 +176,7 @@ public class BoardFragment extends Fragment {
         final List<Pair<Long, String>> songList = new ArrayList<>();
 
         for (Song song : new RealmSongsDataBase().readSongList("fast")) {
-            songList.add(new Pair<>((long) song.hashCode(), song.getTittle()));
+            songList.add(new Pair<>((long) song.hashCode(), song.getTitle()));
         }
 
         fastAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
@@ -190,7 +190,7 @@ public class BoardFragment extends Fragment {
     private void addSlowMusicColumnList() {
         final ArrayList<Pair<Long, String>> songList = new ArrayList<>();
         for (Song song : new RealmSongsDataBase().readSongList("slow")) {
-            songList.add(new Pair<>((long) song.hashCode(), song.getTittle()));
+            songList.add(new Pair<>((long) song.hashCode(), song.getTitle()));
         }
 
         slowAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);

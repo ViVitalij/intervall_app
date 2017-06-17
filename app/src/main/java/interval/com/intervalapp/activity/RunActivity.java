@@ -2,12 +2,12 @@ package interval.com.intervalapp.activity;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +29,8 @@ import io.realm.RealmList;
 
 public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
+    private static final String TAG = "TAG";
+
     @BindView(R.id.chronometer)
     protected Chronometer chronometer;
 
@@ -45,18 +47,16 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
     private Integer counter = 0;
 
-    //TODO new Handler() here or onCreate?
-    private Handler handler = new Handler();
+    private Handler handler;
 
     private CountDownTimer countDownTimer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run);
         ButterKnife.bind(this);
-
+        handler = new Handler();
         setSongsList();
         setRunningMode();
     }
@@ -103,15 +103,17 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         counter = 0;
         chronometer.stop();
         chronometer.setText("00:00");
-        countDownTimer.cancel();
+        if(countDownTimer!=null){
+            countDownTimer.cancel();
+        }
         countdownTextView.setText("0");
 
         handler.removeCallbacks(runnable);
 
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
-            mediaPlayer.reset();
-            //TODO ask about release() and error state
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
         Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
     }
@@ -122,6 +124,9 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
             if (counter < runMode.size()) {
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
                 }
                 RunSection runSection = runMode.get(counter);
                 Long duration = runSection.getDuration();
@@ -167,19 +172,36 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         } else {
             song = slowSongList.get(new Random().nextInt(slowSongList.size()));
         }
-
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(this);
-
-        String stringSongUri = song.getUri();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        Log.i(TAG, song.getPath());
         try {
-            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(stringSongUri));
-            mediaPlayer.prepare();
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setOnCompletionListener(this);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setDataSource(song.getPath());
+        } catch (IllegalStateException e) {
+            Log.d(TAG, "IllegalStateException: " + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d(TAG, "IOException: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "IllegalArgumentException: " + e.getMessage());
+        } catch (SecurityException e) {
+            Log.d(TAG, "SecurityException: " + e.getMessage());
         }
-        mediaPlayer.start();
+
+        try {
+            mediaPlayer.prepareAsync();
+        } catch (IllegalStateException e) {
+            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
+        }
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+
+        {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mediaPlayer.start();
+            }
+        });
+//        mediaPlayer.start();
     }
 
     @Override
@@ -190,9 +212,11 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (mediaPlayer != null) {
+            mediaPlayer.stop();
             mediaPlayer.release();
+            mediaPlayer = null;
         }
+        super.onDestroy();
     }
 }

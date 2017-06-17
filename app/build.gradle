@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -50,6 +51,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     annotationProcessor 'org.parceler:parceler:1.1.7'
     provided 'org.projectlombok:lombok:1.12.6'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'us.belka:androidtoggleswitch:1.2.2'
     compile 'com.github.bmarrdev:android-DecoView-charting:v0.9.3'
     compile 'com.github.polok:clicknumberpicker:0.1.2'
