@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -67,8 +68,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center|end"
-                android:text="@string/mode_level"
                 android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="@string/mode_level"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -118,14 +120,14 @@
                 android:textColor="@color/white" />
 
             <ImageView
-                android:id="@+id/add_mode_icon"
+                android:id="@+id/add_run_section_icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/plus_box"
                 android:contentDescription="@string/plus" />
 
             <ImageView
-                android:id="@+id/delete_mode_icon"
+                android:id="@+id/delete_run_section_icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/minus_box"
@@ -154,4 +156,4 @@
         app:backgroundTint="@color/white"
         app:fabSize="normal" />
 
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

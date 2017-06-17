@@ -13,6 +13,8 @@
     <color name="low_intensity">#D6DEB5</color>
     <color name="medium_intensity">#8ebbcf</color>
     <color name="high_intensity">#e0ff3e5d</color>
+    <color name="dark_gray">#8d8d8d</color>
+    <color name="light_gray">#bdbdbd</color>
 
 
     <color name="black">#000000</color>

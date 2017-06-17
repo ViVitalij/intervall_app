@@ -26,11 +26,12 @@ package interval.com.intervalapp.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,8 +40,8 @@ import android.widget.TextView;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
-import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +54,8 @@ import io.realm.RealmList;
 import it.beppi.tristatetogglebutton_library.TriStateToggleButton;
 import pl.polak.clicknumberpicker.ClickNumberPickerView;
 
-public class CreateModeActivity extends AppCompatActivity implements TriStateToggleButton.OnToggleChanged {
+public class CreateModeActivity extends AppCompatActivity
+        implements TriStateToggleButton.OnToggleChanged {
 
     @BindView(R.id.mode_name_edit_text)
     protected EditText modeNameEditText;
@@ -68,31 +70,28 @@ public class CreateModeActivity extends AppCompatActivity implements TriStateTog
     protected PieChart pieChart;
 
     @BindView(R.id.tristate_intensity_button)
-    protected TriStateToggleButton intensityButton;
+    protected TriStateToggleButton tristateIntensityButton;
 
     @BindView(R.id.intensity_duration_button)
     protected Button intensityDurationButton;
 
-    private Dialog dialog;
+    @BindView(R.id.coordinator_layout)
+    protected CoordinatorLayout coordinatorLayout;
 
     private RealmList<RunSection> realmSectionList;
-
-    private String intensity;
-
-    private Long duration;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_mode_layout);
         ButterKnife.bind(this);
-        intensityButton.setOnToggleChanged(this);
+        tristateIntensityButton.setOnToggleChanged(this);
         realmSectionList = new RealmList<>();
     }
 
     @Override
-    public void onToggle(TriStateToggleButton.ToggleStatus toggleStatus, boolean booleanToggleStatus,
-                         int toggleIntValue) {
+    public void onToggle(TriStateToggleButton.ToggleStatus toggleStatus,
+                         boolean booleanToggleStatus, int toggleIntValue) {
         switch (toggleStatus) {
             case off:
                 intensityTextView.setText(R.string.high);
@@ -109,36 +108,10 @@ public class CreateModeActivity extends AppCompatActivity implements TriStateTog
         }
     }
 
+    //TODO bindings and use DialogFragment, refactor
     @OnClick(R.id.intensity_duration_button)
-    public void setTimePicker(View view) {
-        showPicker();
-    }
-
-
-    @OnClick(R.id.add_mode_icon)
-    public void createRunSection() {
-        createOneRunSection();
-        createChart();
-    }
-
-
-    @OnClick(R.id.add_mode_button)
-    public void addNewMode() {
-        if (modeNameEditText.getText().length() == 0) {
-            modeNameEditText.requestFocus();
-            modeNameEditText.setError("Insert mode name!");
-        } else {
-            RunningMode runningMode = new RunningMode(modeNameEditText.getText().toString(), realmSectionList);
-            RealmModeDatabase base = new RealmModeDatabase();
-            base.saveRunningMode(runningMode);
-            Intent intent = new Intent(this, ModeActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
-
-    private void showPicker() {
-        dialog = new Dialog(this);
+    public void showDurationPicker(View view) {
+        final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog);
         dialog.show();
         final ClickNumberPickerView minutesPicker = (ClickNumberPickerView) dialog.findViewById(R.id.minutes_picker);
@@ -149,36 +122,103 @@ public class CreateModeActivity extends AppCompatActivity implements TriStateTog
             public void onClick(View v) {
                 long minutesInMillis = (long) (minutesPicker.getValue() * 60000);
                 long secondsInMillis = (long) (secondsPicker.getValue() * 1000);
-                duration = minutesInMillis + secondsInMillis;
-                SimpleDateFormat formatter = new SimpleDateFormat("mm:ss", Locale.US);
-                String dateString = formatter.format(duration);
-                intensityDurationButton.setText(dateString);
-//                intensityDurationButton.setText(String.valueOf(minutesPicker.getValue()) +
-//                        ":" + secondsPicker.getValue());
+                long sectionDurationInMillis = minutesInMillis + secondsInMillis;
+                String durationProperStringFormat = String.format(Locale.US, "%02d:%02d:%02d",
+                        TimeUnit.MILLISECONDS.toHours(sectionDurationInMillis),
+                        TimeUnit.MILLISECONDS.toMinutes(sectionDurationInMillis)
+                                - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(sectionDurationInMillis)),
+                        TimeUnit.MILLISECONDS.toSeconds(sectionDurationInMillis)
+                                - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(sectionDurationInMillis)));
+                intensityDurationButton.setText(durationProperStringFormat);
                 dialog.dismiss();
             }
         });
     }
 
-    private void createOneRunSection() {
-        RunSection section = new RunSection(intensity, duration);
-        realmSectionList.add(section);
-        Log.e("asd", String.valueOf(realmSectionList.size()));
+    @OnClick(R.id.add_run_section_icon)
+    public void addRunSection(View view) {
+        if (checkDuration()) {
+            Snackbar.make(coordinatorLayout, R.string.request_section_duration, Snackbar.LENGTH_LONG)
+                    .show();
+        } else {
+            String sectionIntensity = getUserIntensity();
+            long sectionDuration = getUserSectionDuration();
+            RunSection runSection = new RunSection(sectionIntensity, sectionDuration);
+            realmSectionList.add(runSection);
+            addRunSectionToChart(sectionIntensity, sectionDuration / 1000);
+        }
+
     }
 
-    private void createChart() {
-        switch (intensity) {
+    private boolean checkDuration() {
+        return intensityDurationButton.getText().toString()
+                .equals(getString(R.string.select_section_duration));
+    }
+
+    private String getUserIntensity() {
+        String intensity;
+        TriStateToggleButton.ToggleStatus toggleStatus = tristateIntensityButton.getToggleStatus();
+        switch (toggleStatus) {
+            case off:
+                intensity = RunSection.HIGH;
+                break;
+            case mid:
+                intensity = RunSection.MEDIUM;
+                break;
+            case on:
+                intensity = RunSection.LOW;
+                break;
+            default:
+                intensity = RunSection.MEDIUM;
+                break;
+        }
+        return intensity;
+    }
+
+    private Long getUserSectionDuration() {
+        String stringUserSectionDuration = intensityDurationButton.getText().toString();
+        String[] splitDuration = stringUserSectionDuration.split(":");
+        long secondsInMillis = Integer.parseInt(splitDuration[2]) * 1000;
+        long minutesInMillis = Integer.parseInt(splitDuration[1]) * 60000;
+        long hoursInMillis = Integer.parseInt(splitDuration[0]) * 3600000;
+        return secondsInMillis + minutesInMillis + hoursInMillis;
+    }
+
+    private void addRunSectionToChart(String sectionIntensity, long sectionDurationInSeconds) {
+        switch (sectionIntensity) {
             case RunSection.HIGH:
-                pieChart.addPieSlice(new PieModel("High", 15, Color.parseColor("#CC1D1D")));
+                pieChart.addPieSlice(new PieModel(getString(R.string.high), sectionDurationInSeconds,
+                        ContextCompat.getColor(this, R.color.high_intensity)));
                 break;
             case RunSection.MEDIUM:
-                pieChart.addPieSlice(new PieModel("Medium", 25, Color.parseColor("#8EAE3C")));
+                pieChart.addPieSlice(new PieModel(getString(R.string.medium), sectionDurationInSeconds,
+                        ContextCompat.getColor(this, R.color.medium_intensity)));
                 break;
             case RunSection.LOW:
-                pieChart.addPieSlice(new PieModel("Low", 25, Color.parseColor("#FFFFFF")));
+                pieChart.addPieSlice(new PieModel(getString(R.string.low), sectionDurationInSeconds,
+                        ContextCompat.getColor(this, R.color.low_intensity)));
+                break;
             default:
+                pieChart.addPieSlice(new PieModel(getString(R.string.medium), sectionDurationInSeconds,
+                        ContextCompat.getColor(this, R.color.medium_intensity)));
                 break;
         }
         pieChart.startAnimation();
+    }
+
+    @OnClick(R.id.add_mode_button)
+    public void addModeToDatabase() {
+        if (modeNameEditText.getText().length() == 0) {
+            modeNameEditText.requestFocus();
+            modeNameEditText.setError(getString(R.string.insert_mode_name));
+        } else {
+            RunningMode runningMode = new RunningMode(modeNameEditText.getText().toString(),
+                    realmSectionList);
+            RealmModeDatabase base = new RealmModeDatabase();
+            base.saveRunningMode(runningMode);
+            Intent intent = new Intent(this, ModeActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

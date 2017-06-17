@@ -139,5 +139,7 @@
     <string name="plus">plus</string>
     <string name="minus">minus</string>
     <string name="set_interval_time">Set interval time</string>
+    <string name="request_section_duration">Set section duration!</string>
+    <string name="insert_mode_name">Insert mode name!</string>
 
 </resources>
