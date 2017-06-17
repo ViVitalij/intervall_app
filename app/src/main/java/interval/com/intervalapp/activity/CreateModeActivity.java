@@ -123,13 +123,17 @@ public class CreateModeActivity extends AppCompatActivity
                 long minutesInMillis = (long) (minutesPicker.getValue() * 60000);
                 long secondsInMillis = (long) (secondsPicker.getValue() * 1000);
                 long sectionDurationInMillis = minutesInMillis + secondsInMillis;
-                String durationProperStringFormat = String.format(Locale.US, "%02d:%02d:%02d",
-                        TimeUnit.MILLISECONDS.toHours(sectionDurationInMillis),
-                        TimeUnit.MILLISECONDS.toMinutes(sectionDurationInMillis)
-                                - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(sectionDurationInMillis)),
-                        TimeUnit.MILLISECONDS.toSeconds(sectionDurationInMillis)
-                                - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(sectionDurationInMillis)));
-                intensityDurationButton.setText(durationProperStringFormat);
+                if (sectionDurationInMillis != 0) {
+                    String durationProperStringFormat = String.format(Locale.US, "%02d:%02d:%02d",
+                            TimeUnit.MILLISECONDS.toHours(sectionDurationInMillis),
+                            TimeUnit.MILLISECONDS.toMinutes(sectionDurationInMillis)
+                                    - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours
+                                    (sectionDurationInMillis)),
+                            TimeUnit.MILLISECONDS.toSeconds(sectionDurationInMillis)
+                                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes
+                                    (sectionDurationInMillis)));
+                    intensityDurationButton.setText(durationProperStringFormat);
+                }
                 dialog.dismiss();
             }
         });
@@ -215,7 +219,7 @@ public class CreateModeActivity extends AppCompatActivity
             RunningMode runningMode = new RunningMode(modeNameEditText.getText().toString(),
                     realmSectionList);
             RealmModeDatabase base = new RealmModeDatabase();
-            base.saveRunningMode(runningMode);
+            base.saveOrUpdateRunningMode(runningMode);
             Intent intent = new Intent(this, ModeActivity.class);
             startActivity(intent);
             finish();

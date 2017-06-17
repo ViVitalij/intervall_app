@@ -15,15 +15,20 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import interval.com.intervalapp.R;
 import interval.com.intervalapp.activity.SelectedMode;
 import interval.com.intervalapp.model.RunningMode;
 
 
-public class TrybRowAdapter extends ArrayAdapter<RunningMode> {
-    @BindView(R.id.row)
+public class ModeRowAdapter extends ArrayAdapter<RunningMode> {
+
+    @BindView(R.id.row_button)
     protected Button rowButton;
 
+    public ModeRowAdapter(Context context, List<RunningMode> mode) {
+        super(context, 0, mode);
+    }
 
     @NonNull
     @Override
@@ -34,24 +39,17 @@ public class TrybRowAdapter extends ArrayAdapter<RunningMode> {
             convertView.setLongClickable(true);
         }
         ButterKnife.bind(this, convertView);
-
         rowButton.setText(model.getName());
         rowButton.setLongClickable(true);
-        rowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), SelectedMode.class);
-                intent.putExtra("modeName", rowButton.getText());
-                getContext().startActivity(intent);
-                Toast.makeText(getContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         return convertView;
     }
 
-    public TrybRowAdapter(Context context, List<RunningMode> mode) {
-        super(context, 0, mode);
+    @OnClick(R.id.row_button)
+    protected void rowButtonClicked() {
+        Intent intent = new Intent(getContext(), SelectedMode.class);
+        intent.putExtra("modeName", rowButton.getText());
+        getContext().startActivity(intent);
+        Toast.makeText(getContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();
     }
-
 }

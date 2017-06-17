@@ -1,0 +1,55 @@
+{
+	"project_info": {
+		"project_number": "1092551243661",
+		"firebase_url": "https://intervalapp-7bc28.firebaseio.com",
+		"project_id": "intervalapp-7bc28",
+		"storage_bucket": "intervalapp-7bc28.appspot.com"
+	},
+	"client": [
+		{
+			"client_info": {
+				"mobilesdk_app_id": "1:1092551243661:android:aeafb2bd78fc28a0",
+				"android_client_info": {
+					"package_name": "interval.com.intervalapp"
+				}
+			},
+			"oauth_client": [
+				{
+					"client_id": "1092551243661-jpu26phe8gvbff1aqhd8vuv9celeb2oq.apps.googleusercontent.com",
+					"client_type": 1,
+					"android_info": {
+						"package_name": "interval.com.intervalapp",
+						"certificate_hash": "cc16e2dbd3659129a3c4151cab78e28138a1c54c"
+					}
+				},
+				{
+					"client_id": "1092551243661-lj13q8j8ovud82iklduuej2opi6bg5g5.apps.googleusercontent.com",
+					"client_type": 3
+				}
+			],
+			"api_key": [
+				{
+					"current_key": "AIzaSyDG55eBHvR-GlBxpIXDiZVZ12qCEkv10qM"
+				}
+			],
+			"services": {
+				"analytics_service": {
+					"status": 1
+				},
+				"appinvite_service": {
+					"status": 2,
+					"other_platform_oauth_client": [
+						{
+							"client_id": "1092551243661-lj13q8j8ovud82iklduuej2opi6bg5g5.apps.googleusercontent.com",
+							"client_type": 3
+						}
+					]
+				},
+				"ads_service": {
+					"status": 2
+				}
+			}
+		}
+	],
+	"configuration_version": "1"
+}

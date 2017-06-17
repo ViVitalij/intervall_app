@@ -31,17 +31,23 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
     @BindView(R.id.chronometer)
     protected Chronometer chronometer;
+
     @BindView(R.id.countdown_textView)
     protected TextView countdownTextView;
 
     private MediaPlayer mediaPlayer;
-    private int startingPosition = 0;
+
     private List<Song> fastSongList;
+
     private List<Song> slowSongList;
+
     private RealmList<RunSection> runMode;
+
     private Integer counter = 0;
+
     //TODO new Handler() here or onCreate?
     private Handler handler = new Handler();
+
     private CountDownTimer countDownTimer;
 
 
@@ -72,15 +78,13 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
     protected void startClicked() {
         //TODO change icon to pause
         //TODO be aware when resume running
-
-
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
 
         handler.postDelayed(runnable, 100);
     }
 
-    //TODO warning - not working
+    //TODO aware - not working
     @OnClick(R.id.pause_button2)
     protected void pauseClicked() {
 
@@ -192,21 +196,3 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         }
     }
 }
-
-/* fade in and out
-        public void load(String path, boolean looping)
-        {
-            mediaPlayer = MediaPlayer.create(context, Uri.fromFile(new File(path)));
-            mediaPlayer.setLooping(looping);
-        public void load(int address, boolean looping)
-        {
-            mediaPlayer = MediaPlayer.create(context, address);
-            mediaPlayer.setLooping(looping);
-            if(!mediaPlayer.isPlaying()) mediaPlayer.start();
-            {
-                final Timer timer = new Timer(true);
-                TimerTask timerTask = new TimerTask()
-                {
-                    @Override
-                    {
-    */

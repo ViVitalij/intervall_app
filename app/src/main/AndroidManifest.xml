@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
@@ -13,10 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activity.CreateModeActivity">
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -27,11 +29,10 @@
         <activity android:name=".activity.ModeActivity" />
         <activity android:name=".activity.SelectedMode" />
         <activity android:name=".activity.NewAccountActivity" />
-        <activity android:name=".activity.SummaryActivity"></activity>
-
-    <activity
-        android:name=".activity.LoginActivity"
-        android:theme="@style/LoginTheme"/>
+        <activity android:name=".activity.SummaryActivity"/>
+        <activity android:name=".helper.ResetPasswordHelper"/>
+        <activity android:name=".activity.ResetPasswordActivity"/>
+        <activity android:name=".activity.CreateModeActivity" />
     </application>
 
 </manifest>
