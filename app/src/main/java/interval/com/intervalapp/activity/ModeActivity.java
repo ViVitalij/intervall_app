@@ -86,8 +86,9 @@ public class ModeActivity extends AppCompatActivity
 
     @OnClick(R.id.fab)
     protected void buttonClicked(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        Intent intent = new Intent(getApplicationContext(),CreateModeActivity.class);
+        startActivity(intent);
+
     }
 
 
@@ -302,8 +303,8 @@ public class ModeActivity extends AppCompatActivity
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(ModeActivity.this)
                 .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton(R.string.ok, okListener)
+                .setNegativeButton(R.string.cancel, null)
                 .create()
                 .show();
     }

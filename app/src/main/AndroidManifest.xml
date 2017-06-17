@@ -34,6 +34,7 @@
         <activity android:name=".activity.SummaryActivity"/>
         <activity android:name=".helper.ResetPasswordHelper"/>
         <activity android:name=".activity.ResetPasswordActivity"/>
+        <activity android:name=".activity.CreateModeActivity" />
     </application>
 
 </manifest>
