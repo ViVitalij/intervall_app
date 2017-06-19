@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Interval App</string>
-    <string name="account_created" translatable="false">Konto zostało utworzone</string>
-    <string name="action_disable_drag" translatable="false">Wyłącz przeciąganie</string>
+    <string name="account_created">Konto zostało utworzone</string>
+    <string name="action_disable_drag">Wyłącz przeciąganie</string>
     <string name="action_enable_drag">Włącz przeciąganie</string>
     <string name="action_settings">Ustawienia</string>
     <string name="btn_back">Wstecz</string>
@@ -11,10 +11,8 @@
     <string name="btn_reset_password">Zmień hasło</string>
     <string name="btn_send">Wyślij</string>
     <string name="btn_sign_out">Wyloguj</string>
-    <string name="cardio"/>
     <string name="change_email">zmień email</string>
     <string name="change_password">zmień hasło</string>
-    <string name="clear_board"/>
     <string name="create_account">Utwórz konto</string>
     <string name="create_new_account">Nie masz konta? Utwórz je</string>
     <string name="email">Email</string>
@@ -33,7 +31,6 @@
     <string name="music_list">Twoja muzyka</string>
     <string name="choose_music">Wybierz swoją muzykę</string>
     <string name="name">Imię</string>
-    <string name="new_pass"/>
     <string name="next_mode">NASTĘPNY TRYB</string>
     <string name="password">Hasło</string>
     <string name="remove_user">Usuń użytkownika</string>
