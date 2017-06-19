@@ -10,7 +10,7 @@
     <string name="btn_remove">Usuń</string>
     <string name="btn_reset_password">Zmień hasło</string>
     <string name="btn_send">Wyślij</string>
-    <string name="btn_sign_out">Wyloguj</string>
+    <string name="sign_out">Wyloguj</string>
     <string name="change_email">zmień email</string>
     <string name="change_password">zmień hasło</string>
     <string name="create_account">Stwórz konto</string>

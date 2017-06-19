@@ -64,7 +64,7 @@ public class ModeActivity extends AppCompatActivity
     @BindView(R.id.nav_view)
     protected NavigationView navigationView;
 
-    @BindView(R.id.listView)
+    @BindView(R.id.list_view)
     protected ListView listView;
 
     @BindView(R.id.coordinator_layout)
