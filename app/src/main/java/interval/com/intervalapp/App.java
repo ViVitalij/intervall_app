@@ -1,7 +1,5 @@
 package interval.com.intervalapp;
 
-import android.content.Context;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import interval.com.intervalapp.database.RealmModeDatabase;
@@ -40,7 +38,7 @@ public class App extends MultiDexApplication {
         list.add(new RunSection(RunSection.MEDIUM, 15000L));
 
         RunningMode runningMode = new RunningMode();
-        runningMode.setRunMode(list);
+        runningMode.setRunSectionList(list);
         runningMode.setName("tabata");
         return runningMode;
     }

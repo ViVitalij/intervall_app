@@ -16,7 +16,7 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/fastrun"
+            android:background="@mipmap/runner_picture"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
 
@@ -33,6 +33,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/ac_sample_linear" />
+    <include layout="@layout/running_management_layout" />
 
 </android.support.design.widget.CoordinatorLayout>

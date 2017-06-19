@@ -17,9 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import interval.com.intervalapp.R;
-import interval.com.intervalapp.activity.SelectedMode;
+import interval.com.intervalapp.activity.RunningActivity;
 import interval.com.intervalapp.model.RunningMode;
-
 
 public class ModeRowAdapter extends ArrayAdapter<RunningMode> {
 
@@ -47,7 +46,7 @@ public class ModeRowAdapter extends ArrayAdapter<RunningMode> {
 
     @OnClick(R.id.row_button)
     protected void rowButtonClicked() {
-        Intent intent = new Intent(getContext(), SelectedMode.class);
+        Intent intent = new Intent(getContext(), RunningActivity.class);
         intent.putExtra("modeName", rowButton.getText());
         getContext().startActivity(intent);
         Toast.makeText(getContext(), R.string.run_screen, Toast.LENGTH_SHORT).show();

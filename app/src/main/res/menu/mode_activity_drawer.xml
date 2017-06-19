@@ -4,15 +4,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_musicList"
-            android:icon="@mipmap/ic_launcher_round"
+            android:icon="@drawable/note_paper_icon"
             android:title="@string/music_list" />
         <item
             android:id="@+id/nav_musicPicker"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/note_icon"
             android:title="@string/choose_music" />
         <item
             android:id="@+id/nav_runScreen"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/running_icon"
+            android:tint="@color/darker_gray"
             android:title="@string/run_screen" />
     </group>
 
@@ -20,7 +21,7 @@
         <menu>
             <item
                 android:id="@+id/nav_settings"
-                android:icon="@mipmap/ic_launcher"
+                android:icon="@drawable/settings_icon"
                 android:title="@string/settings" />
         </menu>
     </item>

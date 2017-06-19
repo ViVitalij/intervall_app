@@ -14,14 +14,18 @@ public class RunningMode extends RealmObject {
 
     @PrimaryKey
     private String name;
-    private RealmList<RunSection> runMode;
+    private RealmList<RunSection> runSectionList;
 
-    public RunningMode(String name, RealmList<RunSection> runMode) {
+    public RunningMode(String name, RealmList<RunSection> runSectionList) {
         this.name = name;
-        this.runMode = runMode;
+        this.runSectionList = runSectionList;
     }
 
     public RunningMode() {
+    }
+
+    public RealmList<RunSection> getRunSectionList() {
+        return runSectionList;
     }
 
     @Override
@@ -32,18 +36,14 @@ public class RunningMode extends RealmObject {
         RunningMode that = (RunningMode) o;
 
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        return runMode != null ? runMode.equals(that.runMode) : that.runMode == null;
+        return runSectionList != null ? runSectionList.equals(that.runSectionList) : that.runSectionList == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (runMode != null ? runMode.hashCode() : 0);
+        result = 31 * result + (runSectionList != null ? runSectionList.hashCode() : 0);
         return result;
-    }
-
-    public RealmList<RunSection> getRunMode() {
-        return runMode;
     }
 }

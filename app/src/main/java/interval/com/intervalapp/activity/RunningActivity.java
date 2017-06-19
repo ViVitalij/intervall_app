@@ -1,12 +1,17 @@
 package interval.com.intervalapp.activity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Chronometer;
 import android.widget.TextView;
@@ -25,47 +30,58 @@ import interval.com.intervalapp.database.RealmSongsDataBase;
 import interval.com.intervalapp.model.RunSection;
 import interval.com.intervalapp.model.RunningMode;
 import interval.com.intervalapp.model.Song;
+import interval.com.intervalapp.utils.CircularProgressBar;
 import io.realm.RealmList;
 
-public class RunActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
+import static interval.com.intervalapp.R.id.circular_progress_bar;
+
+public class RunningActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
     private static final String TAG = "TAG";
 
     @BindView(R.id.chronometer)
     protected Chronometer chronometer;
 
-    @BindView(R.id.countdown_textView)
+    @BindView(R.id.toolbar)
+    protected Toolbar toolbar;
+
+    @BindView(R.id.countdown_text_view)
     protected TextView countdownTextView;
 
-    private MediaPlayer mediaPlayer;
+    @BindView(circular_progress_bar)
+    protected CircularProgressBar circularProgressBar;
+
+    private RealmList<RunSection> runSectionList;
 
     private List<Song> fastSongList;
 
     private List<Song> slowSongList;
 
-    private RealmList<RunSection> runMode;
-
-    private Integer counter = 0;
+    private MediaPlayer mediaPlayer;
 
     private Handler handler;
 
     private CountDownTimer countDownTimer;
 
+    private int counter = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_run);
+        setContentView(R.layout.running_activity);
         ButterKnife.bind(this);
-        handler = new Handler();
+        setSupportActionBar(toolbar);
         setSongsList();
         setRunningMode();
+        setCircularProgressBar();
+        handler = new Handler();
     }
 
     private void setRunningMode() {
-        String modeNameFromIntent = getIntent().getStringExtra("modeName");
+        String modeNameFromIntent = getIntent().getStringExtra(getString(R.string.intent_mode_name));
         RealmModeDatabase realmModeDatabase = new RealmModeDatabase();
         RunningMode runningMode = realmModeDatabase.readRunningMode(modeNameFromIntent);
-        runMode = runningMode.getRunMode();
+        runSectionList = runningMode.getRunSectionList();
     }
 
     private void setSongsList() {
@@ -74,61 +90,90 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         slowSongList = realmSongsDataBase.readSongList(Song.SLOW);
     }
 
-    @OnClick(R.id.start_button2)
-    protected void startClicked() {
-        //TODO change icon to pause
-        //TODO be aware when resume running
+    private void setCircularProgressBar() {
+        circularProgressBar.setColor(ContextCompat.getColor(this, R.color.low_intensity));
+        circularProgressBar.setBackgroundColor(ContextCompat.getColor(this, R.color.medium_intensity));
+        circularProgressBar.setProgressBarWidth(getResources().getDimension(R.dimen.progress_bar_width));
+        circularProgressBar.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.progress_bar_background_width));
+    }
+
+    @OnClick(R.id.start_button)
+    protected void startButtonClicked() {
+        handler.postDelayed(runnable, 100);
+
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
-
-        handler.postDelayed(runnable, 100);
+        circularProgressBar.setProgressWithAnimation(100, 6000);
     }
 
-    //TODO aware - not working
-    @OnClick(R.id.pause_button2)
-    protected void pauseClicked() {
-
+    @OnClick(R.id.pause_button)
+    protected void pauseButtonClicked() {
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
         chronometer.stop();
-        mediaPlayer.pause();
-        Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show();
+        circularProgressBar.stopAnimation();
     }
 
+    @OnClick(R.id.stop_button)
+    protected void stopButtonClicked() {
+        showAlertDialog();
+    }
 
-    @OnClick(R.id.stop_button2)
-    protected void stopClicked() {
-        //TODO check if user really want to stop
+    private void showAlertDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.are_you_sure)
+                .setCancelable(true)
+                .setPositiveButton(
+                        R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                counter = 0;
+                                chronometer.stop();
+                                chronometer.setText(R.string.time_zero);
+                                if (countDownTimer != null) {
+                                    countDownTimer.cancel();
+                                }
+                                countdownTextView.setText(R.string.zero);
 
-        //TODO change run_button icon to play
+                                handler.removeCallbacks(runnable);
 
-        counter = 0;
-        chronometer.stop();
-        chronometer.setText("00:00");
-        if(countDownTimer!=null){
-            countDownTimer.cancel();
-        }
-        countdownTextView.setText("0");
+                                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                                    mediaPlayer.stop();
+                                    mediaPlayer.release();
+                                    mediaPlayer = null;
+                                }
 
-        handler.removeCallbacks(runnable);
-
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-        Toast.makeText(this, "Stop", Toast.LENGTH_LONG).show();
+                                dialog.cancel();
+                                circularProgressBar.stopAnimation();
+                                circularProgressBar.setProgress(0);
+                                Intent intent = new Intent(getApplicationContext(), SummaryActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                .setNegativeButton(
+                        R.string.no,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                .create()
+                .show();
     }
 
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (counter < runMode.size()) {
+            if (counter < runSectionList.size()) {
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
                     mediaPlayer.reset();
                     mediaPlayer.release();
                     mediaPlayer = null;
                 }
-                RunSection runSection = runMode.get(counter);
+                RunSection runSection = runSectionList.get(counter);
                 Long duration = runSection.getDuration();
                 startCountDownTimer(duration);
                 String intensity = runSection.getIntensity();
@@ -149,14 +194,14 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
         countDownTimer = new CountDownTimer(duration, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                countdownTextView.setText("" + millisUntilFinished / 1000);
+                countdownTextView.setText(String.valueOf(millisUntilFinished / 1000));
             }
 
             public void onFinish() {
-                if (counter == runMode.size()) {
-                    countdownTextView.setText("done!");
+                if (counter == runSectionList.size()) {
+                    countdownTextView.setText(R.string.done);
                 } else {
-                    countdownTextView.setText("0");
+                    countdownTextView.setText(R.string.zero);
                 }
             }
         };
@@ -201,7 +246,6 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
                 mediaPlayer.start();
             }
         });
-//        mediaPlayer.start();
     }
 
     @Override
@@ -212,11 +256,11 @@ public class RunActivity extends AppCompatActivity implements MediaPlayer.OnComp
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
         }
-        super.onDestroy();
     }
 }
