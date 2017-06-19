@@ -84,6 +84,12 @@ public class ModeActivity extends AppCompatActivity
         initList();
     }
 
+    @OnClick(R.id.menu_image_view)
+    void openDrawer() {
+        drawer.openDrawer(GravityCompat.START);
+    }
+
+
     @OnClick(R.id.fab)
     protected void buttonClicked(View view) {
         Intent intent = new Intent(getApplicationContext(),CreateModeActivity.class);
