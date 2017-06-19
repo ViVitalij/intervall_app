@@ -26,10 +26,9 @@
         <activity
             android:name=".activity.SongDragAndDropActivity"
             android:theme="@style/ToolbarTheme" />
-        <activity android:name=".activity.RunActivity" />
         <activity android:name=".activity.LoginActivity"
             android:theme="@style/LoginTheme"/>
-        <activity android:name=".activity.SelectedMode" />
+        <activity android:name=".activity.RunningActivity" />
         <activity android:name=".activity.NewAccountActivity" />
         <activity android:name=".activity.SummaryActivity"/>
         <activity android:name=".helper.ResetPasswordHelper"/>

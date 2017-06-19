@@ -92,11 +92,10 @@ public class ModeActivity extends AppCompatActivity
 
     @OnClick(R.id.fab)
     protected void buttonClicked(View view) {
-        Intent intent = new Intent(getApplicationContext(),CreateModeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), CreateModeActivity.class);
         startActivity(intent);
 
     }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -110,7 +109,7 @@ public class ModeActivity extends AppCompatActivity
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                         chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                     }
-                    startActivityForResult(Intent.createChooser(chooseFile, "Choose a file"),
+                    startActivityForResult(Intent.createChooser(chooseFile, getString(R.string.choose_a_file)),
                             REQUEST_PICK);
                 } else {
                     requestPermission();
@@ -120,8 +119,8 @@ public class ModeActivity extends AppCompatActivity
                 startActivity(new Intent(getApplicationContext(), SongDragAndDropActivity.class));
                 break;
             case R.id.nav_runScreen:
-                startActivity(new Intent(getApplicationContext(), RunActivity.class)
-                        .putExtra("modeName", "tabata"));
+                startActivity(new Intent(getApplicationContext(), RunningActivity.class)
+                        .putExtra(getString(R.string.intent_mode_name), getString(R.string.tabata)));
                 break;
             case R.id.nav_settings:
                 break;
@@ -246,7 +245,7 @@ public class ModeActivity extends AppCompatActivity
             if (cursor != null) {
                 cursor.moveToFirst();
                 filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-                title = cursor.getString(cursor.getColumnIndex("title"));
+                title = cursor.getString(cursor.getColumnIndex(getString(R.string.title)));
                 cursor.close();
             }
         }

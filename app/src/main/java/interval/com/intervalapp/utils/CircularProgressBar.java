@@ -1,8 +1,4 @@
-package interval.com.intervalapp.activity;
-
-/**
- * Created by RENT on 2017-06-08.
- */
+package interval.com.intervalapp.utils;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -18,6 +14,7 @@ import android.view.animation.DecelerateInterpolator;
 /**
  * Created by Mikhael LOPEZ on 16/10/2015.
  */
+
 public class CircularProgressBar extends View {
 
     // Properties

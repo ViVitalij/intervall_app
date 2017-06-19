@@ -29,13 +29,13 @@
     <string name="mb_button">Start</string>
     <string name="minimum_password">Hasło musi zawierać minimum 6 znaków</string>
     <string name="music_list">Twoja muzyka</string>
-    <string name="choose_music">Wybierz swoją muzykę</string>
+    <string name="choose_music">Wybierz muzykę</string>
     <string name="name">Imię</string>
     <string name="next_mode">NASTĘPNY TRYB</string>
     <string name="password">Hasło</string>
     <string name="remove_user">Usuń użytkownika</string>
     <string name="run_screen">Biegnij!</string>
-    <string name="select_your_mode">Wybierz swój tryb</string>
+    <string name="select_your_mode">Wybierz tryb</string>
     <string name="send_password_reset_email">Wyślij email resetujący hasło</string>
     <string name="settings">Ustawienia</string>
     <string name="slow_songs">Wolne piosenki</string>
