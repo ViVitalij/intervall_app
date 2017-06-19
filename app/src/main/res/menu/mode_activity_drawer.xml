@@ -10,10 +10,10 @@
             android:id="@+id/nav_musicPicker"
             android:icon="@drawable/note_icon"
             android:title="@string/choose_music" />
-        <!--TODO darker_gray color API<21-->
         <item
             android:id="@+id/nav_runScreen"
-            android:icon="@drawable/runner_icon"
+            android:icon="@mipmap/running_icon"
+            android:tint="@color/darker_gray"
             android:title="@string/run_screen" />
     </group>
 

@@ -97,7 +97,6 @@ public class ModeActivity extends AppCompatActivity
 
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -123,8 +122,10 @@ public class ModeActivity extends AppCompatActivity
                         .putExtra(getString(R.string.intent_mode_name), getString(R.string.tabata)));
                 break;
             case R.id.nav_settings:
+                startActivity(new Intent(getApplicationContext(), UserAccountSettingsActivity.class));
                 break;
             default:
+                drawer.closeDrawer(GravityCompat.START);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

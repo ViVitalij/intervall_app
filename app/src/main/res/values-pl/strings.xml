@@ -13,8 +13,8 @@
     <string name="btn_sign_out">Wyloguj</string>
     <string name="change_email">zmień email</string>
     <string name="change_password">zmień hasło</string>
-    <string name="create_account">Utwórz konto</string>
-    <string name="create_new_account">Nie masz konta? Utwórz je</string>
+    <string name="create_account">Stwórz konto</string>
+    <string name="create_new_account">Nie masz konta? Stwórz je!</string>
     <string name="email">Email</string>
     <string name="enter_email">Wprowadź adres email!</string>
     <string name="enter_password">Wprowadź hasło!</string>

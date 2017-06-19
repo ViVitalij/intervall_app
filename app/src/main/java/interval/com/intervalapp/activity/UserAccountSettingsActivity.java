@@ -1,4 +1,4 @@
-package interval.com.intervalapp.helper;
+package interval.com.intervalapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,11 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import interval.com.intervalapp.R;
-import interval.com.intervalapp.activity.LoginActivity;
-import interval.com.intervalapp.activity.ModeActivity;
 
-//TODO not helper - change to activity
-public class ResetPasswordHelper extends AppCompatActivity {
+public class UserAccountSettingsActivity extends AppCompatActivity {
     private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
             changeEmail, changePassword, sendEmail, remove, signOut;
 
@@ -48,7 +45,7 @@ public class ResetPasswordHelper extends AppCompatActivity {
                 if (user == null) {
                     // user auth state is changed - user is null
                     // launch login activity
-                    startActivity(new Intent(ResetPasswordHelper.this, ModeActivity.class));
+                    startActivity(new Intent(UserAccountSettingsActivity.this, ModeActivity.class));
                     finish();
                 }
             }
@@ -87,10 +84,10 @@ public class ResetPasswordHelper extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(ResetPasswordHelper.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(UserAccountSettingsActivity.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
                                         signOut();
                                     } else {
-                                        Toast.makeText(ResetPasswordHelper.this, "Failed to update email!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(UserAccountSettingsActivity.this, "Failed to update email!", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -118,10 +115,10 @@ public class ResetPasswordHelper extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(ResetPasswordHelper.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(UserAccountSettingsActivity.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
                                             signOut();
                                         } else {
-                                            Toast.makeText(ResetPasswordHelper.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(UserAccountSettingsActivity.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
@@ -148,9 +145,9 @@ public class ResetPasswordHelper extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(ResetPasswordHelper.this, "Reset password email is sent!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(UserAccountSettingsActivity.this, "Reset password email is sent!", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(ResetPasswordHelper.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(UserAccountSettingsActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -169,11 +166,11 @@ public class ResetPasswordHelper extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(ResetPasswordHelper.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(ResetPasswordHelper.this, LoginActivity.class));
+                                        Toast.makeText(UserAccountSettingsActivity.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(UserAccountSettingsActivity.this, LoginActivity.class));
                                         finish();
                                     } else {
-                                        Toast.makeText(ResetPasswordHelper.this, "Failed to delete your account!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(UserAccountSettingsActivity.this, "Failed to delete your account!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
