@@ -208,8 +208,6 @@ public class RunningActivity extends AppCompatActivity implements MediaPlayer.On
         countDownTimer.start();
     }
 
-    //TODO when songsList are empty
-    //TODO random with no repetitions
     private void startMusic(String intensity) {
         Song song;
         if (intensity.equals(RunSection.HIGH)) {
@@ -250,7 +248,6 @@ public class RunningActivity extends AppCompatActivity implements MediaPlayer.On
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        //TODO next song
         mediaPlayer.start();
     }
 

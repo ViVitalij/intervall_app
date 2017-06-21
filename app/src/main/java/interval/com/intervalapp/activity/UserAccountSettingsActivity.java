@@ -41,8 +41,6 @@ public class UserAccountSettingsActivity extends AppCompatActivity implements Fi
         user = firebaseAuth.getCurrentUser();
     }
 
-    //TODO ProgressBar
-
     @OnClick(R.id.change_email_button)
     protected void changeEmailClicked() {
         if (user != null && !newEmailEditText.getText().toString().trim().equals("")) {
@@ -138,7 +136,6 @@ public class UserAccountSettingsActivity extends AppCompatActivity implements Fi
     @OnClick(R.id.sign_out_button)
     protected void signOutClicked() {
         signOut();
-        //TODO on success
         startActivity(new Intent(UserAccountSettingsActivity.this,
                 LoginActivity.class));
         finish();
@@ -155,14 +152,11 @@ public class UserAccountSettingsActivity extends AppCompatActivity implements Fi
         firebaseAuth.addAuthStateListener(this);
     }
 
-    //TODO
     @SuppressWarnings("NullPointerException")
     @Override
     public void onStop() {
         super.onStop();
-//        if (authListener != null) {
         firebaseAuth.removeAuthStateListener(this);
-//        }
     }
 
     @Override

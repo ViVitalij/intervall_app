@@ -108,14 +108,15 @@ public class CreateModeActivity extends AppCompatActivity
         }
     }
 
-    //TODO bindings and use DialogFragment, refactor
     @OnClick(R.id.intensity_duration_button)
     public void showDurationPicker(View view) {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog);
         dialog.show();
-        final ClickNumberPickerView minutesPicker = (ClickNumberPickerView) dialog.findViewById(R.id.minutes_picker);
-        final ClickNumberPickerView secondsPicker = (ClickNumberPickerView) dialog.findViewById(R.id.seconds_picker);
+        final ClickNumberPickerView minutesPicker =
+                (ClickNumberPickerView) dialog.findViewById(R.id.minutes_picker);
+        final ClickNumberPickerView secondsPicker =
+                (ClickNumberPickerView) dialog.findViewById(R.id.seconds_picker);
         Button setButton = (Button) dialog.findViewById(R.id.set_button);
         setButton.setOnClickListener(new View.OnClickListener() {
             @Override
