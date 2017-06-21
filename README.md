@@ -19,9 +19,9 @@ application intuitive and user-friendly during the exercise.
 
 ### How does it look like? ###
 
-![Picture](https:\\bitbucket.org\gronkier\interval_app\src\src\main\res\mipmap-hdpi\intervalapp_screenshot1.png)
+![IntervalApp Screenshot](https://bytebucket.org/gronkier/interval_app/raw/124854ffc5d010cfca7b83f9c45b91232fcf8c9c/app/src/main/res/mipmap-hdpi/intervalapp_screenshot1.png)
 
-![Picture](https:\\bitbucket.org\gronkier\interval_app\src\src\main\res\mipmap-hdpi\intervalapp_screenshot2.png)
+![IntervalApp Screenshot](https://bytebucket.org/gronkier/interval_app/raw/124854ffc5d010cfca7b83f9c45b91232fcf8c9c/app/src/main/res/mipmap-hdpi/intervalapp_screenshot2.png)
 
 ### Contact ###
 
