@@ -60,9 +60,6 @@ public class CreateModeActivity extends AppCompatActivity
     @BindView(R.id.mode_name_edit_text)
     protected EditText modeNameEditText;
 
-    @BindView(R.id.description_edit_text)
-    protected EditText descriptionEditText;
-
     @BindView(R.id.intensity_text_view)
     protected TextView intensityTextView;
 

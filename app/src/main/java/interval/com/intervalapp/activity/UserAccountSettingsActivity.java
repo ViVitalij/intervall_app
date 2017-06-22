@@ -18,7 +18,8 @@ import butterknife.OnClick;
 import interval.com.intervalapp.R;
 
 @SuppressWarnings("Unchecked")
-public class UserAccountSettingsActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class UserAccountSettingsActivity extends AppCompatActivity
+        implements FirebaseAuth.AuthStateListener {
 
     @BindView(R.id.old_email_edit_text)
     protected EditText oldEmailEditText;
@@ -105,7 +106,8 @@ public class UserAccountSettingsActivity extends AppCompatActivity implements Fi
                                 finish();
                             } else {
                                 Toast.makeText(UserAccountSettingsActivity.this,
-                                        R.string.deleting_account_failed, Toast.LENGTH_SHORT).show();
+                                        R.string.deleting_account_failed, Toast.LENGTH_SHORT)
+                                        .show();
                             }
                         }
                     });

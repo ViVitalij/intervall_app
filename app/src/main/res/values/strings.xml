@@ -149,8 +149,7 @@
     <string name="small_android">small android</string>
     <string name="delete">Delete</string>
     <string name="mode_name">Mode name</string>
-    <string name="fast">Fast</string>
-    <string name="Slow">slow</string>
+    <string name="Fast">Fast</string>
     <string name="Medium">Medium</string>
     <string name="high">High</string>
     <string name="medium">Medium</string>
@@ -191,5 +190,12 @@
     <string name="deleting_account_failed">Failed to delete your account!</string>
     <string name="reset_email_sent">Reset password email is sent!</string>
     <string name="reset_email_failed">Failed to send reset email!</string>
+    <string name="slow">slow</string>
+    <string name="fast">fast</string>
+    <string name="instruction_sent">We have sent you instructions to reset your password!</string>
+    <string name="enter_email_id">Enter your registered email id</string>
+    <string name="fragment">fragment</string>
+    <string name="item_clicked">Item clicked</string>
+    <string name="item_long_clicked">Item long clicked</string>
 
 </resources>

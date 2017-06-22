@@ -18,11 +18,12 @@ public class SongDragAndDropActivity extends AppCompatActivity {
             showFragment(BoardFragment.newInstance());
         }
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.app_color)));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources()
+                .getColor(R.color.app_color)));
     }
 
     private void showFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment, "fragment").commit();
+        transaction.replace(R.id.container, fragment, getString(R.string.fragment)).commit();
     }
 }

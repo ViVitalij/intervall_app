@@ -84,7 +84,8 @@ public class BoardFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.board_layout, container, false);
         ButterKnife.bind(this, view);
 
@@ -95,7 +96,8 @@ public class BoardFragment extends Fragment {
         boardView.setBoardListener(new BoardView.BoardListener() {
             @Override
             public void onItemDragStarted(int column, int row) {
-                Toast.makeText(boardView.getContext(), "Start - column: " + column + " row: " + row, Toast.LENGTH_SHORT).show();
+                Toast.makeText(boardView.getContext(),
+                        "Start - column: " + column + " row: " + row, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -104,10 +106,14 @@ public class BoardFragment extends Fragment {
 
             @Override
             public void onItemChangedColumn(int oldColumn, int newColumn) {
-                TextView itemCount1 = (TextView) boardView.getHeaderView(oldColumn).findViewById(R.id.item_count);
-                itemCount1.setText(Integer.toString(boardView.getAdapter(oldColumn).getItemCount()));
-                TextView itemCount2 = (TextView) boardView.getHeaderView(newColumn).findViewById(R.id.item_count);
-                itemCount2.setText(Integer.toString(boardView.getAdapter(newColumn).getItemCount()));
+                TextView itemCount1 = (TextView) boardView.getHeaderView(oldColumn)
+                        .findViewById(R.id.item_count);
+                itemCount1.setText(Integer.toString(boardView.getAdapter(oldColumn)
+                        .getItemCount()));
+                TextView itemCount2 = (TextView) boardView.getHeaderView(newColumn)
+                        .findViewById(R.id.item_count);
+                itemCount2.setText(Integer.toString(boardView.getAdapter(newColumn)
+                        .getItemCount()));
             }
 
             @Override
@@ -119,7 +125,7 @@ public class BoardFragment extends Fragment {
                             @Override
                             public void execute(Realm realm) {
                                 Song byHash = new RealmSongsDataBase().findByHash((int) id);
-                                byHash.setType("slow");
+                                byHash.setType(Song.SLOW);
                             }
                         });
 
@@ -129,7 +135,7 @@ public class BoardFragment extends Fragment {
                             @Override
                             public void execute(Realm realm) {
                                 Song byHash = new RealmSongsDataBase().findByHash((int) id);
-                                byHash.setType("fast");
+                                byHash.setType(Song.FAST);
                             }
                         });
                     }
@@ -175,7 +181,7 @@ public class BoardFragment extends Fragment {
     private void addFastMusicColumnList() {
         final List<Pair<Long, String>> songList = new ArrayList<>();
 
-        for (Song song : new RealmSongsDataBase().readSongList("fast")) {
+        for (Song song : new RealmSongsDataBase().readSongList(getString(R.string.fast))) {
             songList.add(new Pair<>((long) song.hashCode(), song.getTitle()));
         }
 
@@ -189,7 +195,7 @@ public class BoardFragment extends Fragment {
 
     private void addSlowMusicColumnList() {
         final ArrayList<Pair<Long, String>> songList = new ArrayList<>();
-        for (Song song : new RealmSongsDataBase().readSongList("slow")) {
+        for (Song song : new RealmSongsDataBase().readSongList(getString(R.string.slow))) {
             songList.add(new Pair<>((long) song.hashCode(), song.getTitle()));
         }
 
@@ -216,18 +222,18 @@ public class BoardFragment extends Fragment {
 
             dragCard.setMaxCardElevation(40);
             dragCard.setCardElevation(clickedCard.getCardElevation());
-            // I know the dragView is a FrameLayout and that is why I can use setForeground below api level 23
-            dragCard.setForeground(clickedView.getResources().getDrawable(R.drawable.card_view_drag_foreground));
+            dragCard.setForeground(clickedView.getResources()
+                    .getDrawable(R.drawable.card_view_drag_foreground));
         }
 
         @Override
         public void onMeasureDragView(View clickedView, View dragView) {
             CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
             CardView clickedCard = ((CardView) clickedView.findViewById(R.id.card));
-            int widthDiff = dragCard.getPaddingLeft() - clickedCard.getPaddingLeft() + dragCard.getPaddingRight() -
-                    clickedCard.getPaddingRight();
-            int heightDiff = dragCard.getPaddingTop() - clickedCard.getPaddingTop() + dragCard.getPaddingBottom() -
-                    clickedCard.getPaddingBottom();
+            int widthDiff = dragCard.getPaddingLeft() - clickedCard.getPaddingLeft()
+                    + dragCard.getPaddingRight() - clickedCard.getPaddingRight();
+            int heightDiff = dragCard.getPaddingTop() - clickedCard.getPaddingTop()
+                    + dragCard.getPaddingBottom() - clickedCard.getPaddingBottom();
             int width = clickedView.getMeasuredWidth() + widthDiff;
             int height = clickedView.getMeasuredHeight() + heightDiff;
             dragView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
@@ -240,7 +246,8 @@ public class BoardFragment extends Fragment {
         @Override
         public void onStartDragAnimation(View dragView) {
             CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
-            ObjectAnimator anim = ObjectAnimator.ofFloat(dragCard, "CardElevation", dragCard.getCardElevation(), 40);
+            ObjectAnimator anim = ObjectAnimator.ofFloat(dragCard, "CardElevation",
+                    dragCard.getCardElevation(), 40);
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(ANIMATION_DURATION);
             anim.start();
@@ -249,7 +256,8 @@ public class BoardFragment extends Fragment {
         @Override
         public void onEndDragAnimation(View dragView) {
             CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
-            ObjectAnimator anim = ObjectAnimator.ofFloat(dragCard, "CardElevation", dragCard.getCardElevation(), 6);
+            ObjectAnimator anim = ObjectAnimator.ofFloat(dragCard, "CardElevation",
+                    dragCard.getCardElevation(), 6);
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(ANIMATION_DURATION);
             anim.start();

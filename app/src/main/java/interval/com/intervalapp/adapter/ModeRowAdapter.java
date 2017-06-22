@@ -34,7 +34,8 @@ public class ModeRowAdapter extends ArrayAdapter<RunningMode> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         final RunningMode runningMode = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.mode_row, parent, false);
+            convertView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.mode_row, parent, false);
             convertView.setLongClickable(true);
         }
         ButterKnife.bind(this, convertView);

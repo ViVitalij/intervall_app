@@ -147,7 +147,8 @@ public class RunningActivity extends AppCompatActivity implements MediaPlayer.On
                                 dialog.cancel();
                                 circularProgressBar.stopAnimation();
                                 circularProgressBar.setProgress(0);
-                                Intent intent = new Intent(getApplicationContext(), SummaryActivity.class);
+                                Intent intent = new Intent(getApplicationContext(),
+                                        SummaryActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
@@ -234,7 +235,8 @@ public class RunningActivity extends AppCompatActivity implements MediaPlayer.On
         try {
             mediaPlayer.prepareAsync();
         } catch (IllegalStateException e) {
-            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!",
+                    Toast.LENGTH_LONG).show();
         }
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
 

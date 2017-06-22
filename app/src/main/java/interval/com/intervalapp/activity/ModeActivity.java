@@ -108,8 +108,8 @@ public class ModeActivity extends AppCompatActivity
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                         chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                     }
-                    startActivityForResult(Intent.createChooser(chooseFile, getString(R.string.choose_a_file)),
-                            REQUEST_PICK);
+                    startActivityForResult(Intent.createChooser(chooseFile,
+                            getString(R.string.choose_a_file)), REQUEST_PICK);
                 } else {
                     requestPermission();
                 }
@@ -122,7 +122,8 @@ public class ModeActivity extends AppCompatActivity
                         .putExtra(getString(R.string.intent_mode_name), getString(R.string.tabata)));
                 break;
             case R.id.nav_settings:
-                startActivity(new Intent(getApplicationContext(), UserAccountSettingsActivity.class));
+                startActivity(new Intent(getApplicationContext(),
+                        UserAccountSettingsActivity.class));
                 break;
             default:
                 drawer.closeDrawer(GravityCompat.START);
@@ -258,7 +259,8 @@ public class ModeActivity extends AppCompatActivity
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
-            String name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+            String name = cursor.getString(cursor.
+                    getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
             cursor.close();
             nameWithoutExtension = name.split("\\.")[0];
         }
@@ -288,7 +290,8 @@ public class ModeActivity extends AppCompatActivity
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.delete:
                 final RunningMode mode = rowAdapter.getItem(info.position);
