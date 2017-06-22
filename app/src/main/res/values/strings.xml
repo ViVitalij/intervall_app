@@ -197,5 +197,9 @@
     <string name="fragment">fragment</string>
     <string name="item_clicked">Item clicked</string>
     <string name="item_long_clicked">Item long clicked</string>
+    <string name="uri_incorrect">You might not set the URI correctly!</string>
+    <string name="begginer_mode">beginner</string>
+    <string name="hiit_mode">hiit</string>
+    <string name="tabata_mode">tabata</string>
 
 </resources>

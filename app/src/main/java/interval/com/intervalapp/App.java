@@ -41,7 +41,7 @@ public class App extends MultiDexApplication {
 
         RunningMode runningMode = new RunningMode();
         runningMode.setRunSectionList(beginnerRunSectionList);
-        runningMode.setName("beginner");
+        runningMode.setName(getString(R.string.begginer_mode));
         return runningMode;
     }
 
@@ -59,7 +59,7 @@ public class App extends MultiDexApplication {
 
         RunningMode runningMode = new RunningMode();
         runningMode.setRunSectionList(hiitRunSectionList);
-        runningMode.setName("hiit");
+        runningMode.setName(getString(R.string.hiit_mode));
         return runningMode;
     }
 
@@ -73,7 +73,7 @@ public class App extends MultiDexApplication {
 
         RunningMode runningMode = new RunningMode();
         runningMode.setRunSectionList(tabataRunSectionList);
-        runningMode.setName("tabata");
+        runningMode.setName(getString(R.string.tabata_mode));
         return runningMode;
     }
 }

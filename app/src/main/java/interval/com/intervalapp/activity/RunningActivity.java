@@ -235,7 +235,7 @@ public class RunningActivity extends AppCompatActivity implements MediaPlayer.On
         try {
             mediaPlayer.prepareAsync();
         } catch (IllegalStateException e) {
-            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!",
+            Toast.makeText(getApplicationContext(), R.string.uri_incorrect,
                     Toast.LENGTH_LONG).show();
         }
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()

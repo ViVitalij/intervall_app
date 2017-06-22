@@ -14,6 +14,7 @@ public class RunningMode extends RealmObject {
 
     @PrimaryKey
     private String name;
+
     private RealmList<RunSection> runSectionList;
 
     public RunningMode(String name, RealmList<RunSection> runSectionList) {
@@ -36,8 +37,8 @@ public class RunningMode extends RealmObject {
         RunningMode that = (RunningMode) o;
 
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        return runSectionList != null ? runSectionList.equals(that.runSectionList) : that.runSectionList == null;
-
+        return runSectionList != null ? runSectionList.equals(that.runSectionList)
+                : that.runSectionList == null;
     }
 
     @Override

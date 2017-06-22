@@ -21,7 +21,6 @@ public class Song extends RealmObject {
     @Setter
     private String type;
 
-
     public Song(String title, String path, String type) {
         this.title = title;
         this.path = path;
@@ -43,7 +42,6 @@ public class Song extends RealmObject {
         if (getPath() != null ? !getPath().equals(song.getPath()) : song.getPath() != null)
             return false;
         return getType() != null ? getType().equals(song.getType()) : song.getType() == null;
-
     }
 
     @Override
