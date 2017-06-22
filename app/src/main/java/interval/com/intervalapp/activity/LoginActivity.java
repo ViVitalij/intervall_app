@@ -76,11 +76,13 @@ public class LoginActivity extends AppCompatActivity {
         final String email = emailEditText.getText().toString();
         final String password = passwordEditText.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), R.string.enter_email, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.enter_email, Toast.LENGTH_SHORT)
+                    .show();
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), R.string.enter_password, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.enter_password, Toast.LENGTH_SHORT)
+                    .show();
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
@@ -91,7 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         if (!task.isSuccessful()) {
                             if (password.length() < 6) {
-                                Toast.makeText(LoginActivity.this, getString(R.string.minimum_password),
+                                Toast.makeText(LoginActivity.this,
+                                        getString(R.string.minimum_password),
                                         Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(LoginActivity.this, getString(R.string.auth_failed),

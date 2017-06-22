@@ -52,15 +52,18 @@ public class NewAccountActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), R.string.enter_email, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.enter_email, Toast.LENGTH_SHORT)
+                    .show();
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), R.string.enter_password, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.enter_password, Toast.LENGTH_SHORT)
+                    .show();
             return;
         }
         if (password.length() < 6) {
-            Toast.makeText(getApplicationContext(), R.string.minimum_password, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.minimum_password, Toast.LENGTH_SHORT)
+                    .show();
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
