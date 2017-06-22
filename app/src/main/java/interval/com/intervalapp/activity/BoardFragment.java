@@ -34,13 +34,13 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.woxthebox.draglistview.BoardView;
 import com.woxthebox.draglistview.DragItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,7 +80,6 @@ public class BoardFragment extends Fragment {
 
         addFastMusicColumnList();
         addSlowMusicColumnList();
-
     }
 
     @Override
@@ -92,12 +91,11 @@ public class BoardFragment extends Fragment {
         boardView.setSnapToColumnsWhenScrolling(true);
         boardView.setSnapToColumnWhenDragging(true);
         boardView.setSnapDragItemToTouch(true);
-        boardView.setCustomDragItem(new MyDragItem(getActivity(), R.layout.column_item));
+        boardView.setCustomDragItem(new MyDragItem(getActivity(),
+                R.layout.user_songlists_column_item));
         boardView.setBoardListener(new BoardView.BoardListener() {
             @Override
             public void onItemDragStarted(int column, int row) {
-                Toast.makeText(boardView.getContext(),
-                        "Start - column: " + column + " row: " + row, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -185,10 +183,12 @@ public class BoardFragment extends Fragment {
             songList.add(new Pair<>((long) song.hashCode(), song.getTitle()));
         }
 
-        fastAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
+        fastAdapter = new ItemAdapter(songList, R.layout.user_songlists_column_item,
+                R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(R.string.fast_songs);
-        ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
+        ((TextView) header.findViewById(R.id.item_count))
+                .setText(String.format(Locale.US, "%d", songList.size()));
 
         boardView.addColumnList(fastAdapter, header, false);
     }
@@ -199,10 +199,12 @@ public class BoardFragment extends Fragment {
             songList.add(new Pair<>((long) song.hashCode(), song.getTitle()));
         }
 
-        slowAdapter = new ItemAdapter(songList, R.layout.column_item, R.id.item_layout, true);
+        slowAdapter = new ItemAdapter(songList, R.layout.user_songlists_column_item,
+                R.id.item_layout, true);
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(R.string.slow_songs);
-        ((TextView) header.findViewById(R.id.item_count)).setText("" + songList.size());
+        ((TextView) header.findViewById(R.id.item_count))
+                .setText(String.format(Locale.US, "%d", songList.size()));
 
         boardView.addColumnList(slowAdapter, header, false);
     }
