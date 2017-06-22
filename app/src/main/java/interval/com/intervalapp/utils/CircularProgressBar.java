@@ -51,12 +51,12 @@ public class CircularProgressBar extends View {
             strokeWidth = typedArray.getDimension(com.mikhaellopez.circularprogressbar
                     .R.styleable.CircularProgressBar_cpb_progressbar_width, strokeWidth);
             backgroundStrokeWidth = typedArray.getDimension(com.mikhaellopez.circularprogressbar
-                    .R.styleable.CircularProgressBar_cpb_background_progressbar_width,
+                            .R.styleable.CircularProgressBar_cpb_background_progressbar_width,
                     backgroundStrokeWidth);
             color = typedArray.getInt(com.mikhaellopez.circularprogressbar
                     .R.styleable.CircularProgressBar_cpb_progressbar_color, color);
             backgroundColor = typedArray.getInt(com.mikhaellopez.circularprogressbar
-                    .R.styleable.CircularProgressBar_cpb_background_progressbar_color,
+                            .R.styleable.CircularProgressBar_cpb_background_progressbar_color,
                     backgroundColor);
         } finally {
             typedArray.recycle();
@@ -177,7 +177,7 @@ public class CircularProgressBar extends View {
         objectAnimator.start();
     }
 
-    public void stopAnimation(){
+    public void stopAnimation() {
         if (objectAnimator != null) {
             objectAnimator.cancel();
         }
